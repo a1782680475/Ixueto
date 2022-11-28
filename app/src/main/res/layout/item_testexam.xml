@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false"
+    android:checkable="false"
+    app:rippleColor="@android:color/transparent"
+    android:layout_margin="7.5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/course_item_padding">
+
+        <TextView
+            android:id="@+id/exam_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="焊工初级基础模拟测考卷（一）"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/exam_time_length_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/exam_time_length"
+                        style="@style/style_subject_details_exam_property_value"
+                        android:text="60分钟" />
+
+                    <TextView
+                        style="@style/style_subject_details_exam_property_title"
+                        android:text="考试时长" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/exam_full_score_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toRightOf="@id/exam_time_length_container"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/exam_full_score"
+                        style="@style/style_subject_details_exam_property_value"
+                        android:text="100分" />
+
+                    <TextView
+                        style="@style/style_subject_details_exam_property_title"
+                        android:text="满分" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/exam_pass_score_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toRightOf="@id/exam_full_score_container"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/exam_pass_score"
+                        style="@style/style_subject_details_exam_property_value"
+                        android:text="60分" />
+
+                    <TextView
+                        style="@style/style_subject_details_exam_property_title"
+                        android:text="及格分数" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/exam_score_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toRightOf="@id/exam_pass_score_container"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/exam_score"
+                        style="@style/style_subject_details_exam_property_value"
+                        android:text="9分" />
+
+                    <TextView
+                        style="@style/style_subject_details_exam_property_title"
+                        android:text="我的得分" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/exam_join"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="进入考试"
+                    android:textSize="12dp"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="@color/primary">
+
+                </com.google.android.material.button.MaterialButton>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

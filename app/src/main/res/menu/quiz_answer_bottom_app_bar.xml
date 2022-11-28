@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/answer_sheet"
+        android:icon="@drawable/ic_answer_sheet"
+        android:title="答题卡"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/question_prev"
+        android:enabled="false"
+        android:icon="@drawable/bottom_bar_prev"
+        android:title="@string/question_prev"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/question_next"
+        android:enabled="false"
+        android:icon="@drawable/bottom_bar_next"
+        android:title="@string/question_next"
+        app:showAsAction="ifRoom"/>
+</menu>

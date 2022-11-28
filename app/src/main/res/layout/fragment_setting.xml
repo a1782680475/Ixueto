@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/userCenter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.setting.SettingFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="true" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout style="@style/setting_card">
+            <LinearLayout
+                android:id="@+id/currency"
+                style="@style/userCenter_operation_item">
+
+                <TextView
+                    style="@style/setting_operation_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="通用"></TextView>
+
+                <ImageView
+                    style="@style/setting_operation_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></ImageView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/interfaceAndInteractive"
+                style="@style/userCenter_operation_item">
+
+                <TextView
+                    style="@style/setting_operation_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="外观与交互"></TextView>
+
+                <ImageView
+                    style="@style/setting_operation_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></ImageView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/password_modify"
+                style="@style/userCenter_operation_item">
+
+                <TextView
+                    style="@style/setting_operation_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="密码修改"></TextView>
+
+                <ImageView
+                    style="@style/setting_operation_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></ImageView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/clear_cache"
+                style="@style/userCenter_operation_item">
+
+                <TextView
+                    style="@style/setting_operation_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="清理缓存"></TextView>
+
+                <TextView
+                    android:id="@+id/cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="" />
+
+                <ImageView
+                    style="@style/setting_operation_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></ImageView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/setting_card">
+
+            <LinearLayout
+                android:id="@+id/logout"
+                style="@style/userCenter_operation_item">
+
+                <TextView
+                    style="@style/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logout"
+                    android:textAppearance="?attr/textAppearanceButton"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

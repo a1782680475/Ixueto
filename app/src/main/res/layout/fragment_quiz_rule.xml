@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.quiz.QuizRuleFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleCentered="true" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/rule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/online_test" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/question_number"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="试题数量：3题" />
+
+                    <TextView
+                        android:id="@+id/question_time"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="测试时长：2分钟" />
+
+                    <TextView
+                        android:id="@+id/question_pass_rule"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="通过标准：及格（正确率>=60%）" />
+
+                    <TextView
+                        android:id="@+id/question_retake"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="重考标准：不通过时允许2次重考" />
+
+                    <TextView
+                        android:id="@+id/quiz_number"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="本次考试：第三次补考" />
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="注：答题开始后中途无法停止，请在规定时间内完成作答，超时将自动交卷。"/>
+                    <TextView
+                        android:id="@+id/question_remark"
+                        style="@style/quiz_rule_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="如果重考次数耗尽仍未通过，则将重置本课程学习记录，待本课程重新学习后再次测试。" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Button
+                android:id="@+id/quiz_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
+                android:text="开始考核" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

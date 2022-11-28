@@ -1,0 +1,32 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="login_app_name">25dp</dimen>
+    <dimen name="login_edit_padding">18dp</dimen>
+    <dimen name="login_card_margin">30dp</dimen>
+    <dimen name="login_button">60dp</dimen>
+    <dimen name="userCenter_card_padding">20dp</dimen>
+    <dimen name="userCenter_username">20dp</dimen>
+    <dimen name="userCenter_operation_item_drawable_padding">15dp</dimen>
+    <dimen name="userCenter_operation_item_icon">22dp</dimen>
+    <dimen name="setting_operation_icon">12dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fragment_horizontal_margin">18dp</dimen>
+    <dimen name="fragment_vertical_margin">18dp</dimen>
+    <dimen name="profession_search_result_item_padding">13dp</dimen>
+    <dimen name="profession_search_result_item_primary_text_size">16dp</dimen>
+    <dimen name="profession_search_result_item_primary_margin_bottom">5dp</dimen>
+    <dimen name="profession_search_result_item_secondary_text_size">13dp</dimen>
+    <dimen name="subject_details_padding">10dp</dimen>
+    <dimen name="course_item_padding">10dp</dimen>
+    <dimen name="item_margin">10dp</dimen>
+    <dimen name="item_card_margin">7.5dp</dimen>
+    <dimen name="about_logo_maxWidth">200dp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
+    <dimen name="jz_start_button_w_fullscreen">22dp</dimen>
+    <dimen name="jz_start_button_w_normal">17dp</dimen>
+    <dimen name="jz_loading_w_h_fullscreen">65dp</dimen>
+    <dimen name="jz_loading_w_h_normal">50dp</dimen>
+    <dimen name="jz_center_container_w_h_fullscreen">70dp</dimen>
+    <dimen name="jz_center_container_w_h_normal">55dp</dimen>
+</resources>

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.xktech.ixueto.datastore";
+option java_multiple_files = true;
+
+message UserInfo {
+  string token = 1;
+  string webToken = 2;
+  string desUsername = 3;
+  string desUserType = 4;
+  int32 userId = 5;
+  string username = 6;
+  string name = 7;
+  string phone = 8;
+  string avatar = 9;
+}

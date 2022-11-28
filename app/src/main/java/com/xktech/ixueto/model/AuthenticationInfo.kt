@@ -1,0 +1,41 @@
+package com.xktech.ixueto.model
+
+import java.io.Serializable
+
+data class AuthenticationInfo(
+    val AuthenticationState: Short,
+    var IdentityId: Int?,
+    val Username: String?,
+    val Name: String?,
+    val Phone: String?,
+    val ProvinceId: String?,
+    val CityId: String?,
+    val CountyId: String??,
+    val StreetId: String??,
+    val Address: String?,
+    val UnProvinceId: String?,
+    val UnCityId: String?,
+    val UnitUsername: String?,
+    val IdCard: String?,
+    val IdCardFrontPhoto: String?,
+    val IdCardBackPhoto: String?,
+    val RecentPhoto: String?,
+    val ResidenceIndexPhoto: String?,
+    val ResidenceDetailPhoto: String?,
+    val StandardPhoto: String?,
+    val EnProvinceId: String?,
+    val EnCityId: String?,
+    val EnCountyId: String?,
+    val EnStreetId: String?,
+    val Enterprise: String?,
+    val School: String?,
+    val Department: String?,
+    val Major: String?,
+    val Class: String?,
+    val StudentNumber: String?,
+    val StudentStatusPhoto: String?,
+    val EnrollmentYear: Int?,
+    val GraduationYear: Int?,
+    val DiplomaPhoto: String?,
+    val Educational: String?
+) : Serializable

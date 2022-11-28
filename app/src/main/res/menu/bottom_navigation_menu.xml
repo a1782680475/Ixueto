@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/indexFragment"
+        android:enabled="true"
+        android:icon="@drawable/navigation_course_store"
+        android:title="@string/bar_lesson" />
+    <item
+        android:id="@+id/studyFragment"
+        android:enabled="true"
+        android:icon="@drawable/navigation_online_study"
+        android:title="@string/study" />
+    <item
+        android:id="@+id/mineFragment"
+        android:enabled="true"
+        android:icon="@drawable/navigation_mine"
+        android:title="@string/bar_mine" />
+</menu>

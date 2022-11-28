@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "com.xktech.ixueto.datastore";
+option java_multiple_files = true;
+
+message Setting {
+   VideoPlay videoPlay = 1;
+   optional int32 startupPage = 2;
+   optional bool facePageBright = 3;
+}
+
+message VideoPlay {
+  optional bool alertAtNotWifi = 1;
+  optional bool gesture = 2;
+}

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.mine.MineFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/login_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="267dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/studyly" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="欢迎来到行知学徒网"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:text="请登录以进行学习"
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+            <Button
+                android:id="@+id/go_login"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:text="去登录"
+                android:textAppearance="?attr/textAppearanceButton" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userinfo"
+                style="@style/userCenter_userInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_avatar37"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/circle" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/avatar"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/real_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="史新雨（测试）"
+                        android:textAppearance="?attr/textAppearanceHeadline1"
+                        android:textSize="@dimen/userCenter_username"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        tools:text="账号：13011782700"
+                        android:textAppearance="?attr/textAppearanceLabelLarge" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userinfo">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/course_hours_card_total"
+                    style="?attr/materialCardViewFilledStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0.333"
+                    app:layout_constraintEnd_toStartOf="@+id/course_hours_card_finished"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout style="@style/userCenter_dashboard">
+
+                        <TextView
+                            android:id="@+id/course_hours_total"
+                            style="@style/userCenter_dashboard_value"
+                            android:text="-" />
+
+                        <TextView
+                            style="@style/userCenter_dashboard_title"
+                            android:text="全部课时" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/course_hours_card_finished"
+                    style="?attr/materialCardViewFilledStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.333"
+                    app:layout_constraintEnd_toStartOf="@+id/study_progress"
+                    app:layout_constraintStart_toEndOf="@+id/course_hours_card_total"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout style="@style/userCenter_dashboard">
+
+                        <TextView
+                            android:id="@+id/course_hours_finished"
+                            style="@style/userCenter_dashboard_value"
+                            android:text="-" />
+
+                        <TextView
+                            style="@style/userCenter_dashboard_title"
+                            android:text="已完成课时" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/study_progress"
+                    style="?attr/materialCardViewFilledStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.333"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/course_hours_card_finished"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout style="@style/userCenter_dashboard">
+
+                        <TextView
+                            android:id="@+id/progress"
+                            style="@style/userCenter_dashboard_value"
+                            android:text="-" />
+
+                        <TextView
+                            style="@style/userCenter_dashboard_title"
+                            android:text="学习进度" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout style="@style/setting_card">
+
+                <com.xktech.ixueto.components.UserCenterOperationItem
+                    android:id="@+id/authentication"
+                    style="@style/userCenter_operation_item"
+                    app:icon_src="@drawable/ic_authentication_fill"
+                    app:text="实名认证" />
+                <!--                <com.xktech.ixueto.components.UserCenterOperationItem-->
+                <!--                    android:id="@+id/unit_change"-->
+                <!--                    style="@style/userCenter_operation_item"-->
+                <!--                    app:icon_src="@drawable/ic_exchange"-->
+                <!--                    app:text="单位变更" />-->
+                <com.xktech.ixueto.components.UserCenterOperationItem
+                    android:id="@+id/setting"
+                    style="@style/userCenter_operation_item"
+                    app:icon_src="@drawable/ic_baseline_settings"
+                    app:text="设置" />
+
+                <com.xktech.ixueto.components.UserCenterOperationItem
+                    android:id="@+id/feedback"
+                    style="@style/userCenter_operation_item"
+                    app:icon_src="@drawable/ic_feedback"
+                    app:text="用户反馈" />
+
+                <com.xktech.ixueto.components.UserCenterOperationItem
+                    android:id="@+id/about"
+                    style="@style/userCenter_operation_item"
+                    app:icon_src="@drawable/ic_baseline_info"
+                    app:text="关于" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

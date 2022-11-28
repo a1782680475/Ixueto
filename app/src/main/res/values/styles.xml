@@ -1,0 +1,20 @@
+<resources>
+    <style name="Widget.Theme.Ixueto.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.Card.Media" parent="">
+        <item name="cornerSizeBottomLeft">?attr/shapeAppearanceMediumComponent</item>
+        <item name="cornerSizeBottomRight">?attr/shapeAppearanceMediumComponent</item>
+    </style>
+    <style name="ShapeImageView" parent="">
+        <item name="cornerSizeTopLeft">?attr/shapeAppearanceMediumComponent</item>
+        <item name="cornerSizeTopRight">?attr/shapeAppearanceMediumComponent</item>
+        <item name="cornerSizeBottomLeft">?attr/shapeAppearanceMediumComponent</item>
+        <item name="cornerSizeBottomRight">?attr/shapeAppearanceMediumComponent</item>
+    </style>
+    <style name="circle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>

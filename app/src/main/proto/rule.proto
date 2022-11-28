@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.xktech.ixueto.datastore";
+option java_multiple_files = true;
+
+message Rule {
+  StudyRule studyRule = 1;
+}
+
+
+message StudyRule{
+  bool isCourseRegularStudy = 1;
+  int32 subjectStudyRule = 2;
+}

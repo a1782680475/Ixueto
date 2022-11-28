@@ -1,0 +1,415 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#ffffff</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ixueto</item>
+    </style>
+    <style name="Theme.Ixueto" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+        <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
+    </style>
+    <style name="Widget.App.MaterialDivider" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="dividerColor">?attr/colorOutline</item>
+    </style>
+    <style name="navigation">
+        <item name="android:background">@color/md_theme_light_surface_navigation</item>
+    </style>
+    <!--Login-->
+    <style name="LoginLogo">
+        <item name="android:src">@drawable/login_logo</item>
+    </style>
+
+    <style name="dialog_version" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="LoginButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/login_button</item>
+    </style>
+
+    <style name="IndexLogo">
+        <item name="android:src">@drawable/login_logo_night</item>
+    </style>
+    <!--Login-->
+    <style name="app_name">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_horizontal|top</item>
+        <item name="android:elevation">1dp</item>
+        <item name="android:layout_marginBottom">50dp</item>
+    </style>
+
+    <style name="login_edit">
+        <item name="android:padding">@dimen/login_edit_padding</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="login_card">
+        <item name="android:layout_marginLeft">@dimen/login_card_margin</item>
+        <item name="android:layout_marginRight">@dimen/login_card_margin</item>
+    </style><!--Index-->
+    <style name="profession_card_title">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="tab">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabUnboundedRipple">false</item>
+    </style>
+
+    <style name="region_container">
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
+
+    <style name="regionPopupTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">10sp</item>
+    </style>
+
+    <style name="region_selected">
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="region_bar">
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
+
+    <style name="region_all">
+        <item name="android:padding">8sp</item>
+        <item name="android:tint">@color/primary_text</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <!--Search-->
+    <style name="search_edit_text">
+        <item name="android:backgroundTint">@color/primary</item>
+    </style>
+
+    <style name="search_result_item">
+        <item name="android:padding">@dimen/profession_search_result_item_padding</item>
+    </style>
+
+    <style name="search_result_item_primary">
+        <item name="android:textSize">@dimen/profession_search_result_item_primary_text_size</item>
+        <item name="android:layout_marginBottom">
+            @dimen/profession_search_result_item_primary_margin_bottom
+        </item>
+    </style>
+
+    <style name="search_result_item_secondary">
+        <item name="android:textSize">@dimen/profession_search_result_item_secondary_text_size
+        </item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+    <!--Subject-->
+    <style name="auto_background">
+        <item name="android:background">@color/md_theme_light_background</item>
+    </style>
+
+    <style name="subject_card">
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="subject_profession_details">
+        <item name="android:padding">@dimen/subject_details_padding</item>
+    </style>
+
+    <style name="subject_list_header">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@color/md_theme_light_background</item>
+    </style><!--UserCenter-->
+    <style name="userCenter">
+        <item name="android:background">@color/md_theme_light_background</item>
+    </style>
+
+    <style name="userCenter.userState">
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:padding">2sp</item>
+    </style>
+
+    <style name="userCenter.userState.success">
+        <item name="android:background">@color/success</item>
+    </style>
+
+    <style name="userCenter.userState.error">
+        <item name="android:background">@color/error</item>
+    </style>
+
+    <style name="userCenter.userState.processing">
+        <item name="android:background">@color/wait</item>
+    </style>
+
+    <style name="userCenter_userInfo">
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+    </style>
+
+    <style name="userCenter_dashboard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">15sp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="userCenter_dashboard_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+    </style>
+
+    <style name="userCenter_dashboard_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceSubtitle2</item>
+    </style>
+
+    <style name="setting_card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/userCenter_card_padding</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+
+    <style name="userCenter_card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginBottom">@dimen/userCenter_card_padding</item>
+        <item name="android:divider">#e6e7e6</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+
+    <style name="userCenter_operation_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/userCenter_card_padding</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="setting_operation_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="userCenter_operation_item_icon">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:maxWidth">@dimen/userCenter_operation_item_icon</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:tint">@color/primary_text</item>
+    </style>
+
+    <style name="userCenter_operation_item_text">
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:layout_marginLeft">@dimen/userCenter_card_padding</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textStyle">bold</item>
+    </style><!--Setting-->
+    <style name="setting_operation_item_title" parent="userCenter_operation_item_text">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+    </style>
+
+    <style name="setting_operation_item_value">
+        <item name="android:textColor">@color/divider</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="setting_operation_icon">
+        <item name="android:src">@drawable/ic_baseline_chevron_right</item>
+        <item name="android:tint">?attr/colorOnBackground</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="maxWidth">@dimen/setting_operation_icon</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
+    <style name="logout">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ThemeOverlay.Ixueto.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <!--Course-->
+    <style name="course_item">
+        <item name="android:padding">@dimen/course_item_padding</item>
+        <item name="android:background">@color/md_theme_light_background</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="course_item_name">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="course_item_time">
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_marginTop">7sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+    <!--About-->
+    <style name="about_logo">
+        <item name="android:src">@drawable/login_logo</item>
+        <item name="android:maxWidth">@dimen/about_logo_maxWidth</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style><!--Study-->
+    <style name="study_examine_state">
+        <item name="android:color">@color/white</item>
+        <item name="android:elevation">1dp</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
+    <style name="study_examine_state.success">
+        <item name="android:background">@color/success</item>
+    </style>
+
+    <style name="study_examine_state.error">
+        <item name="android:background">@color/error</item>
+    </style>
+
+    <style name="study_examine_state.processing">
+        <item name="android:background">@color/wait</item>
+    </style>
+    <!--StudySubjectDetails-->
+    <style name="study_subject_details_title"></style>
+
+    <style name="study_subject_details_item">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="study_subject_details_item.label">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleSmall</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="study_subject_details_item.value">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="style_subject_details_exam_property_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?attr/textAppearanceSubtitle2</item>
+    </style>
+
+    <style name="style_subject_details_exam_property_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?attr/textAppearanceSubtitle2</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <!--FaceAuth-->
+    <style name="face_tips">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="face_tips_title">
+        <item name="android:textAppearance">?attr/textAppearanceTitleLarge</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="face_tips_content">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Theme.Ixueto.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!--Quiz-->
+    <style name="question_number">
+        <item name="android:textAppearance">?attr/textAppearanceBodyLarge</item>
+        <item name="android:textColor">#8c8c8c</item>
+    </style>>
+    <style name="quiz_rule_item">
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="Theme.Ixueto.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Ixueto.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="idCardRoundedStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15px</item>
+    </style>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/page_authentication"
+            android:enabled="true"
+            android:icon="@drawable/ic_authentication"
+            android:title="@string/draw_authentication" />
+        <item
+            android:id="@+id/page_certificate"
+            android:enabled="true"
+            android:icon="@drawable/ic_mine_certificate"
+            android:title="@string/draw_certificate" />
+        <item
+            android:id="@+id/page_feedback"
+            android:enabled="true"
+            android:icon="@drawable/ic_baseline_feedback"
+            android:title="@string/draw_feedback" />
+    </group>
+</menu>

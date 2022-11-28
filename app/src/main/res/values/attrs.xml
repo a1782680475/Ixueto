@@ -1,0 +1,28 @@
+<resources>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="UserCenterOperationItem">
+        <!--图标-->
+        <attr name="icon_src" format="reference|color" />
+        <!--文本-->
+        <attr name="text" format="string" localization="suggested" />
+    </declare-styleable>
+    <declare-styleable name="LCEERecyclerView">
+        <attr name="errorText" format="string" />
+        <attr name="errorIcon" format="reference" />
+        <attr name="emptyText" format="string" />
+        <attr name="emptyIcon" format="reference" />
+        <attr name="scrollingEnabled" format="boolean" />
+        <attr name="swipeRefreshEnabled" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="StateView">
+        <attr name="stateType" format="integer">
+            <enum name="error" value="0" />
+            <enum name="success" value="1" />
+            <enum name="wait" value="2" />
+        </attr>
+        <attr name="stateText" format="string" />
+    </declare-styleable>
+</resources>

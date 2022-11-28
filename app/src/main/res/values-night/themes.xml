@@ -1,0 +1,166 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#000000</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ixueto</item>
+    </style>
+    <style name="Theme.Ixueto" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
+        <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
+    </style>
+    <style name="Widget.App.MaterialDivider" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="dividerColor">?attr/colorOutline</item>
+    </style>
+    <style name="navigation">
+        <item name="android:background">@color/md_theme_dark_surface_navigation</item>
+    </style>
+    <!--Login-->
+
+    <!--Index-->
+    <style name="region_container">
+        <item name="android:background">@color/primary_text</item>
+    </style>
+
+    <style name="region_selected">
+        <item name="android:background">#2979FF</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="region_bar">
+        <item name="android:background">@color/md_theme_dark_background</item>
+    </style>
+
+    <style name="region_all">
+        <item name="android:padding">10dp</item>
+        <item name="android:tint">@color/md_theme_dark_onBackground</item>
+        <item name="android:background">@color/md_theme_dark_background</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+    <!--Subject-->
+    <style name="auto_background">
+        <item name="android:background">@color/md_theme_dark_background</item>
+    </style>
+
+    <style name="subject_list_header">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@color/md_theme_dark_background</item>
+    </style>
+
+    <style name="subject_profession_details">
+        <item name="android:padding">@dimen/subject_details_padding</item>
+    </style>
+    <!--UserCenter-->
+    <style name="userCenter">
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
+
+    <style name="userCenter.userState.success">
+        <item name="android:background">@color/success_dark</item>
+    </style>
+
+    <style name="userCenter.userState.error">
+        <item name="android:background">@color/error_dark</item>
+    </style>
+
+    <style name="userCenter.userState.processing">
+        <item name="android:background">@color/wait_dark</item>
+    </style>
+
+    <style name="userCenter_card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/primary_text</item>
+        <item name="android:layout_marginBottom">@dimen/userCenter_card_padding</item>
+        <item name="android:divider">#e6e7e6</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+
+    <style name="userCenter_operation_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/userCenter_card_padding</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="userCenter_operation_item_icon">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:maxWidth">@dimen/userCenter_operation_item_icon</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:tint">@color/divider</item>
+    </style>
+
+    <style name="userCenter_operation_item_text">
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:layout_marginLeft">@dimen/userCenter_card_padding</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ThemeOverlay.Ixueto.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+    </style>
+    <!--Course-->
+    <style name="course_item">
+        <item name="android:padding">@dimen/course_item_padding</item>
+        <item name="android:background">@color/md_theme_dark_background</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+    <!--About-->
+    <style name="about_logo">
+        <item name="android:src">@drawable/login_logo_night</item>
+        <item name="android:maxWidth">@dimen/about_logo_maxWidth</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+    <!--Study-->
+    <style name="study_examine_state">
+        <item name="android:color">@color/white</item>
+    </style>
+
+    <style name="study_examine_state.success">
+        <item name="android:background">@color/success_dark</item>
+    </style>
+
+    <style name="study_examine_state.error">
+        <item name="android:background">@color/error_dark</item>
+    </style>
+
+    <style name="study_examine_state.processing">
+        <item name="android:background">@color/wait_dark</item>
+    </style>
+</resources>

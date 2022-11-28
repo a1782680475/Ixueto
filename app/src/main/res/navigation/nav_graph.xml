@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/indexFragment">
+    <fragment
+        android:id="@+id/indexFragment"
+        android:name="com.xktech.ixueto.ui.index.IndexFragment"
+        android:label="行知学徒网"
+        tools:layout="@layout/fragment_index">
+        <action
+            android:id="@+id/action_indexFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_indexFragment_to_subjectFragment"
+            app:destination="@id/subjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mineFragment"
+        android:name="com.xktech.ixueto.ui.mine.MineFragment"
+        android:label="我的"
+        tools:layout="@layout/fragment_mine">
+        <action
+            android:id="@+id/action_mineFragment_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mineFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mineFragment_to_authenticationIndexFragment"
+            app:destination="@id/authenticationIndexFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mineFragment_to_feedbackAddFragment"
+            app:destination="@id/feedbackAddFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.xktech.ixueto.ui.setting.SettingFragment"
+        android:label="设置"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/action_settingFragment_to_passwordModifyFragment"
+            app:destination="@id/passwordModifyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingFragment_to_interfaceAndInteractiveFragment"
+            app:destination="@id/interfaceAndInteractiveFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settingFragment_to_currencyFragment"
+            app:destination="@id/currencyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.xktech.ixueto.ui.index.SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="regionId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_searchFragment_to_subjectFragment"
+            app:destination="@id/subjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjectFragment"
+        android:name="com.xktech.ixueto.ui.subject.SubjectFragment"
+        tools:layout="@layout/fragment_subject">
+        <argument
+            android:name="professionId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_subjectFragment_to_subjectDetailsFragment"
+            app:destination="@id/subjectDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.xktech.ixueto.ui.login.LoginFragment"
+        android:label="登录"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordStepOneFragment"
+            app:destination="@id/resetPasswordStepOneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerStepOneFragment"
+            app:destination="@id/registerStepOneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_loginFragment_to_mineFragment"
+            app:destination="@id/mineFragment"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:enterAnim="@anim/slide_in_top"
+        app:exitAnim="@anim/slide_out_bottom"
+        app:popEnterAnim="@anim/slide_in_bottom"
+        app:popExitAnim="@anim/slide_out_top" />
+    <fragment
+        android:id="@+id/studySubjectFragment"
+        android:name="com.xktech.ixueto.ui.study.StudySubjectFragment"
+        tools:layout="@layout/fragment_study_subject">
+        <argument
+            android:name="subjectId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_studySubjectFragment_to_courseStudyFragment"
+            app:destination="@id/courseStudyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.xktech.ixueto.ui.about.AboutFragment"
+        android:label="关于"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/webFragment"
+        android:name="com.xktech.ixueto.ui.web.WebFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_web">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="url"
+            app:argType="string" />
+        <argument
+            android:name="cookies"
+            app:argType="com.xktech.ixueto.model.Cookie[]"
+            app:nullable="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_webFragment"
+        app:destination="@id/webFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/studyFragment"
+        android:name="com.xktech.ixueto.ui.study.StudyFragment"
+        tools:layout="@layout/fragment_study">
+        <action
+            android:id="@+id/action_studyFragment_to_studySubjectFragment"
+            app:destination="@id/studySubjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjectDetailsFragment"
+        android:name="com.xktech.ixueto.ui.subject.SubjectDetailsFragment" />
+    <fragment
+        android:id="@+id/darkModelFragment"
+        android:name="com.xktech.ixueto.ui.setting.DarkModelFragment"
+        android:label="深色模式" />
+    <fragment
+        android:id="@+id/courseStudyFragment"
+        android:name="com.xktech.ixueto.ui.study.CourseStudyFragment"
+        tools:layout="@layout/fragment_course_study">
+        <action
+            android:id="@+id/action_courseStudyFragment_to_quizResultFragment"
+            app:destination="@id/quizResultFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_courseStudyFragment_to_quizRuleFragment"
+            app:destination="@id/quizRuleFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResultFragment"
+        android:name="com.xktech.ixueto.ui.quiz.QuizResultFragment"
+        tools:layout="@layout/fragment_quiz_result">
+        <action
+            android:id="@+id/action_quizResultFragment_to_quizResultQuestionFragment"
+            app:destination="@id/quizResultQuestionFragment" />
+        <action
+            android:id="@+id/action_quizResultFragment_to_quizRuleFragment"
+            app:destination="@id/quizRuleFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResultQuestionFragment"
+        android:name="com.xktech.ixueto.ui.quiz.QuizResultQuestionFragment"
+        tools:layout="@layout/fragment_quiz_result_question" />
+    <fragment
+        android:id="@+id/quizRuleFragment"
+        android:name="com.xktech.ixueto.ui.quiz.QuizRuleFragment"
+        tools:layout="@layout/fragment_quiz_rule">
+        <action
+            android:id="@+id/action_quizRuleFragment_to_quizAnswerFragment"
+            app:destination="@id/quizAnswerFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizAnswerFragment"
+        android:name="com.xktech.ixueto.ui.quiz.QuizAnswerFragment"
+        tools:layout="@layout/fragment_quiz_answer">
+        <action
+            android:id="@+id/action_quizAnswerFragment_to_quizBriefResultFragment"
+            app:destination="@id/quizBriefResultFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizBriefResultFragment"
+        android:name="com.xktech.ixueto.ui.quiz.QuizBriefResultFragment"
+        tools:layout="@layout/fragment_quiz_brief_result" />
+    <fragment
+        android:id="@+id/authenticationStepOneFragment"
+        android:name="com.xktech.ixueto.ui.authentication.AuthenticationStepOneFragment"
+        android:label="实名认证（1/3）"
+        tools:layout="@layout/fragment_authentication_step_one">
+        <action
+            android:id="@+id/action_authenticationStepOneFragment_to_authenticationStepTwoFragment"
+            app:destination="@id/authenticationStepTwoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/authenticationStepTwoFragment"
+        android:name="com.xktech.ixueto.ui.authentication.AuthenticationStepTwoFragment"
+        android:label="实名认证（2/3）"
+        tools:layout="@layout/fragment_authentication_step_two">
+        <action
+            android:id="@+id/action_authenticationStepTwoFragment_to_authenticationStepThirdFragment"
+            app:destination="@id/authenticationStepThirdFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/authenticationStepThirdFragment"
+        android:name="com.xktech.ixueto.ui.authentication.AuthenticationStepThirdFragment"
+        android:label="实名认证（3/3）"
+        tools:layout="@layout/fragment_authentication_step_third" />
+    <fragment
+        android:id="@+id/authenticationIndexFragment"
+        android:name="com.xktech.ixueto.ui.authentication.AuthenticationIndexFragment"
+        android:label="实名认证"
+        tools:layout="@layout/fragment_authentication_index">
+        <action
+            android:id="@+id/action_authenticationIndexFragment_to_authenticationStepOneFragment"
+            app:destination="@id/authenticationStepOneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordModifyFragment"
+        android:name="com.xktech.ixueto.ui.setting.PasswordModifyFragment"
+        android:label="密码修改">
+        <action
+            android:id="@+id/action_passwordModifyFragment_to_resetPasswordStepOneFragment"
+            app:destination="@id/resetPasswordStepOneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordStepOneFragment"
+        android:name="com.xktech.ixueto.ui.login.ResetPasswordStepOneFragment"
+        android:label="重置密码"
+        tools:layout="@layout/fragment_reset_password_step_one">
+        <action
+            android:id="@+id/action_resetPasswordStepOneFragment_to_resetPasswordStepTwoFragment"
+            app:destination="@id/resetPasswordStepTwoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordStepTwoFragment"
+        android:name="com.xktech.ixueto.ui.login.ResetPasswordStepTwoFragment"
+        android:label="重置密码"
+        tools:layout="@layout/fragment_reset_password_step_two">
+        <action
+            android:id="@+id/action_resetPasswordStepTwoFragment_to_resetPasswordStepThirdFragment"
+            app:destination="@id/resetPasswordStepThirdFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordStepThirdFragment"
+        android:name="com.xktech.ixueto.ui.login.ResetPasswordStepThirdFragment"
+        android:label="重置密码"
+        tools:layout="@layout/fragment_reset_password_step_third" />
+    <fragment
+        android:id="@+id/registerStepOneFragment"
+        android:name="com.xktech.ixueto.ui.register.RegisterStepOneFragment"
+        android:label="注册账户"
+        tools:layout="@layout/fragment_register_step_one">
+        <action
+            android:id="@+id/action_registerStepOneFragment_to_registerStepTwoFragment"
+            app:destination="@id/registerStepTwoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerStepTwoFragment"
+        android:name="com.xktech.ixueto.ui.register.RegisterStepTwoFragment"
+        android:label="注册账户"
+        tools:layout="@layout/fragment_register_step_two">
+        <action
+            android:id="@+id/action_registerStepTwoFragment_to_registerSuccessfulFragment"
+            app:destination="@id/registerSuccessfulFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerSuccessfulFragment"
+        android:name="com.xktech.ixueto.ui.register.RegisterSuccessfulFragment"
+        android:label="注册账户"
+        tools:layout="@layout/fragment_register_successful" />
+    <fragment
+        android:id="@+id/feedbackAddFragment"
+        android:name="com.xktech.ixueto.ui.feedback.FeedbackAddFragment"
+        android:label="用户反馈"
+        tools:layout="@layout/fragment_feedback_add"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/videoPlayFragment"
+        android:name="com.xktech.ixueto.ui.setting.VideoPlayFragment"
+        android:label="视频播放"
+        tools:layout="@layout/fragment_video_play" />
+    <fragment
+        android:id="@+id/interfaceAndInteractiveFragment"
+        android:name="com.xktech.ixueto.ui.setting.InterfaceAndInteractiveFragment"
+        android:label="外观与交互"
+        tools:layout="@layout/fragment_interface_and_interactive" >
+        <action
+            android:id="@+id/action_interfaceAndInteractiveFragment_to_videoPlayFragment"
+            app:destination="@id/videoPlayFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_interfaceAndInteractiveFragment_to_darkModelFragment"
+            app:destination="@id/darkModelFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/currencyFragment"
+        android:name="com.xktech.ixueto.ui.setting.CurrencyFragment"
+        android:label="通用"
+        tools:layout="@layout/fragment_currency" />
+</navigation>
