@@ -49,6 +49,8 @@
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="身份类别"
                 app:helperText="身份类别将决定您要填写的认证资料，请勿错选！">
 
@@ -65,8 +67,10 @@
             android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
+            android:enabled="false"
             android:text="下一步" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/loading"
         android:layout_width="match_parent"
@@ -74,9 +78,10 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/primary"/>
+            android:indeterminateTint="@color/primary" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

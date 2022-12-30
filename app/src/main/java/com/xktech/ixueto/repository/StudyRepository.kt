@@ -79,7 +79,10 @@ class StudyRepository @Inject constructor(private val studyService: StudyService
         ).data!!
     }
 
-    suspend fun getCourseStudyInfo(stuId: Int): CourseStudyInfo {
+    suspend fun getCourseStudyInfo(stuId: Int?): CourseStudyInfo {
+        if (stuId == null) {
+            return CourseStudyInfo(0, false, 0.0, false, 0, 0, 0, 0, true)
+        }
         return studyService.getCourseStudyInfo(stuId).data!!
     }
 

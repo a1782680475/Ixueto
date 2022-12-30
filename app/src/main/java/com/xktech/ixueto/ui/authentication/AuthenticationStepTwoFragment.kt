@@ -546,7 +546,9 @@ class AuthenticationStepTwoFragment : Fragment() {
 
     private fun submitVerify(): Boolean {
         var verifyPass = true
-        authenticationConfigMap.forEach { configMap ->
+        authenticationConfigMap.filter {
+            it.value.Show
+        }.forEach { configMap ->
             val formItemAndComposePair = getFormItemAndComposePair(configMap.key)
             var formItem: View? = formItemAndComposePair.first
             formItem?.let {

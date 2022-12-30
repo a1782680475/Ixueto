@@ -66,12 +66,20 @@ class AuthenticationIndexFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isDark =
+            requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
         authenticationViewModel.getAuthenticationBrieInfo().observe(viewLifecycleOwner) {
             val authenticationState = EnumUtils.getAuthenticationState(it.AuthenticationState)
             when (authenticationState) {
                 AuthenticationStateEnum.UN_AUTHENTICATION -> {
                     stateView.text = "未认证"
                     stateView.setTextColor(
+                        if(isDark)
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.authenticate_normal_dark
+                            )
+                            else
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.authenticate_normal

@@ -11,9 +11,7 @@
     <FrameLayout
         android:id="@+id/surface_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
+        android:layout_height="match_parent"></FrameLayout>
 
     <ImageView
         android:id="@+id/poster"
@@ -37,7 +35,7 @@
         <LinearLayout
             android:id="@+id/layout_bottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:elevation="1dp"
             android:gravity="center_vertical"
@@ -124,21 +122,22 @@
         <RelativeLayout
             android:id="@+id/layout_top"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="70dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:elevation="1dp"
             android:paddingStart="10dp"
             android:paddingLeft="10dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/back"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="44dp"
                 android:padding="3dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/selector_back" />
@@ -148,16 +147,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/battery_time_layout"
                 android:layout_toEndOf="@+id/back"
                 android:layout_toRightOf="@+id/back"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text=""
+                android:text="比特币挖矿"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/more_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:padding="5dp"
+                android:layout_toLeftOf="@id/battery_time_layout"
+                android:src="@drawable/selector_more" />
 
             <LinearLayout
                 android:id="@+id/battery_time_layout"
@@ -170,7 +180,8 @@
                 android:layout_marginRight="14dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/battery_level"
@@ -231,8 +242,7 @@
                     android:id="@+id/start"
                     android:layout_width="20dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/player_play"
-                    android:tag="0" />
+                    android:src="@drawable/player_play" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -256,7 +266,8 @@
             android:layout_centerVertical="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="invisible"
+            tools:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -288,13 +299,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="45dp"
         android:background="@drawable/player_auto_message"
         android:elevation="2dp"
-        android:padding="10dp"
+        android:paddingLeft="11dp"
+        android:paddingTop="10dp"
+        android:paddingRight="11dp"
+        android:paddingBottom="10dp"
         android:textAppearance="?attr/textAppearanceBodySmall"
         android:textColor="@color/white"
-        android:textSize="11dp"
+        android:textSize="12dp"
         android:visibility="gone"
         tools:text="请进行人脸识别"
         tools:visibility="visible" />
@@ -306,10 +320,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="45dp"
         android:background="@drawable/player_auto_message"
         android:elevation="2dp"
-        android:padding="10dp"
+        android:paddingLeft="11dp"
+        android:paddingTop="10dp"
+        android:paddingRight="11dp"
+        android:paddingBottom="10dp"
         android:text="正在使用非WIFI网络，请注意流量消耗"
         android:textAppearance="?attr/textAppearanceBodySmall"
         android:textColor="@color/white"

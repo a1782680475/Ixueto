@@ -62,7 +62,7 @@ class AuthenticationStepOneFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(isFirstLoad) {
+        if (isFirstLoad) {
             isFirstLoad = false
             loadData()
         }
@@ -81,7 +81,7 @@ class AuthenticationStepOneFragment : Fragment() {
         identity = binding!!.identity
         val currentBackStackEntry = navController.currentBackStackEntry!!
         val savedStateHandle = currentBackStackEntry.savedStateHandle
-        savedStateHandle.getLiveData<Boolean>("isSubmitted").observe(currentBackStackEntry){
+        savedStateHandle.getLiveData<Boolean>("isSubmitted").observe(currentBackStackEntry) {
             navController.previousBackStackEntry!!.savedStateHandle["isSubmitted"] = true
             navController.popBackStack()
         }
@@ -102,7 +102,7 @@ class AuthenticationStepOneFragment : Fragment() {
         }
     }
 
-    private fun showLoading(){
+    private fun showLoading() {
         form.visibility = View.GONE
         loading.visibility = View.VISIBLE
         identity.isHintAnimationEnabled = false
@@ -174,13 +174,15 @@ class AuthenticationStepOneFragment : Fragment() {
                         authenticationInfo.IdentityId.toString()
                     showLoading()
                     nextStep.isEnabled = true
-                    getAuthenticationConfig(authenticationInfo.IdentityId ?: -1) { authenticationConfig ->
+                    getAuthenticationConfig(
+                        authenticationInfo.IdentityId ?: -1
+                    ) { authenticationConfig ->
                         authenticationConfigMap = authenticationConfig
                         hiddenLoading()
                     }
                 }
             nextStep.setOnClickListener {
-                if (authenticationInfo.IdentityId != -1) {
+                if (authenticationInfo.IdentityId != null && authenticationInfo.IdentityId != -1) {
                     var bundle = bundleOf(
                         "authenticationState" to authenticationState,
                         "authenticationConfig" to authenticationConfigMap,

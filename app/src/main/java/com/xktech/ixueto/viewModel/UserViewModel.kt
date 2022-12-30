@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.xktech.ixueto.datastore.UserInfo
 import com.xktech.ixueto.di.NetworkModule
 import com.xktech.ixueto.model.ModifyPassword
+import com.xktech.ixueto.model.SimpleResult
 import com.xktech.ixueto.model.StudyProgress
 import com.xktech.ixueto.repository.UserInfoPreferencesRepository
 import com.xktech.ixueto.repository.UserRepository
+import com.xktech.ixueto.utils.RSAUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,23 +42,24 @@ open class UserViewModel @Inject constructor(
     val studyProgress = _studyProgress
 
     fun getStudyProgressByRemote() {
-        try {
-            viewModelScope.launch(Dispatchers.Main) {
-                _studyProgress.value = withContext(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
+            _studyProgress.value = withContext(Dispatchers.IO) {
+                try {
                     userRepository.getStudyProgress()
+                } catch (e: Exception) {
+                    null
                 }
             }
-        } catch (e: Exception) {
-
         }
     }
 
-    fun login(username: String, password: String): MutableLiveData<Boolean> {
-        return MutableLiveData<Boolean>().also {
+    fun login(username: String, password: String): MutableLiveData<SimpleResult> {
+        return MutableLiveData<SimpleResult>().also {
             try {
                 viewModelScope.launch(Dispatchers.Main) {
                     it.value = withContext(Dispatchers.IO) {
-                        var result = userRepository.login(username, password)
+                        var passwordRSA = RSAUtils.encryptToString(password)
+                        var result = userRepository.login(username, passwordRSA)
                         var userInfo: com.xktech.ixueto.model.UserInfo =
                             com.xktech.ixueto.model.UserInfo()
                         if (result.code == 200) {
@@ -79,21 +82,29 @@ open class UserViewModel @Inject constructor(
                                 userInfo.Avatar = userInfoFromWeb?.Avatar!!
                             }
                             userInfoPreferencesRepository.setUserInfoSync(userInfo)
-                            true
+                            SimpleResult(true, "登录成功")
                         } else {
-                            false
+                            SimpleResult(false, result.msg)
                         }
                     }
                 }
             } catch (e: Exception) {
-                false
+                SimpleResult(false, "未知错误")
             }
         }
     }
 
     fun modifyPassword(originalPassword: String, newPassword: String) = liveData {
         try {
-            emit(userRepository.modifyPassword(ModifyPassword(originalPassword, newPassword)))
+            emit(
+                userRepository.modifyPassword(
+                    ModifyPassword(
+                        RSAUtils.encryptToString(
+                            originalPassword
+                        ), RSAUtils.encryptToString(newPassword)
+                    )
+                )
+            )
         } catch (e: Exception) {
 
         }
@@ -117,7 +128,8 @@ open class UserViewModel @Inject constructor(
 
     fun resetPassword(token: String, password: String) = liveData {
         try {
-            emit(userRepository.resetPassword(token, password))
+            var passwordRSA = RSAUtils.encryptToString(password)
+            emit(userRepository.resetPassword(token, passwordRSA))
         } catch (e: Exception) {
 
         }
@@ -133,7 +145,8 @@ open class UserViewModel @Inject constructor(
 
     fun register(phone: String, password: String, code: String) = liveData {
         try {
-            emit(userRepository.register(phone, password, code))
+            var passwordRSA = RSAUtils.encryptToString(password)
+            emit(userRepository.register(phone, passwordRSA, code))
         } catch (e: Exception) {
 
         }

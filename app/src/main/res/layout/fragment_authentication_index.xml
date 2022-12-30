@@ -236,7 +236,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left"
+                            android:gravity="right"
                             android:text="-"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
                             app:layout_constraintRight_toRightOf="parent"

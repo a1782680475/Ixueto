@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -125,11 +126,16 @@ class ClassesStudyFragment : Fragment() {
 
                                                 }
                                             }
-                                            Snackbar.make(
+                                            val snackBar = Snackbar.make(
                                                 rootView!!,
                                                 "该班次不在学习时间范围(${withinStr})",
                                                 Snackbar.LENGTH_LONG
-                                            ).show()
+                                            )
+                                            val snackBarView: View = snackBar.view
+                                            val snackTextView: TextView =
+                                                snackBarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
+                                            snackTextView.maxLines = 2
+                                            snackBar.show()
                                             false
                                         } else {
                                             val extras =

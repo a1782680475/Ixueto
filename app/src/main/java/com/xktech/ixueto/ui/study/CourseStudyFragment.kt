@@ -28,6 +28,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import cn.jzvd.JZMediaSystem
 import cn.jzvd.Jzvd
+import cn.jzvd.Jzvd.SCREEN_FULLSCREEN
 import cn.jzvd.Jzvd.SCREEN_NORMAL
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -36,11 +37,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ktx.immersionBar
+import com.xktech.ixueto.BuildConfig
 import com.xktech.ixueto.MyApplication
+import com.xktech.ixueto.NavGraphDirections
 import com.xktech.ixueto.R
 import com.xktech.ixueto.adapter.StudyFragmentStateAdapter
-import com.xktech.ixueto.components.VideoPlayer
+import com.xktech.ixueto.components.PlayerDialogFragment
 import com.xktech.ixueto.components.player.mediaInterface.JZMediaAliyun
+import com.xktech.ixueto.components.videoPlayer.VideoPlayer
 import com.xktech.ixueto.databinding.FragmentCourseStudyBinding
 import com.xktech.ixueto.datastore.VideoPlay
 import com.xktech.ixueto.model.*
@@ -51,6 +55,7 @@ import com.xktech.ixueto.strategy.ViolationCheckStrategy
 import com.xktech.ixueto.ui.face.FaceAuthActivity
 import com.xktech.ixueto.utils.EnumUtils
 import com.xktech.ixueto.viewModel.CourseStudyFragmentViewModel
+import com.xktech.ixueto.viewModel.NoticeViewModel
 import com.xktech.ixueto.viewModel.SettingViewModel
 import com.xktech.ixueto.viewModel.StudyViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,10 +86,11 @@ class CourseStudyFragment : Fragment() {
     private var loadingView: View? = null
     private var tab: TabLayout? = null
     private var tabPager: ViewPager2? = null
-    private var studyId: Int = 0
-    private var studyDetailId: Int = 0
+    private var studyId: Int? = null
+    private var studyDetailId: Int? = null
     private val studyViewModel: StudyViewModel by viewModels()
     private val settingViewModel: SettingViewModel by viewModels()
+    private val noticeViewModel: NoticeViewModel by viewModels()
     private val courseStudyFragmentViewModel: CourseStudyFragmentViewModel by activityViewModels()
     private lateinit var courseStudy: CourseStudy
     private lateinit var rule: Rule
@@ -186,6 +192,13 @@ class CourseStudyFragment : Fragment() {
         savedStateHandle.getLiveData<QuizStateEnum>("quiz").observe(currentBackStackEntry) {
             resetQuizState(it)
         }
+        savedStateHandle.getLiveData<String>("setting").observe(currentBackStackEntry) {
+            when (it) {
+                "player" -> {
+                    updatePlayerSetting()
+                }
+            }
+        }
         dispatcher = requireActivity().onBackPressedDispatcher
         var onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -261,36 +274,37 @@ class CourseStudyFragment : Fragment() {
                                     this.needOnceCheck = needOnceCheck
                                     changeStateText("播放器初始化中...")
                                     //播放器初始化
-                                    initPlayer(screenModel)
-                                    //学习状态初始化
-                                    initStudyState(courseInitResult.IsStarted)
-                                    //viewModel播放进度初始化
-                                    initProgressForViewModel()
-                                    //viewModel学习状态初始化
-                                    initStudyStateForViewModel(courseInitResult.IsStarted)
-                                    //viewModel单元测试状态初始化
-                                    initQuizStateForViewModel()
-                                    //viewModel学习阶段初始化
-                                    initStudyStepForViewModel()
-                                    //tabView初始化
-                                    initTabView()
-                                    //前置检查（本地时间检查、班次学习时间检查）
-                                    preInspection { preCheckIsPass ->
-                                        if (preCheckIsPass) {
-                                            changeStateText("人脸识别策略初始化...")
-                                            //人脸识别策略初始化
-                                            initFaceCheckStrategy(needOnceCheck)
-                                            if (!courseStudy.courseStudyInfo.IsFinished) {
-                                                studyProcess =
-                                                    courseStudy.courseStudyInfo.Progress
-                                                changeStateText("违规策略初始化...")
-                                                //违规策略初始化
-                                                initViolationCheckStrategy()
+                                    initPlayer(screenModel) {
+                                        //学习状态初始化
+                                        initStudyState(courseInitResult.IsStarted)
+                                        //viewModel播放进度初始化
+                                        initProgressForViewModel()
+                                        //viewModel学习状态初始化
+                                        initStudyStateForViewModel(courseInitResult.IsStarted)
+                                        //viewModel单元测试状态初始化
+                                        initQuizStateForViewModel()
+                                        //viewModel学习阶段初始化
+                                        initStudyStepForViewModel()
+                                        //tabView初始化
+                                        initTabView()
+                                        //前置检查（本地时间检查、班次学习时间检查）
+                                        preInspection { preCheckIsPass ->
+                                            if (preCheckIsPass) {
+                                                changeStateText("人脸识别策略初始化...")
+                                                //人脸识别策略初始化
+                                                initFaceCheckStrategy(needOnceCheck)
+                                                if (!courseStudy.courseStudyInfo.IsFinished) {
+                                                    studyProcess =
+                                                        courseStudy.courseStudyInfo.Progress
+                                                    changeStateText("违规策略初始化...")
+                                                    //违规策略初始化
+                                                    initViolationCheckStrategy()
+                                                }
                                             }
+                                            changeStateText(null)
+                                            loadingView?.visibility = GONE
+                                            panelMain?.visibility = VISIBLE
                                         }
-                                        changeStateText(null)
-                                        loadingView?.visibility = GONE
-                                        panelMain?.visibility = VISIBLE
                                     }
                                 }
                             }
@@ -343,6 +357,7 @@ class CourseStudyFragment : Fragment() {
 
     private fun initPlayer(
         screenModel: Int,
+        initializationCompleted: () -> Unit
     ) {
         var alertAtNotWifi: Boolean = if (!videoPlaySetting.hasAlertAtNotWifi()) {
             true
@@ -399,15 +414,15 @@ class CourseStudyFragment : Fragment() {
         player.setScreenStateChangeListener { isFullScreen ->
             activity?.let {
                 if (isFullScreen) {
-                    immersionBar {
-                        hideBar(BarHide.FLAG_HIDE_BAR)
-                    }
+//                    immersionBar {
+//                        hideBar(BarHide.FLAG_HIDE_BAR)
+//                    }
                 } else {
-                    immersionBar {
-                        statusBarColor(R.color.black)
-                        statusBarDarkFont(false)
-                        hideBar(BarHide.FLAG_SHOW_BAR)
-                    }
+//                    immersionBar {
+//                        statusBarColor(R.color.black)
+//                        statusBarDarkFont(false)
+//                        hideBar(BarHide.FLAG_SHOW_BAR)
+//                    }
                 }
             }
         }
@@ -448,6 +463,9 @@ class CourseStudyFragment : Fragment() {
                 faceCheckStrategy?.cancelTimer()
                 saveStudyByRemote(this.courseStudy.courseInfo.VideoSeconds) {
                     if (this.rule.FaceCheckRule.NeedCheck && this.rule.FaceCheckRule.NeedCheckAtFinished) {
+                        courseStudyFragmentViewModel.studiedSeconds.value =
+                            this.courseStudy.courseInfo.VideoSeconds
+                        courseStudyFragmentViewModel.studyProgress.value = 100
                         courseStudyFragmentViewModel.studyStep.value =
                             StudyStepEnum.CHECKING_AT_FINISHED
                         faceCheckStrategy?.startFaceCheck(FaceCheckStrategy.Stage.AFTER)
@@ -461,6 +479,60 @@ class CourseStudyFragment : Fragment() {
             if (!it) {
                 dispatcher.onBackPressed()
             }
+        }
+        player.setOnMoreButtonClickListener {
+            val modalBottomSheet = PlayerDialogFragment.newInstance()
+            modalBottomSheet.setOnSettingClickListener {
+                if (player.screen == SCREEN_FULLSCREEN) {
+                    Jzvd.backPress()
+                }
+                findNavController()?.navigate(
+                    R.id.action_courseStudyFragment_to_videoPlayFragment,
+                    null,
+                    null,
+                    null
+                )
+            }
+            modalBottomSheet.setOnNoticeClickListener {
+                if (player.screen == SCREEN_FULLSCREEN) {
+                    Jzvd.backPress()
+                }
+                findNavController().navigate(
+                    NavGraphDirections.actionGlobalWebFragment(
+                        "学习须知",
+                        "${BuildConfig.REMOTE_DOMAIN}/Content/Notice.html",
+                        null
+                    )
+                )
+            }
+            modalBottomSheet.show(
+                requireActivity().supportFragmentManager,
+                PlayerDialogFragment.TAG
+            )
+        }
+        initializationCompleted()
+    }
+
+    private fun updatePlayerSetting() {
+        settingViewModel.getSetting().observe(this) {
+            facePageBright = if (!it.hasFacePageBright()) {
+                true
+            } else {
+                it.facePageBright
+            }
+            videoPlaySetting = it.videoPlay
+            var alertAtNotWifi: Boolean = if (!videoPlaySetting.hasAlertAtNotWifi()) {
+                true
+            } else {
+                videoPlaySetting.alertAtNotWifi
+            }
+            var gesture: Boolean = if (!videoPlaySetting.hasGesture()) {
+                true
+            } else {
+                videoPlaySetting.gesture
+            }
+            player.isAlertAtNotWifi = alertAtNotWifi
+            player.isGesture = gesture
         }
     }
 
@@ -479,7 +551,7 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun initStudyState(isStarted: Boolean) {
-        studyState = if(isStarted) StudyStateEnum.STUDYING else StudyStateEnum.NOT_STARTED
+        studyState = if (isStarted) StudyStateEnum.STUDYING else StudyStateEnum.NOT_STARTED
         if (this.courseStudy.courseStudyInfo.IsFinished) {
             var quizPass: Boolean = if (this.rule.QuizRule.NeedQuiz) {
                 when (EnumUtils.getQuizStateEnum(this.courseStudy.courseStudyInfo.QuizState)) {
@@ -508,7 +580,8 @@ class CourseStudyFragment : Fragment() {
 
 
     private fun initStudyStateForViewModel(isStarted: Boolean) {
-        var studyStateForViewModel = if(isStarted) StudyStateEnum.STUDYING else StudyStateEnum.NOT_STARTED
+        var studyStateForViewModel =
+            if (isStarted) StudyStateEnum.STUDYING else StudyStateEnum.NOT_STARTED
         if (this.courseStudy.courseStudyInfo.IsFinished) {
             var lastFaceCheckFinished: Boolean =
                 if (this.rule.FaceCheckRule.NeedCheck && this.rule.FaceCheckRule.NeedCheckAtFinished) {
@@ -629,7 +702,7 @@ class CourseStudyFragment : Fragment() {
             courseStudy.courseInfo.CourseId,
             studiedSeconds,
             studiedSecondsToday,
-            studyDetailId
+            studyDetailId!!
         )
             .observe(viewLifecycleOwner) {
                 callback(it)
@@ -679,40 +752,45 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun initCourseHourLimitStrategy(onFirstCheckedCallback: (Boolean) -> Unit) {
-        studyViewModel.getNextDayMilliseconds().observe(viewLifecycleOwner) { nextDayMilliseconds ->
-            courseHourLimitStrategy = CourseHourLimitStrategy(
-                this.rule.StudyRule.MaxAllowStudyCourseHoursEveryDay,
-                this.rule.StudyRule.MinutesEveryCourseHours,
-                this.courseStudy.courseStudyInfo.TotalStudiedSecondsToday,
-                this.courseStudy.courseStudyInfo.StudiedSeconds,
-                nextDayMilliseconds
-            )
-            courseHourLimitStrategy?.setOnLimitCourseHourListener {
-                setLimitCourseHourState()
-                saveStudyByLocal(it)
-                saveStudyTodayByLocal(it)
-            }
-            courseHourLimitStrategy?.setOnFirstCourseHourLimitCheckedListener { isPass ->
-                if (!isPass) {
-                    setLimitCourseHourState()
-                }
-                onFirstCheckedCallback(isPass)
-            }
-            courseHourLimitStrategy?.setOnDaySpanListener {
-                this.view?.post {
-                    this.courseStudy.courseStudyInfo.StudiedSeconds = currentPlayedSeconds
-                    this.courseStudy.courseStudyInfo.TotalStudiedSecondsToday = 0
-                    this.courseStudy.courseStudyInfo.StudiedSecondsToday = 0
-                    saveStudyByRemote(currentPlayedSeconds) {
-                        courseHourLimitStrategy?.cancelTimer()
-                        courseHourLimitStrategy = null
-                        initCourseHourLimitStrategy {
+        if (courseStudy.courseStudyInfo.IsFinished) {
+            onFirstCheckedCallback(true)
+        } else {
+            studyViewModel.getNextDayMilliseconds()
+                .observe(viewLifecycleOwner) { nextDayMilliseconds ->
+                    courseHourLimitStrategy = CourseHourLimitStrategy(
+                        this.rule.StudyRule.MaxAllowStudyCourseHoursEveryDay,
+                        this.rule.StudyRule.MinutesEveryCourseHours,
+                        this.courseStudy.courseStudyInfo.TotalStudiedSecondsToday,
+                        this.courseStudy.courseStudyInfo.StudiedSeconds,
+                        nextDayMilliseconds
+                    )
+                    courseHourLimitStrategy?.setOnLimitCourseHourListener {
+                        setLimitCourseHourState()
+                        saveStudyByLocal(it)
+                        saveStudyTodayByLocal(it)
+                    }
+                    courseHourLimitStrategy?.setOnFirstCourseHourLimitCheckedListener { isPass ->
+                        if (!isPass) {
+                            setLimitCourseHourState()
+                        }
+                        onFirstCheckedCallback(isPass)
+                    }
+                    courseHourLimitStrategy?.setOnDaySpanListener {
+                        this.view?.post {
+                            this.courseStudy.courseStudyInfo.StudiedSeconds = currentPlayedSeconds
+                            this.courseStudy.courseStudyInfo.TotalStudiedSecondsToday = 0
+                            this.courseStudy.courseStudyInfo.StudiedSecondsToday = 0
+                            saveStudyByRemote(currentPlayedSeconds) {
+                                courseHourLimitStrategy?.cancelTimer()
+                                courseHourLimitStrategy = null
+                                initCourseHourLimitStrategy {
 
+                                }
+                            }
                         }
                     }
+                    courseHourLimitStrategy?.init()
                 }
-            }
-            courseHourLimitStrategy?.init()
         }
     }
 
@@ -733,7 +811,7 @@ class CourseStudyFragment : Fragment() {
                                 //考试状态限制策略初始化
                                 initExamStateLimitStrategy { isExamStatePass ->
                                     if (!isExamStatePass) {
-                                        setStudyBanedState("已处于考试状态，只能回看已完成课程")
+                                        setStudyBannedState("已处于考试状态，只能回看已完成课程")
                                     }
                                     callback(isExamStatePass)
                                 }
@@ -758,7 +836,7 @@ class CourseStudyFragment : Fragment() {
     private fun checkLocalTime(callback: (Boolean) -> Unit) {
         studyViewModel.getTimeStamp().observe(this) {
             if (!it.isLocalTime) {
-                setStudyBanedState("本地时间与服务器时间差别过大，请校准后重新进入")
+                setStudyBannedState("本地时间与服务器时间差别过大，请校准后重新进入")
                 callback(false)
             } else {
                 callback(true)
@@ -775,7 +853,7 @@ class CourseStudyFragment : Fragment() {
                     classTimeLimitStrategy =
                         ClassTimeLimitStrategy(classRule, timeStampInfo)
                     classTimeLimitStrategy?.setOnClassTimeLimitListener { message ->
-                        setStudyBanedState(message)
+                        setStudyBannedState(message)
                     }
                     classTimeLimitStrategy?.setOnFirstClassTimeLimitCheckedListener { isPass ->
                         onFirstCheckedCallback(isPass)
@@ -791,7 +869,7 @@ class CourseStudyFragment : Fragment() {
     private fun updateViolateCount(violateNumber: Int) {
         this.view?.post {
             studyViewModel.updateViolation(
-                studyId,
+                studyId!!,
                 subjectId!!,
                 courseId!!,
                 violateNumber
@@ -810,7 +888,7 @@ class CourseStudyFragment : Fragment() {
             studyViewModel.saveStudiedSeconds(subjectId!!, courseId!!, 0)
                 .observe(viewLifecycleOwner) {
                     studyViewModel.resetStudy(
-                        studyId,
+                        studyId!!,
                         subjectId!!,
                         courseId!!
                     )
@@ -888,18 +966,20 @@ class CourseStudyFragment : Fragment() {
         this.view?.post {
             faceChecking = true
             player.isBannedPlay = true
+            player.startButtonState.isPreFaceCheck = true
             if (player.getState() == Jzvd.STATE_PLAYING) {
                 player.pause()
             }
+            player.setFaceCheckState()
             changeStateText("请完成人脸识别")
         }
     }
 
     private fun setLimitCourseHourState() {
-        setStudyBanedState("您已达到每日学习限制时长，请明天再学习")
+        setStudyBannedState("您已达到每日学习限制时长，请明天再学习")
     }
 
-    private fun setStudyBanedState(state: String) {
+    private fun setStudyBannedState(state: String) {
         this.view?.post {
             player.isBannedPlay = true
             player.pause()
@@ -912,9 +992,11 @@ class CourseStudyFragment : Fragment() {
         this.view?.post {
             faceChecking = false
             player.isBannedPlay = false
+            player.startButtonState.isPreFaceCheck = false
             changeStateText(null)
             if (!this.courseStudy.courseStudyInfo.IsFinished) {
                 player.play()
+                player.cancelFaceCheckState()
             }
         }
     }

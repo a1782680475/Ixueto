@@ -59,7 +59,7 @@ interface StudyService {
     suspend fun saveStudy(@Body courseStudy: CourseStudy): Response<Boolean>
 
     @GET("study/getCourseStudyInfo/{id}")
-    suspend fun getCourseStudyInfo(@Path("id") id: Int): Response<CourseStudyInfo>
+    suspend fun getCourseStudyInfo(@Path("id") id: Int?): Response<CourseStudyInfo>
 
     @POST("study/updateViolation")
     suspend fun updateViolation(@Body updateViolation: UpdateViolation): Response<Boolean>

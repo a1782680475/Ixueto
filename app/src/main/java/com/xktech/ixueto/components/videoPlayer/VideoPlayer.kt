@@ -1,4 +1,4 @@
-package com.xktech.ixueto.components
+package com.xktech.ixueto.components.videoPlayer
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator.INFINITE
@@ -51,6 +51,7 @@ class VideoPlayer :
                 this.messageTextView.visibility = GONE
                 this.messageTextView.text = ""
             } else {
+                this.autoMessageTextView.visibility = GONE
                 this.messageTextView.visibility = VISIBLE
                 this.messageTextView.text = value
                 this.bottomContainer.visibility = GONE
@@ -64,11 +65,13 @@ class VideoPlayer :
     private var onScreenStateChange: ((Boolean) -> Unit)? = null
     private var onReplay: ((Boolean) -> Unit)? = null
     private var _onCompletion: (() -> Unit)? = null
+    private var onMoreButtonClick: (() -> Unit)? = null
     private lateinit var messageTextView: TextView
     private lateinit var maskView: View
     private lateinit var centerContainer: ViewGroup
     private lateinit var centerContainerImage: ImageView
     private lateinit var autoMessageTextView: TextView
+    private lateinit var moreButton: ImageView
     private lateinit var centerContainerAnimator: ObjectAnimator
     private var autoMessageTimer: Timer? = null
     private var autoMessageTimerTask: TimerTask? = null
@@ -77,8 +80,11 @@ class VideoPlayer :
     private var screenWidth = 0
     private var navigationHeight = 0
     private var statusBarHeight = 0
+    var startButtonState: StartButtonState = StartButtonState()
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
+
     override fun init(context: Context?) {
         super.init(context)
         initView()
@@ -95,6 +101,7 @@ class VideoPlayer :
         maskView = findViewById(R.id.mask)
         centerContainer = findViewById(R.id.center_container)
         centerContainerImage = findViewById(R.id.center_container_image)
+        moreButton = findViewById(R.id.more_button)
         centerContainer.setOnClickListener(this)
         centerContainerAnimator =
             ObjectAnimator.ofFloat(centerContainerImage, View.ROTATION, 0f, 360f)
@@ -106,6 +113,9 @@ class VideoPlayer :
         screenWidth = JZUtils.getScreenHeight(context)
         navigationHeight = JZUtils.getNavigationBarHeight(context)
         statusBarHeight = JZUtils.getStatusBarHeight(context)
+        moreButton.setOnClickListener {
+            showPlayerDialog()
+        }
     }
 
     override fun setScreenFullscreen() {
@@ -128,11 +138,29 @@ class VideoPlayer :
             resources.getDimension(R.dimen.jz_center_container_w_h_fullscreen).toInt()
         )
         setSystemTimeAndBattery()
+        changeAutoMessageTextViewSize(16f)
         changeMessageTextViewSize(16f)
-        val lp = (autoMessageTextView.layoutParams as RelativeLayout.LayoutParams).apply {
-            bottomMargin = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 45f).toInt()
+        val autoMessageTextLp =
+            (autoMessageTextView.layoutParams as RelativeLayout.LayoutParams).apply {
+                bottomMargin = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 65f).toInt()
+            }
+        autoMessageTextView.layoutParams = autoMessageTextLp
+        val paddingTop = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 10f).toInt()
+        val paddingLeft = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 11f).toInt()
+        autoMessageTextView.setPadding(paddingLeft, paddingTop, paddingLeft, paddingTop)
+        val messageTextLp = (messageTextView.layoutParams as RelativeLayout.LayoutParams).apply {
+            bottomMargin = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 65f).toInt()
         }
-        autoMessageTextView.layoutParams = lp
+        messageTextView.layoutParams = messageTextLp
+        messageTextView.setPadding(paddingLeft, paddingTop, paddingLeft, paddingTop)
+        val bottomContainerLp =
+            (bottomContainer.layoutParams as RelativeLayout.LayoutParams).apply {
+                height = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 70f).toInt()
+            }
+        bottomContainer.layoutParams = bottomContainerLp
+        moreButton.visibility = View.GONE
+        val moreButtonLp = moreButton.layoutParams as RelativeLayout.LayoutParams
+        moreButtonLp.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT)
         onScreenStateChange?.let { it(true) }
     }
 
@@ -150,11 +178,28 @@ class VideoPlayer :
         )
         batteryTimeLayout.visibility = GONE
         clarity.visibility = GONE
-        changeMessageTextViewSize(14f)
+        changeAutoMessageTextViewSize(12f)
+        changeMessageTextViewSize(12f)
         val lp = (autoMessageTextView.layoutParams as RelativeLayout.LayoutParams).apply {
-            bottomMargin = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 35f).toInt()
+            bottomMargin = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 45f).toInt()
         }
         autoMessageTextView.layoutParams = lp
+        val paddingTop = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 8f).toInt()
+        val paddingLeft = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 9f).toInt()
+        autoMessageTextView.setPadding(paddingLeft, paddingTop, paddingLeft, paddingTop)
+        val messageTextLp = (messageTextView.layoutParams as RelativeLayout.LayoutParams).apply {
+            bottomMargin = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 45f).toInt()
+        }
+        messageTextView.layoutParams = messageTextLp
+        messageTextView.setPadding(paddingLeft, paddingTop, paddingLeft, paddingTop)
+        val bottomContainerLp =
+            (bottomContainer.layoutParams as RelativeLayout.LayoutParams).apply {
+                height = com.xktech.ixueto.utils.DimenUtils.dp2px(context, 60f).toInt()
+            }
+        bottomContainer.layoutParams = bottomContainerLp
+        moreButton.visibility = View.VISIBLE
+        val moreButtonLp = moreButton.layoutParams as RelativeLayout.LayoutParams
+        moreButtonLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
         onScreenStateChange?.let { it(false) }
     }
 
@@ -459,6 +504,10 @@ class VideoPlayer :
         this.onReplay = listener
     }
 
+    fun setOnMoreButtonClickListener(listener: () -> Unit) {
+        this.onMoreButtonClick = listener
+    }
+
     fun setStartButtonIcon(icon: Int) {
         this.startButton.setImageResource(icon)
     }
@@ -484,7 +533,7 @@ class VideoPlayer :
         isRestudy = true
     }
 
-    fun resetViewForBanStudy(){
+    fun resetViewForBanStudy() {
         cancelDismissControlViewTimer()
         cancelProgressTimer()
         dismissBrightnessDialog()
@@ -500,6 +549,10 @@ class VideoPlayer :
 
     private fun changeMessageTextViewSize(size: Float) {
         messageTextView.textSize = size
+    }
+
+    private fun changeAutoMessageTextViewSize(size: Float) {
+        autoMessageTextView.textSize = size
     }
 
     override fun gotoFullscreen() {
@@ -548,7 +601,7 @@ class VideoPlayer :
                     centerContainerAnimator.resume()
                 }
                 startButton.visibility = VISIBLE
-                if (startButton.tag != 1) {
+                if (!startButtonState.isPreFaceCheck && startButtonState.playState != PlayState.PLAYING) {
                     startButton.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
@@ -562,14 +615,15 @@ class VideoPlayer :
                         imgDrawable.start()
                     }
                 }
-                startButton.tag = 1
+                startButtonState.playState = PlayState.PLAYING
                 replayTextView.visibility = GONE
             }
             STATE_ERROR -> {
-                maskView.visibility = GONE
+                maskView.visibility = VISIBLE
                 centerContainer.visibility = INVISIBLE
                 startButton.visibility = INVISIBLE
                 replayTextView.visibility = GONE
+                mRetryLayout.visibility = VISIBLE
             }
             STATE_AUTO_COMPLETE -> {
                 maskView.visibility = VISIBLE
@@ -582,7 +636,7 @@ class VideoPlayer :
                 }
             }
             else -> {
-                if (startButton.tag != 0) {
+                if (!startButtonState.isPreFaceCheck && startButtonState.playState != PlayState.PAUSE) {
                     startButton.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
@@ -596,7 +650,7 @@ class VideoPlayer :
                         imgDrawable.start()
                     }
                 }
-                startButton.tag = 0
+                startButtonState.playState = PlayState.PAUSE
                 if (centerContainerAnimator.isRunning) {
                     centerContainerAnimator.pause()
                 }
@@ -739,6 +793,56 @@ class VideoPlayer :
                 }
             }
         }
+    }
+
+    fun setFaceCheckState() {
+        if (startButtonState.isFaceChecking) {
+            return
+        }
+        startButtonState.isFaceChecking = true
+        when (startButtonState.playState) {
+            PlayState.PAUSE -> {
+                startButton.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.avd_play_to_face_id
+                    )
+                )
+            }
+            PlayState.PLAYING -> {
+                startButton.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.avd_pause_to_face_id
+                    )
+                )
+            }
+        }
+        val imgDrawable = startButton.drawable
+        if (imgDrawable is AnimatedVectorDrawableCompat) {
+            imgDrawable.start()
+        } else if (imgDrawable is AnimatedVectorDrawable) {
+            imgDrawable.start()
+        }
+    }
+
+    fun cancelFaceCheckState() {
+        startButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.avd_face_id_to_pause
+            )
+        )
+        val imgDrawable = startButton.drawable
+        if (imgDrawable is AnimatedVectorDrawableCompat) {
+            imgDrawable.start()
+        } else if (imgDrawable is AnimatedVectorDrawable) {
+            imgDrawable.start()
+        }
+    }
+
+    private fun showPlayerDialog() {
+        onMoreButtonClick?.let { it() }
     }
 
     override fun registerWifiListener(context: Context?) {

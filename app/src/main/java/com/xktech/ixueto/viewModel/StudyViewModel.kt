@@ -80,7 +80,7 @@ class StudyViewModel @Inject constructor(
         }
     }
 
-    fun getCourseStudy(subjectId: Int, courseId: Int, stuId: Int) = liveData(Dispatchers.IO) {
+    fun getCourseStudy(subjectId: Int, courseId: Int, stuId: Int?) = liveData(Dispatchers.IO) {
         try {
             val courseInfo =
                 viewModelScope.async { studyRepository.getCourseInfo(subjectId, courseId) }

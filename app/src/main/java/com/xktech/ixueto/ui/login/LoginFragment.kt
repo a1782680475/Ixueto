@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
         if (loginEnabledCheck()) {
             userViewModel.login(username.toString(), password.toString())
                 .observe(viewLifecycleOwner) {
-                    if (it) {
+                    if (it.IsSuccess) {
                         savedStateHandle[LOGIN_SUCCESSFUL] = true
                         when (loginReason) {
                             LoginReasonEnum.PASSWORD,
@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
                             }
                         }
                     } else {
-                        Snackbar.make(rootView!!, "登录失败，请检查用户名密码", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(rootView!!, it.ErrorMessage, Snackbar.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -122,7 +122,8 @@ class LoginFragment : Fragment() {
     private fun loginEnabledCheck(): Boolean {
         return !(usernameText.text.isNullOrEmpty() || passwordText.text.isNullOrEmpty())
     }
-    private fun hiddenSoftKeyboard(){
+
+    private fun hiddenSoftKeyboard() {
         view?.let {
             val imm =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

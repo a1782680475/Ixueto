@@ -1,6 +1,7 @@
 package com.xktech.ixueto.di
 
 import android.content.Context
+import com.xktech.ixueto.repository.NoticePreferencesRepository
 import com.xktech.ixueto.repository.RulePreferencesRepository
 import com.xktech.ixueto.repository.SettingPreferencesRepository
 import com.xktech.ixueto.repository.UserInfoPreferencesRepository
@@ -28,4 +29,9 @@ object AppModule {
     @Singleton
     fun provideSettingPreferencesRepository(@ApplicationContext app: Context): SettingPreferencesRepository =
         SettingPreferencesRepository(app)
+
+    @Provides
+    @Singleton
+    fun provideNoticePreferencesRepository(@ApplicationContext app: Context): NoticePreferencesRepository =
+        NoticePreferencesRepository(app)
 }

@@ -175,30 +175,6 @@ class AuthenticationStepThirdFragment : Fragment() {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val data = it.data
                     data?.let {
-//                        var bitmap = if (android.os.Build.VERSION.SDK_INT >= 29) {
-//                            decodeBitmap(
-//                                createSource(
-//                                    activity!!.contentResolver,
-//                                    data.data!!
-//                                )
-//                            )
-//                        } else {
-//                            MediaStore.Images.Media.getBitmap(
-//                                activity!!.contentResolver,
-//                                data.data!!
-//                            )
-//                        }
-//                        currentPhotoType?.let {
-//                            var imageView = currentPhotoViewGroup!!.children.first() as ImageView
-//                            uploadPhoto(currentPhotoType!!, bitmap!!) { url ->
-//                                Glide.with(context!!).load(url)
-//                                    .skipMemoryCache(false)
-//                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                                    .into(imageView)
-//                                currentPhotoViewGroup?.tag = url
-//                            }
-//                        }
-                        //val path = getImagePath(data.data!!)
                         val path = FileUtils.getFileAbsolutePath(requireContext(), data.data!!)
                         val exifInterface = ExifInterface(path!!)
                         val degree = readPictureDegree(exifInterface)
