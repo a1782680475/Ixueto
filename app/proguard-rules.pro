@@ -48,7 +48,7 @@
 -keep public class com.xktech.ixueto.model.** { *; }
 -keep public class com.xktech.ixueto.datastore.** { *; }
 -keep public class com.xktech.ixueto.components.player.mediaInterface.**{*;}
--keep public class com.xktech.ixueto.components.VideoPlayer {*; }
+-keep public class com.xktech.ixueto.components.videoPlayer.VideoPlayer {*; }
 -dontwarn java.rmi.RemoteException
 -dontwarn pub.devrel.**
 -keep class androidx.datastore.*.** {*;}

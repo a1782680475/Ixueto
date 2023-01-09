@@ -77,14 +77,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        tools:text="【单选题】"
+                        android:text="【单选题】"
                         android:textAppearance="?attr/textAppearanceBodyLarge" />
 
                     <TextView
                         android:id="@+id/question_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="制定《中华人民共和国道路交通安全法》目的是为了( )。"
+                        android:text="制定《中华人民共和国道路交通安全法》目的是为了( )。"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        tools:text="A.使车辆按规定的速度行驶B.圆满完成运输任务C.保障道路交通的有序、安全和畅通"
+                        android:text="A.使车辆按规定的速度行驶B.圆满完成运输任务C.保障道路交通的有序、安全和畅通"
                         android:textAppearance="?attr/textAppearanceBodyLarge" />
 
                     <LinearLayout

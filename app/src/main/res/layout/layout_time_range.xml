@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.xktech.ixueto.components.timeRange.CircleTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="培训时间" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintLeft_toRightOf="@id/title"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.xktech.ixueto.components.timeRange.RoundedRectangleTextView
+            android:id="@+id/label_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="始"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.xktech.ixueto.components.timeRange.LineView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_start" />
+
+        <com.xktech.ixueto.components.timeRange.RoundedRectangleTextView
+            android:id="@+id/label_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="终"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <com.xktech.ixueto.components.timeRange.RoundedRectangleTextView
+            android:id="@+id/label_daily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学"
+            app:backgroundColor="#43c4bf"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_end" />
+
+        <TextView
+            android:id="@+id/start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/label_start"
+            app:layout_constraintLeft_toRightOf="@id/label_start"
+            app:layout_constraintTop_toTopOf="@+id/label_start"
+            style="@style/time_range_date"
+            tools:text="2022年08月01日" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/label_start"
+            app:layout_constraintLeft_toRightOf="@id/start_date"
+            app:layout_constraintTop_toTopOf="@+id/label_start"
+            style="@style/time_range_time"
+            tools:text="11:30:00" />
+
+        <TextView
+            android:id="@+id/end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/label_end"
+            app:layout_constraintLeft_toRightOf="@id/label_end"
+            app:layout_constraintTop_toTopOf="@id/label_end"
+            style="@style/time_range_date"
+            tools:text="2022年08月01日" />
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/label_end"
+            app:layout_constraintLeft_toRightOf="@id/end_date"
+            app:layout_constraintTop_toTopOf="@id/label_end"
+            style="@style/time_range_time"
+            tools:text="11:30:00" />
+
+        <TextView
+            android:id="@+id/daily_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#43c4bf"
+            app:layout_constraintBottom_toBottomOf="@id/label_daily"
+            app:layout_constraintLeft_toRightOf="@id/label_daily"
+            app:layout_constraintTop_toTopOf="@id/label_daily"
+            style="@style/time_range_date"
+            android:text="每日" />
+        <com.xktech.ixueto.components.timeRange.LineView
+            android:id="@+id/daily_title_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:width="12.1dp"
+            app:height="13dp"
+            app:lineWidth="3px"
+            app:lineColor="#43c4bf"
+            app:layout_constraintBottom_toBottomOf="@id/label_daily"
+            app:layout_constraintLeft_toRightOf="@id/daily_title"
+            app:layout_constraintTop_toTopOf="@id/label_daily" />
+
+        <TextView
+            android:id="@+id/daily_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#43c4bf"
+            app:layout_constraintBottom_toBottomOf="@id/label_daily"
+            app:layout_constraintLeft_toRightOf="@id/daily_title_line"
+            app:layout_constraintTop_toTopOf="@id/label_daily"
+            style="@style/time_range_time"
+            android:layout_marginLeft="0dp"
+            tools:text="08:30:00-18:30:00" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

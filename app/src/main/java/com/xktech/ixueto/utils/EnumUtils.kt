@@ -85,4 +85,13 @@ object EnumUtils {
             else -> PhotoTypeEnum.ID_CARD_FRONT
         }
     }
+
+    fun getSignUpEnum(value: Short): SignUpEnum {
+        return when (value.toInt()) {
+            0 -> SignUpEnum.SIGNUP_FAIL
+            1 -> SignUpEnum.SIGNUP_SUCCESS
+            2 -> SignUpEnum.SIGNUP_EXAMINE
+            else -> SignUpEnum.SIGNUP_FAIL
+        }
+    }
 }

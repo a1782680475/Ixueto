@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -34,6 +36,8 @@ class ExamFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var testExamEnterButton: Button
     private lateinit var formalExamEnterButton: Button
+    private lateinit var testExamDescriptionTextView: TextView
+    private lateinit var formalExamDescriptionTextView: TextView
     private lateinit var loadingView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +77,21 @@ class ExamFragment : Fragment() {
         rootView = binding!!.root
         testExamEnterButton = binding!!.testExamEnter
         formalExamEnterButton = binding!!.formalExamEnter
+        testExamDescriptionTextView = binding!!.testExamDescription
+        formalExamDescriptionTextView = binding!!.formalExamDescription
         loadingView = binding!!.loading
         testExamEnterButton.setOnClickListener {
             examEnter(0)
         }
         formalExamEnterButton.setOnClickListener {
             examEnter(1)
+        }
+        val observer: ViewTreeObserver = formalExamDescriptionTextView.viewTreeObserver
+        observer.addOnGlobalLayoutListener {
+            var testExamDescriptionLp = testExamDescriptionTextView.layoutParams.apply {
+                height = formalExamDescriptionTextView.height
+            }
+            testExamDescriptionTextView.layoutParams = testExamDescriptionLp
         }
     }
 

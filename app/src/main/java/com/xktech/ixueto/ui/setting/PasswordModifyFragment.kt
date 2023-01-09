@@ -26,6 +26,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.nulabinc.zxcvbn.Zxcvbn
@@ -48,7 +49,7 @@ class PasswordModifyFragment : Fragment() {
     private lateinit var originalPassword: TextInputLayout
     private lateinit var newPassword: TextInputLayout
     private lateinit var repeatNewPassword: TextInputLayout
-    private lateinit var passwordScore: ProgressBar
+    private lateinit var passwordScore: LinearProgressIndicator
     private lateinit var passwordScoreContainer: LinearLayout
     private lateinit var modifyButton: Button
     private lateinit var forgetPasswordButton: Button
@@ -130,8 +131,7 @@ class PasswordModifyFragment : Fragment() {
                             }
                         }
                         progressBarColor?.let {
-                            passwordScore.progressTintList =
-                                ColorStateList.valueOf(progressBarColor)
+                            passwordScore.setIndicatorColor(progressBarColor)
                         }
                     }
                 }

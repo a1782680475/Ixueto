@@ -1,7 +1,7 @@
 package com.xktech.ixueto.ui.register
 
+import android.animation.ValueAnimator
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
@@ -9,11 +9,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.LinearLayout
-import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -24,11 +28,15 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.nulabinc.zxcvbn.Zxcvbn
+import com.xktech.ixueto.BuildConfig
+import com.xktech.ixueto.NavGraphDirections
 import com.xktech.ixueto.R
 import com.xktech.ixueto.databinding.FragmentRegisterStepOneBinding
+import com.xktech.ixueto.utils.DimenUtils
 import com.xktech.ixueto.utils.ValidityUtils
 import com.xktech.ixueto.viewModel.RegisterCountDownViewModel
 import com.xktech.ixueto.viewModel.UserViewModel
@@ -47,10 +55,14 @@ class RegisterStepOneFragment : Fragment() {
     private lateinit var passwordText: TextInputLayout
     private lateinit var nextStepButton: Button
     private lateinit var passwordScoreContainer: ViewGroup
-    private lateinit var passwordScore: ProgressBar
+    private lateinit var passwordScore: LinearProgressIndicator
     private lateinit var loading: LinearLayout
+    private lateinit var agreementButton: TextView
+    private lateinit var agreementAgreeCheckBox: CheckBox
+    private lateinit var agreementContainer: ViewGroup
     private lateinit var passwordScoreCalculator: Zxcvbn
     private var isDark = false
+    private var passwordScoreContainerNormalHeight: Int = 0
     private val userViewModel: UserViewModel by viewModels()
     private val countDownViewModel: RegisterCountDownViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +89,12 @@ class RegisterStepOneFragment : Fragment() {
         nextStepButton = binding!!.nextStepButton
         passwordScore = binding!!.passwordScore
         passwordScore.max = 5
+        passwordScoreContainer.tag = 0
         loading = binding!!.loading
+        agreementButton = binding!!.agreementButton
+        agreementAgreeCheckBox = binding!!.agreementAgreeCheckBox
+        agreementContainer = binding!!.agreementContainer
+        passwordScoreContainerNormalHeight = DimenUtils.dp2px(requireContext(), 30f).toInt()
         passwordScoreCalculator = Zxcvbn()
         isDark =
             requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
@@ -117,9 +134,43 @@ class RegisterStepOneFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val passwordText = s.toString().trim()
                 if (passwordText.isNullOrEmpty()) {
-                    passwordScoreContainer.visibility = View.GONE
+                    if (passwordScoreContainer.tag == 2) {
+                        passwordScoreContainer.tag = 1
+                        val vaHidden: ValueAnimator = ValueAnimator.ofFloat(
+                            passwordScoreContainer.layoutParams.height.toFloat(),
+                            0f
+                        )
+                        vaHidden.duration = 300
+                        vaHidden.interpolator = AccelerateInterpolator()
+                        vaHidden.addUpdateListener {
+                            var lp = passwordScoreContainer.layoutParams
+                            lp.height = (it.animatedValue as Float).toInt()
+                            passwordScoreContainer.layoutParams = lp
+                        }
+                        vaHidden.doOnEnd {
+                            passwordScoreContainer.tag = 0
+                        }
+                        vaHidden.start()
+                    }
                 } else {
-                    passwordScoreContainer.visibility = View.VISIBLE
+                    if (passwordScoreContainer.tag == 0) {
+                        passwordScoreContainer.tag = 1
+                        val vaShow: ValueAnimator = ValueAnimator.ofFloat(
+                            0f,
+                            passwordScoreContainerNormalHeight.toFloat()
+                        )
+                        vaShow.duration = 300
+                        vaShow.interpolator = AccelerateInterpolator()
+                        vaShow.addUpdateListener {
+                            var lp = passwordScoreContainer.layoutParams
+                            lp.height = (it.animatedValue as Float).toInt()
+                            passwordScoreContainer.layoutParams = lp
+                        }
+                        vaShow.doOnEnd {
+                            passwordScoreContainer.tag = 2
+                        }
+                        vaShow.start()
+                    }
                     lifecycleScope.launch {
                         val score = getPasswordScore(s.toString()) + 1
                         passwordScore.progress = score
@@ -165,8 +216,7 @@ class RegisterStepOneFragment : Fragment() {
                             }
                         }
                         progressBarColor?.let {
-                            passwordScore.progressTintList =
-                                ColorStateList.valueOf(progressBarColor)
+                            passwordScore.setIndicatorColor(progressBarColor)
                         }
                     }
                 }
@@ -177,45 +227,71 @@ class RegisterStepOneFragment : Fragment() {
 
             }
         })
+        agreementButton.setOnClickListener {
+            navController.navigate(
+                NavGraphDirections.actionGlobalWebFragment(
+                    "用户协议",
+                    "${BuildConfig.REMOTE_DOMAIN}/Content/Protocol.html",
+                    null
+                )
+            )
+        }
         nextStepButton.setOnClickListener {
             hiddenSoftKeyboard()
-            loading.visibility = View.VISIBLE
-            val phone = phoneText.editText?.text.toString().trim()
-            val password = passwordText.editText?.text.toString().trim()
-            if (!countDownViewModel.isRunning) {
-                userViewModel.sendCodeForRegister(phone)
-                    .observe(viewLifecycleOwner) { result ->
-                        loading.visibility = View.GONE
-                        if (result.IsSuccess) {
-                            val snackBar = Snackbar.make(
-                                rootView!!,
-                                "短信验证码已发送，请注意查收",
-                                Snackbar.LENGTH_SHORT
-                            )
-                            snackBar.addCallback(object : Snackbar.Callback() {
-                                override fun onShown(sb: Snackbar) {
-                                    super.onShown(sb)
-                                }
-
-                                override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
-                                    super.onDismissed(transientBottomBar, event)
-                                    toNextStep(phone, password)
-                                }
-                            })
-                            snackBar.show()
-                        } else {
-                            Snackbar.make(
-                                rootView!!,
-                                result.ErrorMessage,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
+            if (!agreementAgreeCheckBox.isChecked) {
+                Snackbar.make(
+                    rootView!!,
+                    "请先阅读用户协议，若您同意请勾选后可继续",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                startShakeAnimation(agreementContainer)
             } else {
-                loading.visibility = View.GONE
-                toNextStep(phone, password)
+                loading.visibility = View.VISIBLE
+                val phone = phoneText.editText?.text.toString().trim()
+                val password = passwordText.editText?.text.toString().trim()
+                if (!countDownViewModel.isRunning) {
+                    userViewModel.sendCodeForRegister(phone)
+                        .observe(viewLifecycleOwner) { result ->
+                            loading.visibility = View.GONE
+                            if (result.IsSuccess) {
+                                val snackBar = Snackbar.make(
+                                    rootView!!,
+                                    "短信验证码已发送，请注意查收",
+                                    Snackbar.LENGTH_SHORT
+                                )
+                                snackBar.addCallback(object : Snackbar.Callback() {
+                                    override fun onShown(sb: Snackbar) {
+                                        super.onShown(sb)
+                                    }
+
+                                    override fun onDismissed(
+                                        transientBottomBar: Snackbar,
+                                        event: Int
+                                    ) {
+                                        super.onDismissed(transientBottomBar, event)
+                                        toNextStep(phone, password)
+                                    }
+                                })
+                                snackBar.show()
+                            } else {
+                                Snackbar.make(
+                                    rootView!!,
+                                    result.ErrorMessage,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                } else {
+                    loading.visibility = View.GONE
+                    toNextStep(phone, password)
+                }
             }
         }
+    }
+
+    private fun startShakeAnimation(view: View) {
+        val animation: Animation = android.view.animation.AnimationUtils.loadAnimation(requireContext(),R.anim.shake)
+        view.startAnimation(animation)
     }
 
     private suspend fun getPasswordScore(password: String) = withContext(Dispatchers.IO) {
@@ -252,7 +328,7 @@ class RegisterStepOneFragment : Fragment() {
         )
     }
 
-    private fun hiddenSoftKeyboard(){
+    private fun hiddenSoftKeyboard() {
         view?.let {
             val imm =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

@@ -1,4 +1,21 @@
 <resources>
+    <attr name="width" format="dimension"></attr>
+    <attr name="height" format="dimension"></attr>
+    <attr name="backgroundColor" format="color"/>
+    <attr name="textColor" format="color"></attr>
+    <attr name="icon" format="reference"></attr>
+    <attr name="colorYellow" format="color"/>
+    <attr name="colorOnYellow" format="color"/>
+    <attr name="colorYellowContainer" format="color"/>
+    <attr name="colorOnYellowContainer" format="color"/>
+    <attr name="harmonizeYellow" format="boolean"/>
+    <attr name="colorGreen" format="color"/>
+    <attr name="colorOnGreen" format="color"/>
+    <attr name="colorGreenContainer" format="color"/>
+    <attr name="colorOnGreenContainer" format="color"/>
+    <attr name="harmonizeGreen" format="boolean"/>
+    <attr name="colorLightBlue" format="color"/>
+    <attr name="colorLightYellow" format="color"/>
     <declare-styleable name="FullscreenAttrs">
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
@@ -24,5 +41,37 @@
             <enum name="wait" value="2" />
         </attr>
         <attr name="stateText" format="string" />
+    </declare-styleable>
+    <declare-styleable name="CircleTextView">
+        <attr name="backgroundColor"></attr>
+        <attr name="textColor"></attr>
+    </declare-styleable>
+    <declare-styleable name="RoundedRectangleTextView">
+        <attr name="backgroundColor"></attr>
+        <attr name="textColor"></attr>
+    </declare-styleable>
+    <declare-styleable name="LineView">
+        <attr name="width"></attr>
+        <attr name="height"></attr>
+        <attr name="lineWidth" format="dimension"></attr>
+        <attr name="lineColor" format="color"></attr>
+    </declare-styleable>
+    <declare-styleable name="TimeRangeView">
+        <attr name="primaryColor" format="color"></attr>
+        <attr name="title" format="string"></attr>
+        <attr name="startDate" format="string"></attr>
+        <attr name="endDate" format="string"></attr>
+        <attr name="startTime" format="string"></attr>
+        <attr name="endTime" format="string"></attr>
+        <attr name="isDailyShow" format="boolean"></attr>
+        <attr name="dailyStartTime" format="string"></attr>
+        <attr name="dailyEndTime" format="string"></attr>
+    </declare-styleable>
+    <declare-styleable name="RoundedRectangleIconView">
+        <attr name="icon"></attr>
+    </declare-styleable>
+    <declare-styleable name="CircleIconView">
+        <attr name="backgroundColor"></attr>
+        <attr name="icon"></attr>
     </declare-styleable>
 </resources>

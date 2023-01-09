@@ -2,7 +2,6 @@ package com.xktech.ixueto.repository
 
 import com.xktech.ixueto.data.remote.service.SubjectService
 import com.xktech.ixueto.model.Subject
-import java.lang.Exception
 import javax.inject.Inject
 
 class SubjectRepository @Inject constructor(var subjectService: SubjectService) {
@@ -21,5 +20,5 @@ class SubjectRepository @Inject constructor(var subjectService: SubjectService) 
         return SignUpResult(result.data!!, result.msg)
     }
 
-    data class SignUpResult(val result: Boolean, val message: String)
+    data class SignUpResult(val result: Short, val message: String)
 }

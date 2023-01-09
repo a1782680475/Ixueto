@@ -512,7 +512,7 @@ class AuthenticationStepTwoFragment : Fragment() {
         rendered: (() -> Unit)?,
         selected: ((Boolean, String) -> Unit)?
     ) {
-        val selectorAdapter = SelectorAdapter(context!!, list)
+        val selectorAdapter = SelectorAdapter(requireContext(), list)
         if (!defaultValue.isNullOrEmpty()) {
             selectorAdapter.value = defaultValue
             for (item in list) {

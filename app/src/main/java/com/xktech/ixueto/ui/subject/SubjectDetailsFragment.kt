@@ -36,11 +36,14 @@ import com.xktech.ixueto.R
 import com.xktech.ixueto.adapter.SubjectDetailsCourseAdapter
 import com.xktech.ixueto.components.LCEERecyclerView
 import com.xktech.ixueto.databinding.FragmentSubjectDetailsBinding
+import com.xktech.ixueto.model.SignUpEnum
+import com.xktech.ixueto.utils.EnumUtils
 import com.xktech.ixueto.viewModel.CourseViewModel
 import com.xktech.ixueto.viewModel.SubjectViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.annotation.meta.When
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -124,14 +127,23 @@ class SubjectDetailsFragment : Fragment() {
                     .setNegativeButton(resources.getString(R.string.cancel), null)
                     .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                         subjectViewModel.signUp(subjectId!!).observe(this) {
-                            if (it.result) {
-                                updateSignUpState(0)
-                                savedStateHandle[SIGNUP] = Pair(subjectId!!, 0)
-                                Snackbar.make(rootView!!, it.message, Snackbar.LENGTH_SHORT)
-                                    .show()
-                            } else {
-                                Snackbar.make(rootView!!, it.message, Snackbar.LENGTH_LONG)
-                                    .show()
+                            when(EnumUtils.getSignUpEnum(it.result)){
+                                SignUpEnum.SIGNUP_FAIL->{
+                                    Snackbar.make(rootView!!, it.message, Snackbar.LENGTH_LONG)
+                                        .show()
+                                }
+                                SignUpEnum.SIGNUP_SUCCESS->{
+                                    updateSignUpState(1)
+                                    savedStateHandle[SIGNUP] = Pair(subjectId!!, 1)
+                                    Snackbar.make(rootView!!, it.message, Snackbar.LENGTH_SHORT)
+                                        .show()
+                                }
+                                SignUpEnum.SIGNUP_EXAMINE->{
+                                    updateSignUpState(0)
+                                    savedStateHandle[SIGNUP] = Pair(subjectId!!, 0)
+                                    Snackbar.make(rootView!!, it.message, Snackbar.LENGTH_SHORT)
+                                        .show()
+                                }
                             }
                         }
                     }

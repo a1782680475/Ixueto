@@ -1,7 +1,6 @@
 package com.xktech.ixueto.ui.login
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
@@ -13,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -25,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.nulabinc.zxcvbn.Zxcvbn
@@ -46,7 +45,7 @@ class ResetPasswordStepThirdFragment : Fragment() {
     private lateinit var toolBar: Toolbar
     private lateinit var newPassword: TextInputLayout
     private lateinit var repeatNewPassword: TextInputLayout
-    private lateinit var passwordScore: ProgressBar
+    private lateinit var passwordScore: LinearProgressIndicator
     private lateinit var passwordScoreContainer: LinearLayout
     private lateinit var submitButton: Button
     private lateinit var passwordScoreCalculator: Zxcvbn
@@ -130,8 +129,7 @@ class ResetPasswordStepThirdFragment : Fragment() {
                             }
                         }
                         progressBarColor?.let {
-                            passwordScore.progressTintList =
-                                ColorStateList.valueOf(progressBarColor)
+                            passwordScore.setIndicatorColor(progressBarColor)
                         }
                     }
                 }

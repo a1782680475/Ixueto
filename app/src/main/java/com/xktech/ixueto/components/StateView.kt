@@ -14,7 +14,7 @@ import com.xktech.ixueto.R
 import com.xktech.ixueto.utils.DimenUtils
 
 class StateView(
-                     context: Context,
+    context: Context,
     private var type: StateEnum,
     private var text: String,
     attrs: AttributeSet? = null,

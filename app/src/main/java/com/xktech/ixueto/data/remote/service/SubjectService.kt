@@ -11,5 +11,5 @@ interface SubjectService {
     @GET("subject/getSubjects")
     suspend fun getSubjects(@Query("professionId") professionId: Int):  Response<MutableList<Subject>>
     @POST("subject/signUp/{id}")
-    suspend fun signUp(@Path("id") id: Int): Response<Boolean>
+    suspend fun signUp(@Path("id") id: Int): Response<Short>
 }

@@ -1,18 +1,23 @@
 package com.xktech.ixueto.ui.study
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.card.MaterialCardView
+import com.xktech.ixueto.R
+import com.xktech.ixueto.components.timeRange.TimeRangeView
+import com.xktech.ixueto.data.local.converter.DateConverter
 import com.xktech.ixueto.databinding.FragmentStudySubjectDetailsBinding
 import com.xktech.ixueto.viewModel.StudySubjectViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import koleton.api.hideSkeleton
-import koleton.api.loadSkeleton
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -22,18 +27,18 @@ class StudySubjectDetailsFragment : Fragment() {
     private lateinit var classInfoView: MaterialCardView
     private lateinit var subjectInfoView: MaterialCardView
     private lateinit var classNameView: TextView
-    private lateinit var trainTimeView: TextView
-    private lateinit var examTimeView: TextView
     private lateinit var professionNameView: TextView
     private lateinit var subjectNameView: TextView
     private lateinit var unitNameView: TextView
     private lateinit var chapterNumberView: TextView
     private lateinit var courseHoursView: TextView
     private lateinit var studyProgressView: TextView
+    private lateinit var trainTimeRangeView: TimeRangeView
+    private lateinit var examTimeRangeView: TimeRangeView
     private var isFirstLoad = true
     private var rootView: View? = null
     private val studySubjectModel: StudySubjectViewModel by viewModels()
-
+    private var isNightMode = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -65,12 +70,15 @@ class StudySubjectDetailsFragment : Fragment() {
     }
 
     fun initView() {
+        if (requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+            isNightMode = true
+        }
         binding = FragmentStudySubjectDetailsBinding.inflate(layoutInflater)
         rootView = binding!!.root
         classInfoView = binding!!.classInfo
         classNameView = binding!!.className
-        trainTimeView = binding!!.trainTime
-        examTimeView = binding!!.examTime
+        trainTimeRangeView = binding!!.trainTimeRange
+        examTimeRangeView = binding!!.examTimeRange
         professionNameView = binding!!.professionName
         subjectNameView = binding!!.subjectName
         unitNameView = binding!!.unitName
@@ -78,35 +86,73 @@ class StudySubjectDetailsFragment : Fragment() {
         courseHoursView = binding!!.courseHours
         studyProgressView = binding!!.studyProgress
         subjectInfoView = binding!!.subjectInfo
+        var trainTimeRangePrimaryColorId: Int = R.color.md_theme_light_primary
+        var examTimeRangePrimaryColorId: Int = R.color.md_theme_light_secondary
+        if (isNightMode) {
+            trainTimeRangePrimaryColorId = R.color.md_theme_dark_primary
+            examTimeRangePrimaryColorId = R.color.md_theme_dark_secondary
+        }
         studySubjectModel.getStudySubjectDetails(subjectId).observe(this) {
             if (it.ClassInfo == null) {
                 classInfoView.visibility = View.GONE
             } else {
                 classInfoView.visibility = View.VISIBLE
                 classNameView.text = it.ClassInfo.ClassName
-                var withinStr = ""
-                if (!it.ClassInfo.StartTime.isNullOrEmpty() || !it.ClassInfo.EndTime.isNullOrEmpty()) {
-                    withinStr += it.ClassInfo.StartTime ?: "-"
-                    withinStr += "\n~"
-                    withinStr += it.ClassInfo.EndTime ?: "-"
+                var trainStartDateStr: String? = null
+                var trainStartTimeStr: String? = null
+                var trainEndDateStr: String? = null
+                var trainEndTimeStr: String? = null
+                var dailyStartTimeStr: String? = null
+                var dailyEndTimeStr: String? = null
+                if (!it.ClassInfo.StartTime.isNullOrEmpty()) {
+                    var startTime = DateConverter.revertDate(it.ClassInfo.StartTime)
+                    trainStartDateStr = dateToDateString(startTime)
+                    trainStartTimeStr = dateToTimeString(startTime)
                 }
-                if (!withinStr.isNullOrEmpty()) {
-                    withinStr += "\n"
+                if (!it.ClassInfo.EndTime.isNullOrEmpty()) {
+                    var endTime = DateConverter.revertDate(it.ClassInfo.EndTime)
+                    trainEndDateStr = dateToDateString(endTime)
+                    trainEndTimeStr = dateToTimeString(endTime)
                 }
-                if (!it.ClassInfo.StartTimeEveryDay.isNullOrEmpty() || !it.ClassInfo.EndTimeEveryDay.isNullOrEmpty()) {
-                    withinStr += "每日"
-                    withinStr += it.ClassInfo.StartTimeEveryDay ?: "-"
-                    withinStr += "~"
-                    withinStr += it.ClassInfo.EndTimeEveryDay ?: "-"
+                if(!it.ClassInfo.StartTimeEveryDay.isNullOrEmpty()){
+                    dailyStartTimeStr = it.ClassInfo.StartTimeEveryDay
                 }
-                trainTimeView.text = withinStr
-                var examWithinStr = ""
-                if (!it.ClassInfo.ExamStartTime.isNullOrEmpty() && !it.ClassInfo.ExamEndTime.isNullOrEmpty()) {
-                    examWithinStr += it.ClassInfo.ExamStartTime ?: "-"
-                    examWithinStr += "\n~"
-                    examWithinStr += it.ClassInfo.ExamEndTime ?: "-"
+                if(!it.ClassInfo.EndTimeEveryDay.isNullOrEmpty()){
+                    dailyEndTimeStr = it.ClassInfo.EndTimeEveryDay
                 }
-                examTimeView.text = examWithinStr
+                trainTimeRangeView.timeRangeSetting.primaryColor = ContextCompat.getColor(requireContext(),trainTimeRangePrimaryColorId)
+                trainTimeRangeView.timeRangeSetting.title = "培训时间"
+                trainTimeRangeView.timeRangeSetting.startDate = trainStartDateStr
+                trainTimeRangeView.timeRangeSetting.startTime = trainStartTimeStr
+                trainTimeRangeView.timeRangeSetting.endDate = trainEndDateStr
+                trainTimeRangeView.timeRangeSetting.endTime = trainEndTimeStr
+                trainTimeRangeView.timeRangeSetting.isDailyShow = true
+                trainTimeRangeView.timeRangeSetting.dailyStartTime = dailyStartTimeStr
+                trainTimeRangeView.timeRangeSetting.dailyEndTime = dailyEndTimeStr
+                trainTimeRangeView.updateView()
+                var examStartDateStr: String? = null
+                var examStartTimeStr: String? = null
+                var examEndDateStr: String? = null
+                var examEndTimeStr: String? = null
+                if (!it.ClassInfo.ExamStartTime.isNullOrEmpty()) {
+                    var startTime = DateConverter.revertDate(it.ClassInfo.ExamStartTime)
+                    examStartDateStr = dateToDateString(startTime)
+                    examStartTimeStr = dateToTimeString(startTime)
+                }
+                if (!it.ClassInfo.ExamEndTime.isNullOrEmpty()) {
+                    var endTime = DateConverter.revertDate(it.ClassInfo.ExamEndTime)
+                    examEndDateStr = dateToDateString(endTime)
+                    examEndTimeStr = dateToTimeString(endTime)
+                }
+                examTimeRangeView.timeRangeSetting.primaryColor = ContextCompat.getColor(requireContext(),examTimeRangePrimaryColorId)
+                examTimeRangeView.timeRangeSetting.title = "考试时间"
+                examTimeRangeView.timeRangeSetting.startDate = examStartDateStr
+                examTimeRangeView.timeRangeSetting.startTime = examStartTimeStr
+                examTimeRangeView.timeRangeSetting.endDate = examEndDateStr
+                examTimeRangeView.timeRangeSetting.endTime = examEndTimeStr
+                examTimeRangeView.timeRangeSetting.isDailyShow = false
+                examTimeRangeView.updateView()
+
             }
             professionNameView.text = it.ProfessionName
             subjectNameView.text = it.SubjectName
@@ -119,8 +165,19 @@ class StudySubjectDetailsFragment : Fragment() {
         }
     }
 
+    private fun dateToDateString(date: Date): String {
+        val sdf = SimpleDateFormat("yyyy年MM月dd日")
+        return sdf.format(date)
+    }
+
+    private fun dateToTimeString(date: Date): String {
+        val sdf = SimpleDateFormat("HH:mm:ss")
+        return sdf.format(date)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
+
 }

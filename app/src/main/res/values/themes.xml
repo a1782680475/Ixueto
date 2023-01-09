@@ -30,11 +30,23 @@
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <item name="colorYellow">#6f5d00</item>
+        <item name="colorOnYellow">#ffffff</item>
+        <item name="colorYellowContainer">#ffe16a</item>
+        <item name="colorOnYellowContainer">#221b00</item>
+        <item name="harmonizeYellow">false</item>
+        <item name="colorGreen">#3d6919</item>
+        <item name="colorOnGreen">#ffffff</item>
+        <item name="colorGreenContainer">#bdf291</item>
+        <item name="colorOnGreenContainer">#0c2000</item>
+        <item name="harmonizeGreen">false</item>
+        <item name="colorLightBlue">#e6eef9</item>
+        <item name="colorLightYellow">#fef6e5</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
         <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
     </style>
     <style name="Widget.App.MaterialDivider" parent="Widget.MaterialComponents.MaterialDivider">
-        <item name="dividerColor">?attr/colorOutline</item>
+        <item name="dividerColor">?attr/colorOutlineVariant</item>
     </style>
     <style name="navigation">
         <item name="android:background">@color/md_theme_light_surface_navigation</item>
@@ -300,7 +312,7 @@
     <style name="course_item_time">
         <item name="android:textSize">13sp</item>
         <item name="android:layout_marginTop">7sp</item>
-        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:textColor">?attr/colorOutline</item>
     </style>
     <!--About-->
     <style name="about_logo">
@@ -338,19 +350,25 @@
     </style>
 
     <style name="study_subject_details_item.label">
-        <item name="android:layout_width">90dp</item>
-        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
-        <item name="android:textAppearance">?attr/textAppearanceTitleSmall</item>
-        <item name="android:gravity">left</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorOutline</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodySmall</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
     </style>
 
     <style name="study_subject_details_item.value">
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
-        <item name="android:gravity">right</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodySmall</item>
+        <item name="android:gravity">top</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
     </style>
 
     <style name="style_subject_details_exam_property_value">
@@ -411,5 +429,18 @@
     <style name="idCardRoundedStyle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15px</item>
+    </style>
+    <!--TimeRange-->
+    <style name="time_range_date">
+        <item name="android:textSize">13dp</item>
+        <item name="android:layout_marginLeft">7dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="time_range_time">
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

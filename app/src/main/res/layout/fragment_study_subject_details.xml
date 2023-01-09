@@ -14,14 +14,14 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/class_info"
+            style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="7.5dp"
             android:checkable="false"
             android:clickable="false"
             android:focusable="false"
-            app:rippleColor="@android:color/transparent"
-            style="?attr/materialCardViewFilledStyle">
+            app:rippleColor="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,67 +32,50 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="班次信息"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:text="班次信息" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="vertical"
-                    android:paddingTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/class_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="培训班次" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"/>
 
-                        <TextView
-                            android:id="@+id/class_name"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="培训时间" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                            android:id="@+id/train_time"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="考试时间" />
+                <com.xktech.ixueto.components.timeRange.TimeRangeView
+                    android:id="@+id/train_time_range"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" />
 
-                        <TextView
-                            android:id="@+id/exam_time"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                </LinearLayout>
+                <com.xktech.ixueto.components.timeRange.TimeRangeView
+                    android:id="@+id/exam_time_range"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:primaryColor="?attr/colorSecondary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/subject_info"
+            style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="7.5dp"
             android:checkable="false"
             android:clickable="false"
             android:focusable="false"
-            app:rippleColor="@android:color/transparent"
-            style="?attr/materialCardViewFilledStyle">
+            app:rippleColor="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,88 +88,225 @@
                     android:layout_height="wrap_content"
                     android:text="专题信息"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:orientation="vertical"
-                    android:paddingTop="10dp">
-                    <LinearLayout
+                    android:layout_marginTop="10dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="工种名称" />
+                        android:paddingVertical="10dp">
 
-                        <TextView
+                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                            android:id="@+id/profession_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon="@drawable/ic_details_profession"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/profession_name"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            app:layout_constraintLeft_toRightOf="@id/profession_label"
+                            app:layout_constraintTop_toTopOf="@id/profession_label" />
 
-                    <LinearLayout
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="工种名称"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOutline"
+                            app:layout_constraintBottom_toBottomOf="@id/profession_label"
+                            app:layout_constraintLeft_toRightOf="@id/profession_label" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="专题名称" />
+                        android:paddingVertical="10dp">
 
-                        <TextView
+                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                            android:id="@+id/subject_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon="@drawable/ic_details_subject"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/subject_name"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            app:layout_constraintLeft_toRightOf="@id/subject_label"
+                            app:layout_constraintTop_toTopOf="@id/subject_label" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="专题名称"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOutline"
+                            app:layout_constraintBottom_toBottomOf="@id/subject_label"
+                            app:layout_constraintLeft_toRightOf="@id/subject_label" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="培训机构" />
+                        android:paddingVertical="10dp">
 
-                        <TextView
+                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                            android:id="@+id/unit_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon="@drawable/ic_details_unit"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/unit_name"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            app:layout_constraintLeft_toRightOf="@id/unit_label"
+                            app:layout_constraintTop_toTopOf="@id/unit_label" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="培训机构"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOutline"
+                            app:layout_constraintBottom_toBottomOf="@id/unit_label"
+                            app:layout_constraintLeft_toRightOf="@id/unit_label" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="章节" />
+                        android:paddingVertical="10dp">
 
-                        <TextView
+                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                            android:id="@+id/chapter_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon="@drawable/ic_details_chapter"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/chapter_number"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="课时" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            app:layout_constraintLeft_toRightOf="@id/chapter_label"
+                            app:layout_constraintTop_toTopOf="@id/chapter_label" />
 
-                        <TextView
-                            android:id="@+id/course_hours"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
-                    <LinearLayout
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="章节"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOutline"
+                            app:layout_constraintBottom_toBottomOf="@id/chapter_label"
+                            app:layout_constraintLeft_toRightOf="@id/chapter_label" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/study_subject_details_item.label"
-                            android:text="学习进度" />
+                        android:paddingVertical="10dp">
+
+                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                            android:id="@+id/course_hours_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon="@drawable/ic_details_course_hour"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:id="@+id/course_hours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            app:layout_constraintLeft_toRightOf="@id/course_hours_label"
+                            app:layout_constraintTop_toTopOf="@id/course_hours_label" />
+
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="课时"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOutline"
+                            app:layout_constraintBottom_toBottomOf="@id/course_hours_label"
+                            app:layout_constraintLeft_toRightOf="@id/course_hours_label" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp">
+
+                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                            android:id="@+id/study_progress_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:icon="@drawable/ic_details_progress"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/study_progress"
-                            style="@style/study_subject_details_item.value" />
-                    </LinearLayout>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            app:layout_constraintLeft_toRightOf="@id/study_progress_label"
+                            app:layout_constraintTop_toTopOf="@id/study_progress_label" />
 
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="学习进度"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOutline"
+                            app:layout_constraintBottom_toBottomOf="@id/study_progress_label"
+                            app:layout_constraintLeft_toRightOf="@id/study_progress_label" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

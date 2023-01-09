@@ -30,13 +30,13 @@
             android:orientation="vertical"
             android:padding="20dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-<!--            <com.airbnb.lottie.LottieAnimationView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"-->
-<!--                android:layout_gravity="center"-->
-<!--                app:lottie_autoPlay="true"-->
-<!--                app:lottie_loop="true"-->
-<!--                app:lottie_rawRes="@raw/register" />-->
+            <!--            <com.airbnb.lottie.LottieAnimationView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="200dp"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                app:lottie_autoPlay="true"-->
+            <!--                app:lottie_loop="true"-->
+            <!--                app:lottie_rawRes="@raw/register" />-->
             <TextView
                 android:id="@+id/phone_text"
                 android:layout_width="match_parent"
@@ -76,12 +76,11 @@
             <LinearLayout
                 android:id="@+id/password_score_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:visibility="gone">
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -90,9 +89,8 @@
                     android:text="密码强度："
                     android:textAppearance="?textAppearanceLabelLarge" />
 
-                <ProgressBar
+                <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:id="@+id/password_score"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
                     android:layout_height="4dp"
                     android:layout_weight="1"
@@ -102,7 +100,30 @@
                     android:progress="0"
                     app:layout_constraintEnd_toStartOf="@+id/password_strength"
                     app:layout_constraintStart_toStartOf="@+id/login_password"
-                    app:layout_constraintTop_toBottomOf="@+id/login_password" />
+                    app:layout_constraintTop_toBottomOf="@+id/login_password"
+                    app:trackCornerRadius="4sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/agreement_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/agreement_agree_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:checked="false"
+                    android:text="阅读并同意" />
+                <TextView
+                    android:id="@+id/agreement_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="《行知学徒网用户注册/登录协议》"/>
             </LinearLayout>
 
             <Button
@@ -114,6 +135,7 @@
                 android:text="下一步" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/loading"
         android:layout_width="match_parent"
@@ -121,9 +143,10 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/primary"/>
+            android:indeterminateTint="@color/primary" />
     </LinearLayout>
 </FrameLayout>
