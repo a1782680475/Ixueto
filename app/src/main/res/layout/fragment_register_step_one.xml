@@ -122,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceLabelLarge"
-                    android:textColor="?attr/colorPrimary"
+                    android:textColor="@drawable/selector_agreement_text"
                     android:text="《行知学徒网用户注册/登录协议》"/>
             </LinearLayout>
 

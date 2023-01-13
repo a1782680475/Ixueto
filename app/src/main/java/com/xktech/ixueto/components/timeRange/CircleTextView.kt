@@ -29,7 +29,7 @@ class CircleTextView(
             defaultTextColorId = R.color.md_theme_dark_onPrimary
         }
         val defaultDiam = DimenUtils.dp2px(context, 60f)
-        val defaultLineHeight = DimenUtils.dp2px(context, 10f)
+        val defaultLineHeight = DimenUtils.dp2px(context, 5f)
         val defaultTextSize = 13f
         val defaultPadding = DimenUtils.dp2px(context, 13f)
         val defaultBackgroundColor = ContextCompat.getColor(context, defaultBackgroundColorId)
@@ -38,7 +38,7 @@ class CircleTextView(
         var textSize = defaultTextSize
         var backgroundColor = defaultBackgroundColor
         var textColor = defaultTextColor
-        var lineHeight = defaultLineHeight.toInt()
+        var lineHeight = -defaultLineHeight.toInt()
         var padding = defaultPadding.toInt()
         attr?.let {
             backgroundColor =
@@ -50,7 +50,7 @@ class CircleTextView(
         this.width = diam
         this.height = diam
         this.textSize = textSize
-        this.lineHeight = lineHeight
+        this.setLineSpacing(lineHeight.toFloat(), 1f)
         this.gravity = Gravity.CENTER
         this.textAlignment = TEXT_ALIGNMENT_CENTER
         this.setPadding(padding, padding, padding, padding)
@@ -74,6 +74,7 @@ class CircleTextView(
         //文字绘制
         super.onDraw(canvas)
     }
+
     override fun setBackgroundColor(color: Int) {
         mBackgroundPaint.color = color
     }

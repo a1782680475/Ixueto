@@ -54,7 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="【单选题】"
-                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/question_content"
@@ -84,27 +85,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <com.xktech.ixueto.components.QuestionResult
+                        android:id="@+id/result"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="3dp"
-                            android:text="回答"
-                            android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOnSurfaceVariant"/>
-
-                        <TextView
-                            android:id="@+id/result"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="正确"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
-                    </LinearLayout>
+                        android:layout_marginBottom="3dp"/>
 
 
                     <LinearLayout
@@ -118,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:text="我的答案："
                             android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOnSurfaceVariant"/>
+                            android:textColor="?attr/colorOutline"  />
 
                         <TextView
                             android:id="@+id/answer"
@@ -131,7 +116,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="3dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -139,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:text="参考答案："
                             android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOnSurfaceVariant"/>
+                            android:textColor="?attr/colorOutline" />
 
                         <TextView
                             android:id="@+id/answer_reference"
@@ -149,26 +134,41 @@
                             android:textAppearance="?attr/textAppearanceBodyLarge" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
-                        android:orientation="vertical">
-
-                        <TextView
+                        android:layout_marginBottom="5dp">
+                        <com.xktech.ixueto.components.timeRange.LineView
+                            android:id="@+id/line"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:lineWidth="5dp"
+                            app:width="5dp"
+                            app:height="20dp"
+                            app:lineColor="?attr/colorPrimary"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent" />
+                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="解析："
+                            android:text="试题解析："
+                            android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOnSurfaceVariant"/>
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/line"
+                            app:layout_constraintBottom_toBottomOf="@+id/line"/>
 
                         <TextView
                             android:id="@+id/explains"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="独立回路方程数等于电路支路数m与独立节点数（n－1）的差"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
-                    </LinearLayout>
+                            android:textAppearance="?attr/textAppearanceBodyLarge"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/line"
+                            android:layout_marginTop="10dp"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

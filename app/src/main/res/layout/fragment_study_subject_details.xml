@@ -112,13 +112,16 @@
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/profession_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textColor="?attr/colorOnSurface"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             app:layout_constraintLeft_toRightOf="@id/profession_label"
-                            app:layout_constraintTop_toTopOf="@id/profession_label" />
+                            app:layout_constraintTop_toTopOf="@id/profession_label"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="wrap_content"
@@ -147,13 +150,17 @@
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/subject_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textColor="?attr/colorOnSurface"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:gravity="left"
                             app:layout_constraintLeft_toRightOf="@id/subject_label"
-                            app:layout_constraintTop_toTopOf="@id/subject_label" />
+                            app:layout_constraintTop_toTopOf="@id/subject_label"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="wrap_content"
@@ -182,13 +189,16 @@
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/unit_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textColor="?attr/colorOnSurface"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             app:layout_constraintLeft_toRightOf="@id/unit_label"
-                            app:layout_constraintTop_toTopOf="@id/unit_label" />
+                            app:layout_constraintTop_toTopOf="@id/unit_label"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="wrap_content"
@@ -217,13 +227,16 @@
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/chapter_number"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textColor="?attr/colorOnSurface"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             app:layout_constraintLeft_toRightOf="@id/chapter_label"
-                            app:layout_constraintTop_toTopOf="@id/chapter_label" />
+                            app:layout_constraintTop_toTopOf="@id/chapter_label"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="wrap_content"
@@ -253,13 +266,16 @@
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:id="@+id/course_hours"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textColor="?attr/colorOnSurface"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             app:layout_constraintLeft_toRightOf="@id/course_hours_label"
-                            app:layout_constraintTop_toTopOf="@id/course_hours_label" />
+                            app:layout_constraintTop_toTopOf="@id/course_hours_label"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="wrap_content"
@@ -283,19 +299,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:icon="@drawable/ic_details_progress"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/study_progress"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textColor="?attr/colorOnSurface"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             app:layout_constraintLeft_toRightOf="@id/study_progress_label"
-                            app:layout_constraintTop_toTopOf="@id/study_progress_label" />
+                            app:layout_constraintTop_toTopOf="@id/study_progress_label"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <com.xktech.ixueto.components.ExcludeFontPaddingTextView
                             android:layout_width="wrap_content"

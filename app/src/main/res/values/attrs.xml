@@ -1,21 +1,21 @@
 <resources>
     <attr name="width" format="dimension"></attr>
     <attr name="height" format="dimension"></attr>
-    <attr name="backgroundColor" format="color"/>
+    <attr name="backgroundColor" format="color" />
     <attr name="textColor" format="color"></attr>
     <attr name="icon" format="reference"></attr>
-    <attr name="colorYellow" format="color"/>
-    <attr name="colorOnYellow" format="color"/>
-    <attr name="colorYellowContainer" format="color"/>
-    <attr name="colorOnYellowContainer" format="color"/>
-    <attr name="harmonizeYellow" format="boolean"/>
-    <attr name="colorGreen" format="color"/>
-    <attr name="colorOnGreen" format="color"/>
-    <attr name="colorGreenContainer" format="color"/>
-    <attr name="colorOnGreenContainer" format="color"/>
-    <attr name="harmonizeGreen" format="boolean"/>
-    <attr name="colorLightBlue" format="color"/>
-    <attr name="colorLightYellow" format="color"/>
+    <attr name="colorYellow" format="color" />
+    <attr name="colorOnYellow" format="color" />
+    <attr name="colorYellowContainer" format="color" />
+    <attr name="colorOnYellowContainer" format="color" />
+    <attr name="harmonizeYellow" format="boolean" />
+    <attr name="colorGreen" format="color" />
+    <attr name="colorOnGreen" format="color" />
+    <attr name="colorGreenContainer" format="color" />
+    <attr name="colorOnGreenContainer" format="color" />
+    <attr name="harmonizeGreen" format="boolean" />
+    <attr name="colorLightBlue" format="color" />
+    <attr name="colorLightYellow" format="color" />
     <declare-styleable name="FullscreenAttrs">
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
@@ -73,5 +73,12 @@
     <declare-styleable name="CircleIconView">
         <attr name="backgroundColor"></attr>
         <attr name="icon"></attr>
+    </declare-styleable>
+    <declare-styleable name="QuestionResultView">
+        <attr name="resultType" format="integer">
+            <enum name="empty" value="-1" />
+            <enum name="error" value="0" />
+            <enum name="right" value="1" />
+        </attr>
     </declare-styleable>
 </resources>

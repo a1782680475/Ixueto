@@ -90,6 +90,12 @@
     <color name="authenticate_pass">#00BDA4</color>
     <color name="authenticating">#FC7530</color>
     <color name="authenticate_not_pass">#E91E63</color>
+    <color name="answer_empty">#A9ACB6</color>
+    <color name="answer_empty_dark">#FF75777F</color>
+    <color name="answer_right">#11AA66</color>
+    <color name="answer_right_dark">#0F8F56</color>
+    <color name="answer_error">#fc355d</color>
+    <color name="answer_error_dark">#C12A48</color>
     <!--Material You-->
     <color name="seed">#005AC4</color>
     <color name="md_theme_light_primary">#005AC4</color>

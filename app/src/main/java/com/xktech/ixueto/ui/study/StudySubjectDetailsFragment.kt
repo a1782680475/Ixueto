@@ -114,13 +114,14 @@ class StudySubjectDetailsFragment : Fragment() {
                     trainEndDateStr = dateToDateString(endTime)
                     trainEndTimeStr = dateToTimeString(endTime)
                 }
-                if(!it.ClassInfo.StartTimeEveryDay.isNullOrEmpty()){
+                if (!it.ClassInfo.StartTimeEveryDay.isNullOrEmpty()) {
                     dailyStartTimeStr = it.ClassInfo.StartTimeEveryDay
                 }
-                if(!it.ClassInfo.EndTimeEveryDay.isNullOrEmpty()){
+                if (!it.ClassInfo.EndTimeEveryDay.isNullOrEmpty()) {
                     dailyEndTimeStr = it.ClassInfo.EndTimeEveryDay
                 }
-                trainTimeRangeView.timeRangeSetting.primaryColor = ContextCompat.getColor(requireContext(),trainTimeRangePrimaryColorId)
+                trainTimeRangeView.timeRangeSetting.primaryColor =
+                    ContextCompat.getColor(requireContext(), trainTimeRangePrimaryColorId)
                 trainTimeRangeView.timeRangeSetting.title = "培训时间"
                 trainTimeRangeView.timeRangeSetting.startDate = trainStartDateStr
                 trainTimeRangeView.timeRangeSetting.startTime = trainStartTimeStr
@@ -144,7 +145,8 @@ class StudySubjectDetailsFragment : Fragment() {
                     examEndDateStr = dateToDateString(endTime)
                     examEndTimeStr = dateToTimeString(endTime)
                 }
-                examTimeRangeView.timeRangeSetting.primaryColor = ContextCompat.getColor(requireContext(),examTimeRangePrimaryColorId)
+                examTimeRangeView.timeRangeSetting.primaryColor =
+                    ContextCompat.getColor(requireContext(), examTimeRangePrimaryColorId)
                 examTimeRangeView.timeRangeSetting.title = "考试时间"
                 examTimeRangeView.timeRangeSetting.startDate = examStartDateStr
                 examTimeRangeView.timeRangeSetting.startTime = examStartTimeStr
@@ -174,6 +176,7 @@ class StudySubjectDetailsFragment : Fragment() {
         val sdf = SimpleDateFormat("HH:mm:ss")
         return sdf.format(date)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

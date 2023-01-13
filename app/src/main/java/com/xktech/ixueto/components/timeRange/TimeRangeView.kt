@@ -117,7 +117,7 @@ class TimeRangeView(
             val endDateValue = if (settingData.endDate.isNullOrEmpty()) {
                 defaultStr
             } else {
-                settingData.startDate
+                settingData.endDate
             }
             val endTimeValue = if (settingData.endDate.isNullOrEmpty()) {
                 null

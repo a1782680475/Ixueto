@@ -2,7 +2,6 @@ package com.xktech.ixueto.ui.quiz
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -13,7 +12,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -25,6 +23,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.xktech.ixueto.R
+import com.xktech.ixueto.components.QuestionResult
 import com.xktech.ixueto.components.TilingDrawable
 import com.xktech.ixueto.databinding.FragmentQuizResultQuestionBinding
 import com.xktech.ixueto.model.QuizQuestionAnswer
@@ -54,7 +53,7 @@ class QuizResultQuestionFragment : Fragment() {
     private lateinit var questionPrev: MenuItem
     private lateinit var questionNext: MenuItem
     private lateinit var questionContainer: LinearLayout
-    private lateinit var resultView: TextView
+    private lateinit var resultView: QuestionResult
     private lateinit var answerView: TextView
     private lateinit var answerReference: TextView
     private lateinit var explainsView: TextView
@@ -197,43 +196,13 @@ class QuizResultQuestionFragment : Fragment() {
         questionPrev.isEnabled = currentIndex != 0
         questionNext.isEnabled = currentIndex != questionIds?.size?.minus(1) ?: 0
         if (quizQuestionAnswer.IsRight == null) {
-            resultView.text = "未作答"
+            resultView.type = QuestionResult.QuestionResult.EMPTY
         } else {
             if (quizQuestionAnswer.IsRight == true) {
-                if (context?.resources?.configuration!!.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
-                    resultView.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.success_dark
-                        )
-                    )
-                } else {
-                    resultView.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.success
-                        )
-                    )
-                }
-                resultView.text = "正确"
+                resultView.type = QuestionResult.QuestionResult.RIGHT
 
             } else {
-                if (context?.resources?.configuration!!.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
-                    resultView.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.error_dark
-                        )
-                    )
-                } else {
-                    resultView.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.error
-                        )
-                    )
-                }
-                resultView.text = "错误"
+                resultView.type = QuestionResult.QuestionResult.ERROR
             }
         }
         answerView.text = quizQuestionAnswer.Answer

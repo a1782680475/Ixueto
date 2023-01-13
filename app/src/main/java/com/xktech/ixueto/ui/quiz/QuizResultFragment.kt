@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -23,7 +22,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.xktech.ixueto.R
 import com.xktech.ixueto.adapter.QuizQuestionAnswerBriefAdapter
-import com.xktech.ixueto.common.RecycleViewDivider
 import com.xktech.ixueto.components.LCEERecyclerView
 import com.xktech.ixueto.databinding.FragmentQuizResultBinding
 import com.xktech.ixueto.model.QuizStateEnum
@@ -41,11 +39,12 @@ class QuizResultFragment : Fragment() {
     private var subjectId: Int? = null
     private var courseId: Int? = null
     private var courseName: String? = null
+    private lateinit var resultView: TextView
     private lateinit var questionRecycler: LCEERecyclerView
     private lateinit var toolBar: MaterialToolbar
-    private lateinit var resultView: TextView
-    private lateinit var resultBriefView: TextView
-    private lateinit var resultContainer: LinearLayout
+    private lateinit var totalNumberView: TextView
+    private lateinit var answeredNumberView: TextView
+    private lateinit var rightNumberView: TextView
     private lateinit var retakeButton: Button
     private val quizViewModel: QuizViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,9 +79,10 @@ class QuizResultFragment : Fragment() {
         courseName = arguments?.getString("courseName")
         toolBar = binding!!.toolBar
         questionRecycler = binding!!.questionRecycler
+        totalNumberView = binding!!.totalNumber
+        answeredNumberView = binding!!.answeredNumber
+        rightNumberView = binding!!.rightNumber
         resultView = binding!!.result
-        resultBriefView = binding!!.resultBrief
-        resultContainer = binding!!.resultContainer
         retakeButton = binding!!.retake
         toolBar.subtitle = courseName
         loadData()
@@ -100,25 +100,31 @@ class QuizResultFragment : Fragment() {
         quizViewModel.getQuizResult(subjectId!!, courseId!!).observe(viewLifecycleOwner) {
             if (it.IsPass) {
                 if (context?.resources?.configuration!!.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
-                    resultView.setTextColor(ContextCompat.getColor(requireContext(),
-                        R.color.success_dark))
+                    resultView.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                        R.color.answer_right_dark))
                 } else {
-                    resultView.setTextColor(ContextCompat.getColor(requireContext(),
-                        R.color.success))
+                    resultView.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                        R.color.answer_right))
                 }
-                resultView.text = "通过"
+                resultView.text = "测试通过"
 
             } else {
                 if (context?.resources?.configuration!!.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
-                    resultView.setTextColor(ContextCompat.getColor(requireContext(),
-                        R.color.error_dark))
+                    resultView.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                        R.color.answer_error_dark))
                 } else {
-                    resultView.setTextColor(ContextCompat.getColor(requireContext(),
-                        R.color.error))
+                    resultView.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                        R.color.answer_error))
                 }
-                resultView.text = "未通过"
+                resultView.text = "测试未通过"
             }
-            resultBriefView.text = "${it.RightAnswerNumber}/${it.AnswerNumber}/${it.QuestionNumber}"
+            totalNumberView.text = it.QuestionNumber.toString()
+            answeredNumberView.text = it.AnswerNumber.toString()
+            rightNumberView.text = it.RightAnswerNumber.toString()
             if(!it.IsPass){
                 retakeButton.visibility = View.VISIBLE
                 retakeButton.setOnClickListener {
@@ -171,7 +177,7 @@ class QuizResultFragment : Fragment() {
             }
         }
         questionRecycler.recyclerView.adapter = questionAdapter
-        questionRecycler.recyclerView.addItemDecoration(RecycleViewDivider(requireContext(),LinearLayoutManager.VERTICAL))
+        //questionRecycler.recyclerView.addItemDecoration(RecycleViewDivider(requireContext(),LinearLayoutManager.VERTICAL))
     }
 
     override fun onDestroyView() {

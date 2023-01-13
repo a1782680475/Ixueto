@@ -38,6 +38,7 @@ class VideoPlayer :
         }
     var isAlertAtNotWifi: Boolean = true
     var isGesture: Boolean = true
+    var isAutoSetCompleteStateAtFinished: Boolean = false
     private var maxSeekPosition = 0L
     private var initStudyPosition: Long = 0L
         set(value) {
@@ -161,6 +162,9 @@ class VideoPlayer :
         moreButton.visibility = View.GONE
         val moreButtonLp = moreButton.layoutParams as RelativeLayout.LayoutParams
         moreButtonLp.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+        if (isRestudy) {
+            replayTextView.visibility = VISIBLE
+        }
         onScreenStateChange?.let { it(true) }
     }
 
@@ -200,6 +204,9 @@ class VideoPlayer :
         moreButton.visibility = View.VISIBLE
         val moreButtonLp = moreButton.layoutParams as RelativeLayout.LayoutParams
         moreButtonLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+        if (isRestudy) {
+            replayTextView.visibility = GONE
+        }
         onScreenStateChange?.let { it(false) }
     }
 
@@ -528,8 +535,26 @@ class VideoPlayer :
         dismissVolumeDialog()
         bottomContainer.visibility = INVISIBLE
         state = STATE_AUTO_COMPLETE
-        updateStartImage()
+        maskView.visibility = VISIBLE
+        centerContainer.visibility = VISIBLE
+        startButton.visibility = VISIBLE
+        startButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.avd_face_id_to_replay
+            )
+        )
+        val imgDrawable = startButton.drawable
+        if (imgDrawable is AnimatedVectorDrawableCompat) {
+            imgDrawable.start()
+        } else if (imgDrawable is AnimatedVectorDrawable) {
+            imgDrawable.start()
+        }
         replayTextView.text = "重新学习"
+        replayTextView.visibility = VISIBLE
+        if (centerContainerAnimator.isRunning) {
+            centerContainerAnimator.cancel()
+        }
         isRestudy = true
     }
 
@@ -626,13 +651,19 @@ class VideoPlayer :
                 mRetryLayout.visibility = VISIBLE
             }
             STATE_AUTO_COMPLETE -> {
-                maskView.visibility = VISIBLE
-                centerContainer.visibility = VISIBLE
-                startButton.visibility = VISIBLE
-                startButton.setImageResource(R.drawable.ic_qp_replay)
-                replayTextView.visibility = VISIBLE
-                if (centerContainerAnimator.isRunning) {
-                    centerContainerAnimator.cancel()
+                if (isRestudy || isAutoSetCompleteStateAtFinished) {
+                    maskView.visibility = VISIBLE
+                    centerContainer.visibility = VISIBLE
+                    startButton.visibility = VISIBLE
+                    startButton.setImageResource(R.drawable.ic_qp_replay)
+                    replayTextView.visibility = VISIBLE
+                    if (centerContainerAnimator.isRunning) {
+                        centerContainerAnimator.cancel()
+                    }
+                } else {
+                    if (centerContainerAnimator.isRunning) {
+                        centerContainerAnimator.cancel()
+                    }
                 }
             }
             else -> {
@@ -725,19 +756,45 @@ class VideoPlayer :
             }
             STATE_AUTO_COMPLETE -> {
                 if (!isRestudy) {
+                    maxSeekPosition = 0
+                    if (!isBannedPlay) {
+                        startButton.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.avd_replay_to_play
+                            )
+                        )
+                        val imgDrawable = startButton.drawable
+                        if (imgDrawable is AnimatedVectorDrawableCompat) {
+                            imgDrawable.start()
+                        } else if (imgDrawable is AnimatedVectorDrawable) {
+                            imgDrawable.start()
+                        }
+                    }
                     startVideo()
                     onReplay?.let { it(false) }
                 } else {
                     isRestudy = false
                     state = STATE_NORMAL
-                    startButton.tag = 1
+                    maxSeekPosition = 0
                     mCurrentPosition = 0
-                    updateStartImage()
                     resetProgressAndTime()
                     initStudySeconds = 0
                     mediaInterface?.seekTo(0)
-                    bottomContainer.visibility = INVISIBLE
-                    posterImageView.visibility = VISIBLE
+                    startButtonState = StartButtonState()
+                    startButton.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.avd_replay_to_play
+                        )
+                    )
+                    replayTextView.visibility = GONE
+                    val imgDrawable = startButton.drawable
+                    if (imgDrawable is AnimatedVectorDrawableCompat) {
+                        imgDrawable.start()
+                    } else if (imgDrawable is AnimatedVectorDrawable) {
+                        imgDrawable.start()
+                    }
                     onReplay?.let { it(true) }
                 }
             }
@@ -831,6 +888,28 @@ class VideoPlayer :
             ContextCompat.getDrawable(
                 context,
                 R.drawable.avd_face_id_to_pause
+            )
+        )
+        val imgDrawable = startButton.drawable
+        if (imgDrawable is AnimatedVectorDrawableCompat) {
+            imgDrawable.start()
+        } else if (imgDrawable is AnimatedVectorDrawable) {
+            imgDrawable.start()
+        }
+    }
+
+    fun cancelFaceCheckStateAtFinished() {
+        maskView.visibility = VISIBLE
+        centerContainer.visibility = VISIBLE
+        startButton.visibility = VISIBLE
+        replayTextView.visibility = VISIBLE
+        if (centerContainerAnimator.isRunning) {
+            centerContainerAnimator.cancel()
+        }
+        startButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.avd_face_id_to_replay
             )
         )
         val imgDrawable = startButton.drawable

@@ -125,8 +125,7 @@ class CourseStudyFragment : Fragment() {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val data = it.data
                     data?.apply {
-                        var stage =
-                            getSerializableExtra("stage") as FaceCheckStrategy.Stage
+                        var stage = getSerializableExtra("stage") as FaceCheckStrategy.Stage
                         violationCheckStrategy?.cancel()
                         changeStateText(null)
                         cancelFaceCheckState()
@@ -138,6 +137,7 @@ class CourseStudyFragment : Fragment() {
                                 stage
                             }
                             FaceCheckStrategy.Stage.AFTER -> {
+                                cancelFaceCheckState()
                                 onStudyFinished()
                                 stage
                             }
@@ -239,9 +239,7 @@ class CourseStudyFragment : Fragment() {
                 changeStateText("同步本地学习数据...")
                 //本地学习数据获取
                 studyViewModel.getCourseStudyFromLocal(
-                    subjectId!!,
-                    courseId!!,
-                    rule.StudyRule.MaxAllowStudyCourseHoursEveryDay != null
+                    subjectId!!, courseId!!, rule.StudyRule.MaxAllowStudyCourseHoursEveryDay != null
                 ).observe(viewLifecycleOwner) { localData ->
                     //课程初始化
                     studyViewModel.initCourse(
@@ -252,24 +250,19 @@ class CourseStudyFragment : Fragment() {
                         localData.courseStudyData?.updateTime?.time
                     ).observe(viewLifecycleOwner) { courseInitResult ->
                         studyViewModel.clearCourseStudyFromLocal(
-                            localData.courseStudyData,
-                            localData.courseStudyDayData
+                            localData.courseStudyData, localData.courseStudyDayData
                         ).observe(viewLifecycleOwner) {
                             studyId = courseInitResult.CourseStudyId
                             studyDetailId = courseInitResult.CourseStudyDetailId
                             changeStateText("获取远程课程数据中...")
                             //远程课程学习状态、课程信息获取（并行执行以降低等待时间）
                             studyViewModel.getCourseStudy(
-                                subjectId!!,
-                                courseId!!,
-                                courseInitResult.CourseStudyId
+                                subjectId!!, courseId!!, courseInitResult.CourseStudyId
                             ).observe(viewLifecycleOwner) { courseStudy ->
                                 this.courseStudy = courseStudy
                                 //“上午”、“下午”识别判定
                                 studyViewModel.needOnceFaceCheck(
-                                    subjectId!!,
-                                    courseId!!,
-                                    rule.FaceCheckRule.FaceCheckTimeRule
+                                    subjectId!!, courseId!!, rule.FaceCheckRule.FaceCheckTimeRule
                                 ).observe(viewLifecycleOwner) { needOnceCheck ->
                                     this.needOnceCheck = needOnceCheck
                                     changeStateText("播放器初始化中...")
@@ -316,28 +309,19 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun initTabView() {
-        val fragments =
-            mutableListOf(
-                CourseInfoFragment.newInstance(
-                    this.courseStudy.courseInfo,
-                    this.courseStudy.courseStudyInfo,
-                    this.rule
-                ),
-                QuizFragment.newInstance(
-                    this.courseStudy.courseInfo,
-                    this.courseStudy.courseStudyInfo,
-                    this.rule
-                )
+        val fragments = mutableListOf(
+            CourseInfoFragment.newInstance(
+                this.courseStudy.courseInfo, this.courseStudy.courseStudyInfo, this.rule
+            ), QuizFragment.newInstance(
+                this.courseStudy.courseInfo, this.courseStudy.courseStudyInfo, this.rule
             )
+        )
         tabPager!!.adapter = StudyFragmentStateAdapter(
-            this.childFragmentManager,
-            lifecycle,
-            fragments
+            this.childFragmentManager, lifecycle, fragments
         )
         tabPager!!.isSaveEnabled = false
         TabLayoutMediator(
-            tab!!,
-            tabPager!!
+            tab!!, tabPager!!
         ) { tab, position ->
             when (position) {
                 0 -> {
@@ -351,13 +335,11 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun initPlayerPoster() {
-        Glide.with(requireContext()).load(this.videoPoster)
-            .into(player.posterImageView)
+        Glide.with(requireContext()).load(this.videoPoster).into(player.posterImageView)
     }
 
     private fun initPlayer(
-        screenModel: Int,
-        initializationCompleted: () -> Unit
+        screenModel: Int, initializationCompleted: () -> Unit
     ) {
         var alertAtNotWifi: Boolean = if (!videoPlaySetting.hasAlertAtNotWifi()) {
             true
@@ -372,6 +354,7 @@ class CourseStudyFragment : Fragment() {
         player.isBannedPlay = false
         player.isAlertAtNotWifi = alertAtNotWifi
         player.isGesture = gesture
+        player.isAutoSetCompleteStateAtFinished = !(this.rule.FaceCheckRule.NeedCheck && this.rule.FaceCheckRule.NeedCheckAtFinished)
         if (this.courseStudy.courseStudyInfo.IsFinished) {
             player.initStudySeconds = 0L
             player.timeProgressBarRule = VideoPlayer.TimeProgressBarRule.NORMAL
@@ -487,10 +470,7 @@ class CourseStudyFragment : Fragment() {
                     Jzvd.backPress()
                 }
                 findNavController()?.navigate(
-                    R.id.action_courseStudyFragment_to_videoPlayFragment,
-                    null,
-                    null,
-                    null
+                    R.id.action_courseStudyFragment_to_videoPlayFragment, null, null, null
                 )
             }
             modalBottomSheet.setOnNoticeClickListener {
@@ -499,15 +479,12 @@ class CourseStudyFragment : Fragment() {
                 }
                 findNavController().navigate(
                     NavGraphDirections.actionGlobalWebFragment(
-                        "学习须知",
-                        "${BuildConfig.REMOTE_DOMAIN}/Content/Notice.html",
-                        null
+                        "学习须知", "${BuildConfig.REMOTE_DOMAIN}/Content/Notice.html", null
                     )
                 )
             }
             modalBottomSheet.show(
-                requireActivity().supportFragmentManager,
-                PlayerDialogFragment.TAG
+                requireActivity().supportFragmentManager, PlayerDialogFragment.TAG
             )
         }
         initializationCompleted()
@@ -647,11 +624,9 @@ class CourseStudyFragment : Fragment() {
                 this.courseStudy.courseStudyInfo.QuizState = QuizStateEnum.STUDY_RESET.value
             }
             QuizStateEnum.STUDY_RESET -> {
-                studyViewModel.saveStudiedSeconds(subjectId!!, courseId!!, 0)
-                    .observe(this) {
+                studyViewModel.saveStudiedSeconds(subjectId!!, courseId!!, 0).observe(this) {
                         studyProcess = 0.0
-                        Snackbar.make(rootView!!, "请您重新学习本节课，祝您下次考试顺利", Snackbar.LENGTH_LONG)
-                            .show()
+                        Snackbar.make(rootView!!, "请您重新学习本节课，祝您下次考试顺利", Snackbar.LENGTH_LONG).show()
                         resetViewForRestudy()
                     }
             }
@@ -683,8 +658,7 @@ class CourseStudyFragment : Fragment() {
 
     private fun saveStudyTodayByLocal(studiedSeconds: Long) {
         this.rule.StudyRule.MaxAllowStudyCourseHoursEveryDay?.let {
-            var studiedSecondsToday =
-                getStudiedSecondsToday(studiedSeconds)
+            var studiedSecondsToday = getStudiedSecondsToday(studiedSeconds)
             studyViewModel.saveTodayStudiedSeconds(subjectId!!, courseId!!, studiedSecondsToday)
                 .observe(viewLifecycleOwner) {
 
@@ -693,8 +667,7 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun saveStudyByRemote(studiedSeconds: Long, callback: (Boolean) -> Unit) {
-        var studiedSecondsToday =
-            getStudiedSecondsToday(studiedSeconds)
+        var studiedSecondsToday = getStudiedSecondsToday(studiedSeconds)
         studyViewModel.saveStudy(
             courseStudy.courseInfo.SubjectId,
             courseStudy.courseInfo.ProfessionId,
@@ -703,8 +676,7 @@ class CourseStudyFragment : Fragment() {
             studiedSeconds,
             studiedSecondsToday,
             studyDetailId!!
-        )
-            .observe(viewLifecycleOwner) {
+        ).observe(viewLifecycleOwner) {
                 callback(it)
             }
     }
@@ -717,10 +689,7 @@ class CourseStudyFragment : Fragment() {
         needOnceCheck: Boolean,
     ) {
         faceCheckStrategy = FaceCheckStrategy(
-            this.rule,
-            this.courseStudy.courseInfo,
-            this.courseStudy.courseStudyInfo,
-            needOnceCheck
+            this.rule, this.courseStudy.courseInfo, this.courseStudy.courseStudyInfo, needOnceCheck
         )
         faceCheckStrategy?.setFaceCheckListener { stage, needLivenessCheck ->
             toFaceCheck(stage, needLivenessCheck)
@@ -729,18 +698,16 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun initViolationCheckStrategy() {
-        violationCheckStrategy =
-            ViolationCheckStrategy(
-                this.rule.FaceCheckRule.MaxAllowCheckSeconds,
-                this.rule.FaceCheckRule.MaxAllowViolatedNumber,
-                courseStudy.courseStudyInfo.ViolateNumber
-            )
+        violationCheckStrategy = ViolationCheckStrategy(
+            this.rule.FaceCheckRule.MaxAllowCheckSeconds,
+            this.rule.FaceCheckRule.MaxAllowViolatedNumber,
+            courseStudy.courseStudyInfo.ViolateNumber
+        )
         val faceCheckOffsetTime = FaceCheckOffsetTime()
         faceCheckOffsetTime.violationCheckStrategyHashCode = violationCheckStrategy.hashCode()
         faceCheckOffsetTime.maxAllowCheckSeconds = this.rule.FaceCheckRule.MaxAllowCheckSeconds
         faceCheckOffsetTime.maxAllowViolatedNumber = this.rule.FaceCheckRule.MaxAllowViolatedNumber
-        (activity?.application as MyApplication).faceCheckOffsetTime =
-            faceCheckOffsetTime
+        (activity?.application as MyApplication).faceCheckOffsetTime = faceCheckOffsetTime
         violationCheckStrategy?.setViolatedListener { violateNumber, isMax ->
             if (isMax) {
                 resetStudy()
@@ -850,8 +817,7 @@ class CourseStudyFragment : Fragment() {
                 val classRule = it.first
                 val timeStampInfo = it.second
                 classRule?.let {
-                    classTimeLimitStrategy =
-                        ClassTimeLimitStrategy(classRule, timeStampInfo)
+                    classTimeLimitStrategy = ClassTimeLimitStrategy(classRule, timeStampInfo)
                     classTimeLimitStrategy?.setOnClassTimeLimitListener { message ->
                         setStudyBannedState(message)
                     }
@@ -869,12 +835,8 @@ class CourseStudyFragment : Fragment() {
     private fun updateViolateCount(violateNumber: Int) {
         this.view?.post {
             studyViewModel.updateViolation(
-                studyId!!,
-                subjectId!!,
-                courseId!!,
-                violateNumber
-            )
-                .observe(viewLifecycleOwner) {
+                studyId!!, subjectId!!, courseId!!, violateNumber
+            ).observe(viewLifecycleOwner) {
                     if (player.isBannedPlay) {
                         changeStateText("已违规${violateNumber}次，请及时完成人脸识别")
                     }
@@ -888,22 +850,17 @@ class CourseStudyFragment : Fragment() {
             studyViewModel.saveStudiedSeconds(subjectId!!, courseId!!, 0)
                 .observe(viewLifecycleOwner) {
                     studyViewModel.resetStudy(
-                        studyId!!,
-                        subjectId!!,
-                        courseId!!
-                    )
-                        .observe(viewLifecycleOwner) {
+                        studyId!!, subjectId!!, courseId!!
+                    ).observe(viewLifecycleOwner) {
                             currentPlayedSeconds = 0
                             courseStudyFragmentViewModel.studiedSeconds.value = currentPlayedSeconds
                             var notification =
                                 NotificationCompat.Builder(requireContext(), "resetStudy")
                                     .setSmallIcon(R.drawable.ic_notification)
-                                    .setContentTitle("行知学徒网：学习重置通知")
-                                    .setStyle(
+                                    .setContentTitle("行知学徒网：学习重置通知").setStyle(
                                         NotificationCompat.BigTextStyle()
                                             .bigText("很遗憾，由于您未能在规定时间内完成人脸验证，且违规次数已达上限，您在《${this.courseStudy.courseInfo.CourseName}》的学习已经被重置，请重新学习！")
-                                    )
-                                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                                    ).setPriority(NotificationCompat.PRIORITY_MAX)
                             with(NotificationManagerCompat.from(requireContext())) {
                                 notify(1, notification.build())
                             }
@@ -928,32 +885,18 @@ class CourseStudyFragment : Fragment() {
                     violationCheckStrategy?.currentCountDownMilliseconds
                 faceCheckActivityLauncher.launch(
                     Intent(
-                        context,
-                        FaceAuthActivity::class.java
-                    )
-                        .putExtra("studyId", studyId)
-                        .putExtra("courseStudy", courseStudy)
-                        .putExtra("stage", stage)
-                        .putExtra("facePageBright", facePageBright)
-                        .putExtra("needLivenessCheck", needLivenessCheck)
-                        .putExtra(
-                            "violationCheckStrategyHashCode",
-                            violationCheckStrategy.hashCode()
-                        )
-                        .putExtra(
-                            "maxAllowCheckSeconds",
-                            violationCheckStrategy?.maxAllowCheckSeconds
-                        )
-                        .putExtra(
-                            "maxAllowCheckSeconds",
-                            violationCheckStrategy?.maxAllowCheckSeconds
-                        )
-                        .putExtra(
-                            "maxAllowViolatedNumber",
-                            violationCheckStrategy?.maxAllowViolatedNumber
-                        )
-                        .putExtra("violateNumber", violationCheckStrategy?.violateNumber)
-                        .putExtra(
+                        context, FaceAuthActivity::class.java
+                    ).putExtra("studyId", studyId).putExtra("courseStudy", courseStudy)
+                        .putExtra("stage", stage).putExtra("facePageBright", facePageBright)
+                        .putExtra("needLivenessCheck", needLivenessCheck).putExtra(
+                            "violationCheckStrategyHashCode", violationCheckStrategy.hashCode()
+                        ).putExtra(
+                            "maxAllowCheckSeconds", violationCheckStrategy?.maxAllowCheckSeconds
+                        ).putExtra(
+                            "maxAllowCheckSeconds", violationCheckStrategy?.maxAllowCheckSeconds
+                        ).putExtra(
+                            "maxAllowViolatedNumber", violationCheckStrategy?.maxAllowViolatedNumber
+                        ).putExtra("violateNumber", violationCheckStrategy?.violateNumber).putExtra(
                             "violateCountDownMilliseconds",
                             violationCheckStrategy?.currentCountDownMilliseconds
                         )
@@ -995,8 +938,10 @@ class CourseStudyFragment : Fragment() {
             player.startButtonState.isPreFaceCheck = false
             changeStateText(null)
             if (!this.courseStudy.courseStudyInfo.IsFinished) {
-                player.play()
                 player.cancelFaceCheckState()
+                player.play()
+            } else {
+                player.cancelFaceCheckStateAtFinished()
             }
         }
     }
@@ -1059,8 +1004,7 @@ class CourseStudyFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            CourseStudyFragment()
+        fun newInstance() = CourseStudyFragment()
 
         const val STUDY_STATE: String = "STUDY_STATE"
     }

@@ -53,6 +53,15 @@
                     android:textAppearance="?attr/textAppearanceTitleMedium"
                     android:textColor="@color/red" />
             </LinearLayout>
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/answer_progress"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_weight="1"
+                android:indeterminate="false"
+                android:progress="0"
+                android:layout_marginVertical="15dp"
+                app:trackCornerRadius="4sp" />
             <LinearLayout
                 android:id="@+id/question_container"
                 android:layout_width="match_parent"
@@ -78,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="【单选题】"
-                        android:textAppearance="?attr/textAppearanceBodyLarge" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:textColor="?attr/colorPrimary"/>
 
                     <TextView
                         android:id="@+id/question_content"

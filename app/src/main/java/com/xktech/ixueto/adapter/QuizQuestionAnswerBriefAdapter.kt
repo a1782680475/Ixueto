@@ -2,9 +2,11 @@ package com.xktech.ixueto.adapter
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -20,7 +22,9 @@ class QuizQuestionAnswerBriefAdapter(
     private var itemClick: (QuizQuestionAnswerBrief, ViewHolder) -> Unit,
 ) : PagingDataAdapter<QuizQuestionAnswerBrief, QuizQuestionAnswerBriefAdapter.ViewHolder>(
     QuizQuestionAnswerComparator) {
-    var isNightMode = false
+    private var isNightMode = false
+    private var rightIcon: Drawable? = null
+    private var errorIcon: Drawable? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -32,6 +36,13 @@ class QuizQuestionAnswerBriefAdapter(
         if (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
             isNightMode = true
         }
+        if(isNightMode){
+            rightIcon = ContextCompat.getDrawable(context,R.drawable.ic_quiz_right_dark)
+            errorIcon = ContextCompat.getDrawable(context,R.drawable.ic_quiz_error_dark)
+        }else{
+            rightIcon = ContextCompat.getDrawable(context,R.drawable.ic_quiz_right)
+            errorIcon = ContextCompat.getDrawable(context,R.drawable.ic_quiz_error)
+        }
         return ViewHolder(binding, itemClick)
     }
 
@@ -42,27 +53,15 @@ class QuizQuestionAnswerBriefAdapter(
         ViewCompat.setTransitionName(holder.root, "quiz_question_item_$position")
     }
 
-    private fun initView(holder: ViewHolder, question: QuizQuestionAnswerBrief){
-        holder.question.text = "【${question.Type}】${question.Question}"
+    private fun initView(holder: ViewHolder, question: QuizQuestionAnswerBrief)
+    {
+        holder.typeView.text = "[${question.Type}]"
+        holder.questionView.text = "${question.Question}"
         question.IsRight.let {
             if(question.IsRight == true){
-                holder.result.text = "正确"
-                if(isNightMode){
-                    holder.result.setTextColor(ContextCompat.getColor(context!!,
-                        R.color.success_dark))
-                }else{
-                    holder.result.setTextColor(ContextCompat.getColor(context!!,
-                        R.color.success))
-                }
+                holder.resultView.setImageDrawable(rightIcon)
             }else{
-                holder.result.text = "错误"
-                if(isNightMode){
-                    holder.result.setTextColor(ContextCompat.getColor(context!!,
-                        R.color.error_dark))
-                }else{
-                    holder.result.setTextColor(ContextCompat.getColor(context!!,
-                        R.color.error))
-                }
+                holder.resultView.setImageDrawable(errorIcon)
             }
         }
     }
@@ -89,8 +88,9 @@ class QuizQuestionAnswerBriefAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         var root: View = binding.root
-        var question: TextView = binding.question
-        val result: TextView = binding.result
+        var typeView: TextView = binding.type
+        var questionView: TextView = binding.question
+        val resultView: ImageView = binding.result
         private var _quizQuestionAnswerBrief: QuizQuestionAnswerBrief? = null
         fun bind(quizQuestionAnswerBrief: QuizQuestionAnswerBrief) {
             _quizQuestionAnswerBrief = quizQuestionAnswerBrief

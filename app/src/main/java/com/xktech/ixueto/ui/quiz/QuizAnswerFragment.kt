@@ -2,7 +2,9 @@ package com.xktech.ixueto.ui.quiz
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -29,6 +31,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupPosition
@@ -69,6 +72,7 @@ class QuizAnswerFragment : Fragment() {
     private lateinit var questionPrevView: MenuItem
     private lateinit var questionNextView: MenuItem
     private lateinit var questionContainer: LinearLayout
+    private lateinit var answerProgressView: LinearProgressIndicator
     private lateinit var options: ChipGroup
     private lateinit var submit: FloatingActionButton
     private lateinit var savedStateHandle: SavedStateHandle
@@ -78,6 +82,8 @@ class QuizAnswerFragment : Fragment() {
     private var quizNowTimeStamp: Long = 0
     private var quizEndTimeStamp: Long? = null
     private val quizViewModel: QuizViewModel by viewModels()
+    private var checkedIcon: Drawable? = null
+    private lateinit var chipProperties: ChipProperty
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -107,6 +113,7 @@ class QuizAnswerFragment : Fragment() {
         currentOrderView = binding!!.questionOrder
         bottomAppBar = binding!!.bottomAppBar
         questionContainer = binding!!.questionContainer
+        answerProgressView = binding!!.answerProgress
         options = binding!!.options
         submit = binding!!.submit
         timerView = binding!!.timer
@@ -126,6 +133,50 @@ class QuizAnswerFragment : Fragment() {
                 preSavedStateHandle["quiz"] = it
                 findNavController().popBackStack()
             }
+        }
+        checkedIcon = ContextCompat.getDrawable(
+            requireContext(), com.google.android.material.R.drawable.ic_m3_chip_check
+        )
+        chipProperties = ChipProperty()
+        chipProperties.chipIcon =
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_fill)
+        chipProperties.chipTextColor = ContextCompat.getColor(
+            requireContext(),
+            R.color.md_theme_light_onSurface
+        )
+        chipProperties.chipTextColorAtChecked = ContextCompat.getColor(
+            requireContext(),
+            R.color.md_theme_light_primary
+        )
+        chipProperties.chipIconAtChecked =
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_fill_checked)
+        chipProperties.checkedIconColorStateList =
+            resources.getColorStateList(R.color.md_theme_light_onPrimary, requireActivity().theme)
+        chipProperties.chipStrokeColorStateList =
+            resources.getColorStateList(R.color.md_theme_light_outline, requireActivity().theme)
+        chipProperties.chipStrokeColorStateListAtChecked =
+            resources.getColorStateList(R.color.md_theme_light_primary, requireActivity().theme)
+        if (requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+            chipProperties.chipIcon =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_fill_dark)
+            chipProperties.chipIconAtChecked =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_fill_checked_dark)
+            chipProperties.checkedIconColorStateList = resources.getColorStateList(
+                R.color.md_theme_dark_onPrimary,
+                requireActivity().theme
+            )
+            chipProperties.chipTextColor = ContextCompat.getColor(
+                requireContext(),
+                R.color.md_theme_dark_onSurface
+            )
+            chipProperties.chipTextColorAtChecked = ContextCompat.getColor(
+                requireContext(),
+                R.color.md_theme_dark_primary
+            )
+            chipProperties.chipStrokeColorStateList =
+                resources.getColorStateList(R.color.md_theme_dark_outline, requireActivity().theme)
+            chipProperties.chipStrokeColorStateListAtChecked =
+                resources.getColorStateList(R.color.md_theme_dark_primary, requireActivity().theme)
         }
     }
 
@@ -212,6 +263,7 @@ class QuizAnswerFragment : Fragment() {
                 questionIds = it.QuestionIds
                 quizNowTimeStamp = it.NowTimeStamp
                 quizEndTimeStamp = it.EndTimeStamp
+                answerProgressView.max = questionIds.size
                 if (currentIndex == -1) {
                     currentIndex = 0
                 }
@@ -317,7 +369,7 @@ class QuizAnswerFragment : Fragment() {
             }
         } else {
             getQuestionAnswer {
-                questionAnswerRendering(it){
+                questionAnswerRendering(it) {
                     questionContainer.hideSkeleton()
                 }
             }
@@ -346,12 +398,16 @@ class QuizAnswerFragment : Fragment() {
         }
     }
 
-    private fun questionAnswerRendering(quizQuestion: QuizQuestion, callback: (() -> Unit)? = null) {
+    private fun questionAnswerRendering(
+        quizQuestion: QuizQuestion,
+        callback: (() -> Unit)? = null
+    ) {
         currentQuizQuestion = quizQuestion
         questionTypeView.text = "【${quizQuestion.Type}】"
         questionContentView.text = HtmlSpanner().fromHtml(quizQuestion.Question)
         questionOptionView.text = HtmlSpanner().fromHtml(quizQuestion.Options)
         currentOrderView.text = "第${(currentIndex + 1)}/${questionIds?.size}题"
+        answerProgressView.progress = currentIndex + 1
         questionPrevView.isEnabled = currentIndex != 0
         questionNextView.isEnabled =
             currentIndex != questionIds?.size?.minus(1) ?: 0
@@ -383,29 +439,39 @@ class QuizAnswerFragment : Fragment() {
                 children.add(Pair(0, "错误"))
             }
         }
-        var checkedIconId = com.google.android.material.R.drawable.ic_m3_chip_check
-        var chipIconId = R.drawable.ic_circle_fill
-        if (requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
-            chipIconId = R.drawable.ic_circle_fill_dark
-        }
         for (pair in children) {
             val chip = Chip(requireContext())
             chip.id = pair.first
             chip.isCheckable = true
             chip.isChipIconVisible = true
             chip.chipIcon =
-                ContextCompat.getDrawable(requireContext(), chipIconId)
+                chipProperties.chipIcon
             chip.isCheckedIconVisible = true
-            chip.checkedIcon = ContextCompat.getDrawable(
-                requireContext(),
-                checkedIconId
-            )
+            chip.checkedIcon = checkedIcon
+            chip.checkedIconTint = chipProperties.checkedIconColorStateList
             chip.layoutParams =
                 ChipGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     DimenUtils.dp2px(requireContext(), 65f).toInt()
                 )
             chip.text = pair.second
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    chip.setTextColor(
+                        chipProperties.chipTextColorAtChecked
+                    )
+                    chip.chipIcon = chipProperties.chipIconAtChecked
+                    chip.chipStrokeColor =
+                        chipProperties.chipStrokeColorStateListAtChecked
+                } else {
+                    chip.setTextColor(
+                        chipProperties.chipTextColor
+                    )
+                    chip.chipIcon = chipProperties.chipIcon
+                    chip.chipStrokeColor =
+                        chipProperties.chipStrokeColorStateList
+                }
+            }
             if (!answer.isNullOrEmpty()) {
                 when (quizQuestion.Type) {
                     "多选题" -> {
@@ -470,7 +536,7 @@ class QuizAnswerFragment : Fragment() {
             interpolator = AccelerateInterpolator()
         }
         fadeOutAnimator.start()
-        fadeOutAnimator.addListener(object: Animator.AnimatorListener {
+        fadeOutAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {
 
             }
@@ -484,7 +550,7 @@ class QuizAnswerFragment : Fragment() {
             }
 
             override fun onAnimationRepeat(animation: Animator) {
-               
+
             }
 
         })
@@ -516,5 +582,15 @@ class QuizAnswerFragment : Fragment() {
         override fun run() {
             quizTimerChange()
         }
+    }
+
+    inner class ChipProperty {
+        var chipIcon: Drawable? = null
+        var chipIconAtChecked: Drawable? = null
+        var chipTextColor: Int = 0
+        var chipTextColorAtChecked: Int = 0
+        var checkedIconColorStateList: ColorStateList? = null
+        var chipStrokeColorStateList: ColorStateList? = null
+        var chipStrokeColorStateListAtChecked: ColorStateList? = null
     }
 }
