@@ -38,6 +38,7 @@ class VideoPlayer :
         }
     var isAlertAtNotWifi: Boolean = true
     var isGesture: Boolean = true
+    var gestureProcessRule: Int = 0
     var isAutoSetCompleteStateAtFinished: Boolean = false
     private var maxSeekPosition = 0L
     private var initStudyPosition: Long = 0L
@@ -290,8 +291,17 @@ class VideoPlayer :
                     Log.d(TAG, "error PROGRESS_DRAG_RATE value")
                     PROGRESS_DRAG_RATE = 1f
                 }
-                var toSeekPosition =
-                    (mGestureDownPosition + deltaX * totalTimeDuration / (mScreenWidth * PROGRESS_DRAG_RATE)).toLong()
+                var toSeekPosition = when (gestureProcessRule) {
+                    0 -> {
+                        (mGestureDownPosition + deltaX * totalTimeDuration / (mScreenHeight * PROGRESS_DRAG_RATE)).toLong()
+                    }
+                    1 -> {
+                        (mGestureDownPosition + ((deltaX / mScreenHeight) * 50000).toLong())
+                    }
+                    else -> {
+                        (mGestureDownPosition + deltaX * totalTimeDuration / (mScreenHeight * PROGRESS_DRAG_RATE)).toLong()
+                    }
+                }
                 if (toSeekPosition > totalTimeDuration) toSeekPosition = totalTimeDuration
                 when (timeProgressBarRule) {
                     TimeProgressBarRule.NORMAL -> {
@@ -656,7 +666,9 @@ class VideoPlayer :
                     centerContainer.visibility = VISIBLE
                     startButton.visibility = VISIBLE
                     startButton.setImageResource(R.drawable.ic_qp_replay)
-                    replayTextView.visibility = VISIBLE
+                    if (!isRestudy || screen == SCREEN_FULLSCREEN) {
+                        replayTextView.visibility = VISIBLE
+                    }
                     if (centerContainerAnimator.isRunning) {
                         centerContainerAnimator.cancel()
                     }

@@ -63,6 +63,28 @@
                         android:layout_gravity="center_vertical"
                         android:checked="true" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gesture_process_rule"
+                    style="@style/userCenter_operation_item">
+
+                    <TextView
+                        style="@style/setting_operation_item_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="全屏手势进度控制"></TextView>
+
+                    <TextView
+                        android:id="@+id/gesture_process_rule_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        style="@style/setting_operation_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></ImageView>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

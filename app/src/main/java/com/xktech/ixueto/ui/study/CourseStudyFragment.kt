@@ -90,7 +90,6 @@ class CourseStudyFragment : Fragment() {
     private var studyDetailId: Int? = null
     private val studyViewModel: StudyViewModel by viewModels()
     private val settingViewModel: SettingViewModel by viewModels()
-    private val noticeViewModel: NoticeViewModel by viewModels()
     private val courseStudyFragmentViewModel: CourseStudyFragmentViewModel by activityViewModels()
     private lateinit var courseStudy: CourseStudy
     private lateinit var rule: Rule
@@ -351,9 +350,15 @@ class CourseStudyFragment : Fragment() {
         } else {
             videoPlaySetting.gesture
         }
+        var gestureProcessRule: Int = if (!videoPlaySetting.hasGestureProcessRule()) {
+            0
+        } else {
+            videoPlaySetting.gestureProcessRule
+        }
         player.isBannedPlay = false
         player.isAlertAtNotWifi = alertAtNotWifi
         player.isGesture = gesture
+        player.gestureProcessRule = gestureProcessRule
         player.isAutoSetCompleteStateAtFinished = !(this.rule.FaceCheckRule.NeedCheck && this.rule.FaceCheckRule.NeedCheckAtFinished)
         if (this.courseStudy.courseStudyInfo.IsFinished) {
             player.initStudySeconds = 0L
@@ -508,8 +513,14 @@ class CourseStudyFragment : Fragment() {
             } else {
                 videoPlaySetting.gesture
             }
+            var gestureProcessRule: Int = if (!videoPlaySetting.hasGestureProcessRule()) {
+                0
+            } else {
+                videoPlaySetting.gestureProcessRule
+            }
             player.isAlertAtNotWifi = alertAtNotWifi
             player.isGesture = gesture
+            player.gestureProcessRule = gestureProcessRule
         }
     }
 

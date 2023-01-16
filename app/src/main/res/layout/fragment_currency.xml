@@ -39,7 +39,30 @@
                     android:id="@+id/startup_page_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="课程"
+                    android:text=""
+                    android:textSize="14dp" />
+
+                <ImageView
+                    style="@style/setting_operation_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></ImageView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/default_course_filter_type"
+                style="@style/userCenter_operation_item">
+
+                <TextView
+                    style="@style/setting_operation_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="默认筛选课程类型"></TextView>
+
+                <TextView
+                    android:id="@+id/default_course_filter_type_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
                     android:textSize="14dp" />
 
                 <ImageView

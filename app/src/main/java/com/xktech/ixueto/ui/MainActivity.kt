@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private lateinit var versionDialog: AlertDialog
     private lateinit var installFile: File
     private lateinit var launcher: ActivityResultLauncher<Intent>
+    private var scaledDensity = 0f
 
     @Inject
     lateinit var okHttpClient: OkHttpClient
@@ -422,7 +424,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-//    private var fontScale = 1f
+    //    private var fontScale = 1f
 //
 //    override fun getResources(): Resources? {
 //        val resources: Resources = super.getResources()
@@ -438,6 +440,12 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 //        this.fontScale = fontScale
 //        DisplayUtil.recreate(this)
 //    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        if (resources.displayMetrics.scaledDensity != scaledDensity) {
+            resources.displayMetrics.scaledDensity = scaledDensity
+        }
+        super.onConfigurationChanged(newConfig)
+    }
 
     private fun setDensity() {
         val systemMetrics = getSystemMetrics()
@@ -450,10 +458,11 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             scaledDensity = systemMetrics.density * scale
             densityDpi = (systemMetrics.densityDpi * scale).toInt()
         }
+        this@MainActivity.scaledDensity = systemMetrics.density * scale
     }
 
     private fun getSystemMetrics(): DisplayMetrics {
-        return applicationContext.resources.displayMetrics;
+        return applicationContext.resources.displayMetrics
     }
 
     override fun onDestroy() {

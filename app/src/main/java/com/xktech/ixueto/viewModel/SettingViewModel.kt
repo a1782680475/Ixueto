@@ -35,6 +35,14 @@ class SettingViewModel @Inject constructor(
         }
     }
 
+    fun setGestureProcessRule(type: Int) {
+        viewModelScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                settingPreferencesRepository.setGestureProcessRule(type)
+            }
+        }
+    }
+
     fun setStartupPage(index: Int) {
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
@@ -53,5 +61,13 @@ class SettingViewModel @Inject constructor(
 
     fun getSettingSync(): Setting {
         return settingPreferencesRepository.getSettingSync()
+    }
+
+    fun setDefaultCourseFilterType(defaultCourseFilterType: Int) {
+        viewModelScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                settingPreferencesRepository.setDefaultCourseFilterType(defaultCourseFilterType)
+            }
+        }
     }
 }

@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -25,6 +22,7 @@ import com.xktech.ixueto.databinding.FragmentStudyCourseBinding
 import com.xktech.ixueto.datastore.Rule
 import com.xktech.ixueto.model.CourseStudyBack
 import com.xktech.ixueto.model.CourseStudyState
+import com.xktech.ixueto.viewModel.SettingViewModel
 import com.xktech.ixueto.viewModel.StudyCourseViewModel
 import com.xktech.ixueto.viewModel.StudyViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +36,7 @@ class StudyCourseFragment : Fragment() {
     private var courseAdapter: StudyCourseAdapter? = null
     private lateinit var courseNumberText: TextView
     private var courseNumber: Int = 0
-    private lateinit var filter: DropDownView
+    private lateinit var filterView: DropDownView
     private var isFirstLoad = true
     private var rootView: View? = null
     private var rule: Rule? = null
@@ -49,6 +47,7 @@ class StudyCourseFragment : Fragment() {
     private val studyViewModel: StudyViewModel by viewModels()
     private val studyCourseViewModel: StudyCourseViewModel by viewModels()
     private lateinit var navController: NavController
+    private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,8 +73,15 @@ class StudyCourseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (isFirstLoad) {
             isFirstLoad = false
-            initSpinner()
-            initData(0)
+            settingViewModel.getSetting().observe(viewLifecycleOwner) {
+                val defaultCourseType = if (it.hasDefaultCourseFilterType()) {
+                    it.defaultCourseFilterType
+                } else {
+                    0
+                }
+                initSpinner(defaultCourseType)
+                initData(defaultCourseType)
+            }
         }
     }
 
@@ -101,13 +107,14 @@ class StudyCourseFragment : Fragment() {
         navController = findNavController()
         recyclerView = binding!!.courseRecycler
         courseNumberText = binding!!.courseNumber
-        filter = binding!!.filter
+        filterView = binding!!.filter
     }
 
-    private fun initSpinner() {
-        filter.setOnSelectedClickListener {
+    private fun initSpinner(defaultCourseType: Int) {
+        filterView.setOnSelectedClickListener {
             initData(it)
         }
+        filterView.setValue(defaultCourseType)
     }
 
 
@@ -196,6 +203,7 @@ class StudyCourseFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        filterView.dismissDropDown()
         super.onDestroyView()
         binding = null
     }

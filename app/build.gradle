@@ -13,8 +13,8 @@ android {
         applicationId "com.xktech.ixueto"
         minSdk 23
         targetSdk 33
-        versionCode 26
-        versionName "1.0.0-beta08"
+        versionCode 27
+        versionName "1.0.0-beta09"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "REMOTE_DOMAIN", data_remote_domain)
         buildConfigField("String", "RSA_PUBLIC_KEY", data_rsa_public_key)

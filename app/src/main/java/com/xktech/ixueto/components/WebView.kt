@@ -4,6 +4,7 @@ package com.xktech.ixueto.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -20,13 +21,14 @@ class WebView constructor(context: Context, attributeSet: AttributeSet) :
 
     private var progress: ProgressBar
     private var webView: WebView
-    private var isLastLoadSuccess = false//是否成功加载完成过web，成功过后的网络异常 不改变web
+    private var isLastLoadSuccess = false
     private var isError = false
     var cookieManager: CookieManager
 
     init {
         val rootView =
             LayoutInflater.from(context).inflate(R.layout.layout_web_progress_view, this, true)
+        setDensity()
         progress = rootView.findViewById(R.id.progress)
         webView = rootView.findViewById(R.id.my_web_view)
         webView.webChromeClient = MyWebChromeClient()
@@ -35,7 +37,6 @@ class WebView constructor(context: Context, attributeSet: AttributeSet) :
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
         webView.settings.cacheMode = WebSettings.LOAD_DEFAULT
-        webView.settings.useWideViewPort = true
         webView.settings.domStorageEnabled = true
         webView.settings.defaultTextEncodingName = "UTF-8"
         webView.settings.allowContentAccess = true
@@ -160,6 +161,23 @@ class WebView constructor(context: Context, attributeSet: AttributeSet) :
 
     fun setOnLoadStatueListener(listener: OnWebLoadStatusListener) {
         this.listener = listener
+    }
+
+    private fun setDensity() {
+        val systemMetrics = getSystemMetrics()
+        var scale = 1.0f // 根据需求定义系数
+        if (systemMetrics.density - 2.625 > 0.05) {
+            scale = (2.625 / systemMetrics.density).toFloat()
+        }
+        with(resources!!.displayMetrics) {
+            density = systemMetrics.density * scale
+            scaledDensity = systemMetrics.density * scale
+            densityDpi = (systemMetrics.densityDpi * scale).toInt()
+        }
+    }
+
+    private fun getSystemMetrics(): DisplayMetrics {
+        return resources.displayMetrics;
     }
 
     interface OnWebLoadStatusListener {

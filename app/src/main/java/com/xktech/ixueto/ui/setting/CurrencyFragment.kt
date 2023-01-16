@@ -30,7 +30,10 @@ class CurrencyFragment : Fragment() {
     private lateinit var startupPageView: ViewGroup
     private lateinit var startupPageNameView: TextView
     private lateinit var facePageBrightSwitch: MaterialSwitch
+    private lateinit var defaultCourseFilterTypeView: ViewGroup
+    private lateinit var defaultCourseFilterTypeNameView: TextView
     private var startupPageIndex = 0
+    private var defaultCourseFilterType = 0
     private val settingViewModel: SettingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +73,22 @@ class CurrencyFragment : Fragment() {
                 }
                 .show()
         }
+        defaultCourseFilterTypeView.setOnClickListener {
+            val singleItems = arrayOf("所有课程", "未完成", "已完成")
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("选择默认筛选课程类型")
+                .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ ->
+                    settingViewModel.setDefaultCourseFilterType(defaultCourseFilterType)
+                    updateDefaultCourseFilterTypeNameView()
+                    dialog.dismiss()
+                }.setSingleChoiceItems(singleItems, defaultCourseFilterType) { _, which ->
+                    defaultCourseFilterType = which
+                }
+                .show()
+        }
         facePageBrightSwitch.setOnCheckedChangeListener { _view, isChecked ->
             if (_view.isPressed) {
                 settingViewModel.setFacePageBright(isChecked)
@@ -84,6 +103,8 @@ class CurrencyFragment : Fragment() {
         startupPageView = binding!!.startupPage
         startupPageNameView = binding!!.startupPageName
         facePageBrightSwitch = binding!!.facePageBrightSwitch
+        defaultCourseFilterTypeView = binding!!.defaultCourseFilterType
+        defaultCourseFilterTypeNameView = binding!!.defaultCourseFilterTypeName
     }
 
     private fun initSettingOperation() {
@@ -94,6 +115,12 @@ class CurrencyFragment : Fragment() {
                 it.startupPage
             }
             updateStartupPageNameView()
+            defaultCourseFilterType = if (!it.hasDefaultCourseFilterType()) {
+                0
+            } else {
+                it.defaultCourseFilterType
+            }
+            updateDefaultCourseFilterTypeNameView()
             var facePageBright: Boolean = if(!it.hasFacePageBright()){
                 true
             }else{
@@ -110,6 +137,20 @@ class CurrencyFragment : Fragment() {
             }
             1 -> {
                 startupPageNameView.text = "学习"
+            }
+        }
+    }
+
+    private fun updateDefaultCourseFilterTypeNameView(){
+        when (defaultCourseFilterType) {
+            0 -> {
+                defaultCourseFilterTypeNameView.text = "所有课程"
+            }
+            1 -> {
+                defaultCourseFilterTypeNameView.text = "未完成"
+            }
+            2 -> {
+                defaultCourseFilterTypeNameView.text = "已完成"
             }
         }
     }

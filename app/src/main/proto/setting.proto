@@ -7,9 +7,11 @@ message Setting {
    VideoPlay videoPlay = 1;
    optional int32 startupPage = 2;
    optional bool facePageBright = 3;
+   optional int32 defaultCourseFilterType = 4;
 }
 
 message VideoPlay {
   optional bool alertAtNotWifi = 1;
   optional bool gesture = 2;
+  optional int32 gestureProcessRule = 3;
 }

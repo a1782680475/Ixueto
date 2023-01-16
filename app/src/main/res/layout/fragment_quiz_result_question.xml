@@ -21,158 +21,165 @@
             app:titleCentered="true" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/question_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/question_order"
-                style="@style/question_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:text="第1/3题" />
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <LinearLayout
+                android:id="@+id/question_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="200dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/question_type"
-                    android:layout_width="match_parent"
+                    android:id="@+id/question_order"
+                    style="@style/question_number"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="【单选题】"
-                    android:textAppearance="?attr/textAppearanceBodyLarge"
-                    android:textColor="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/question_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="制定《中华人民共和国道路交通安全法》目的是为了( )。"
-                    android:textAppearance="?attr/textAppearanceBodyLarge"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/question_options"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="A.使车辆按规定的速度行驶B.圆满完成运输任务C.保障道路交通的有序、安全和畅通"
-                    android:textAppearance="?attr/textAppearanceBodyLarge" />
-
-                <View
-                    android:id="@+id/wavy_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="7dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="15dp"
+                    android:text="第1/3题" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="200dp"
                     android:orientation="vertical">
 
-                    <com.xktech.ixueto.components.QuestionResult
-                        android:id="@+id/result"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/question_type"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"/>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="3dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="我的答案："
-                            android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOutline"  />
-
-                        <TextView
-                            android:id="@+id/answer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="C"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
                         android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
+                        android:text="【单选题】"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:textColor="?attr/colorPrimary" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="参考答案："
-                            android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOutline" />
-
-                        <TextView
-                            android:id="@+id/answer_reference"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="C"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
-                    </LinearLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <TextView
+                        android:id="@+id/question_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
-                        <com.xktech.ixueto.components.timeRange.LineView
-                            android:id="@+id/line"
+                        android:text="制定《中华人民共和国道路交通安全法》目的是为了( )。"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/question_options"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="A.使车辆按规定的速度行驶B.圆满完成运输任务C.保障道路交通的有序、安全和畅通"
+                        android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+                    <View
+                        android:id="@+id/wavy_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="7dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.xktech.ixueto.components.QuestionResult
+                            android:id="@+id/result"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:lineWidth="5dp"
-                            app:width="5dp"
-                            app:height="20dp"
-                            app:lineColor="?attr/colorPrimary"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent" />
-                        <com.xktech.ixueto.components.ExcludeFontPaddingTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="试题解析："
-                            android:layout_marginStart="10dp"
-                            android:textAppearance="?attr/textAppearanceBodyLarge"
-                            android:textColor="?attr/colorOnSurfaceVariant"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintLeft_toRightOf="@+id/line"
-                            app:layout_constraintBottom_toBottomOf="@+id/line"/>
+                            android:layout_marginBottom="3dp" />
 
-                        <TextView
-                            android:id="@+id/explains"
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="3dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="我的答案："
+                                android:textAppearance="?attr/textAppearanceBodyLarge"
+                                android:textColor="?attr/colorOutline" />
+
+                            <TextView
+                                android:id="@+id/answer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="C"
+                                android:textAppearance="?attr/textAppearanceBodyLarge" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="参考答案："
+                                android:textAppearance="?attr/textAppearanceBodyLarge"
+                                android:textColor="?attr/colorOutline" />
+
+                            <TextView
+                                android:id="@+id/answer_reference"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="C"
+                                android:textAppearance="?attr/textAppearanceBodyLarge" />
+                        </LinearLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="独立回路方程数等于电路支路数m与独立节点数（n－1）的差"
-                            android:textAppearance="?attr/textAppearanceBodyLarge"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/line"
-                            android:layout_marginTop="10dp"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:layout_marginBottom="5dp">
+
+                            <com.xktech.ixueto.components.timeRange.LineView
+                                android:id="@+id/line"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:height="20dp"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:lineColor="?attr/colorPrimary"
+                                app:lineWidth="5dp"
+                                app:width="5dp" />
+
+                            <com.xktech.ixueto.components.ExcludeFontPaddingTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="试题解析："
+                                android:textAppearance="?attr/textAppearanceBodyLarge"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                app:layout_constraintBottom_toBottomOf="@+id/line"
+                                app:layout_constraintLeft_toRightOf="@+id/line"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/explains"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="独立回路方程数等于电路支路数m与独立节点数（n－1）的差"
+                                android:textAppearance="?attr/textAppearanceBodyLarge"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/line" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"

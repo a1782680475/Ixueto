@@ -28,10 +28,15 @@ class SettingPreferencesRepository @Inject constructor(
             } else {
                 data.videoPlay.gesture
             }
+            var gestureProcessRule: Int = if (!data.videoPlay.hasGestureProcessRule()) {
+                0
+            } else {
+                data.videoPlay.gestureProcessRule
+            }
             data.toBuilder()
                 .setVideoPlay(
                     data.videoPlay.toBuilder().setAlertAtNotWifi(enable)
-                        .setGesture(gesture).build()
+                        .setGesture(gesture).setGestureProcessRule(gestureProcessRule).build()
                 )
                 .build()
         }
@@ -44,10 +49,38 @@ class SettingPreferencesRepository @Inject constructor(
             } else {
                 data.videoPlay.alertAtNotWifi
             }
+            var gestureProcessRule: Int = if (!data.videoPlay.hasGestureProcessRule()) {
+                0
+            } else {
+                data.videoPlay.gestureProcessRule
+            }
             data.toBuilder()
                 .setVideoPlay(
                     data.videoPlay.toBuilder().setGesture(enable)
-                        .setAlertAtNotWifi(alertAtNotWifi).build()
+                        .setAlertAtNotWifi(alertAtNotWifi).setGestureProcessRule(gestureProcessRule)
+                        .build()
+                )
+                .build()
+        }
+    }
+
+    suspend fun setGestureProcessRule(type: Int) {
+        context.settingPreferencesStore.updateData { data ->
+            var alertAtNotWifi: Boolean = if (!data.videoPlay.hasAlertAtNotWifi()) {
+                true
+            } else {
+                data.videoPlay.alertAtNotWifi
+            }
+            var gesture: Boolean = if (!data.videoPlay.hasGesture()) {
+                true
+            } else {
+                data.videoPlay.gesture
+            }
+            data.toBuilder()
+                .setVideoPlay(
+                    data.videoPlay.toBuilder().setGesture(gesture)
+                        .setAlertAtNotWifi(alertAtNotWifi).setGestureProcessRule(type)
+                        .build()
                 )
                 .build()
         }
@@ -59,6 +92,7 @@ class SettingPreferencesRepository @Inject constructor(
         }
     }
 
+
     fun getSettingSync(): Setting {
         return runBlocking {
             context.settingPreferencesStore.data.first()
@@ -69,6 +103,12 @@ class SettingPreferencesRepository @Inject constructor(
     suspend fun setFacePageBright(enable: Boolean) {
         context.settingPreferencesStore.updateData { data ->
             data.toBuilder().setFacePageBright(enable).build()
+        }
+    }
+
+    suspend fun setDefaultCourseFilterType(index: Int) {
+        context.settingPreferencesStore.updateData { data ->
+            data.toBuilder().setDefaultCourseFilterType(index).build()
         }
     }
 
