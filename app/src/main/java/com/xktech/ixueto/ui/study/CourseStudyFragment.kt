@@ -359,15 +359,22 @@ class CourseStudyFragment : Fragment() {
         player.isAlertAtNotWifi = alertAtNotWifi
         player.isGesture = gesture
         player.gestureProcessRule = gestureProcessRule
-        player.isAutoSetCompleteStateAtFinished = !(this.rule.FaceCheckRule.NeedCheck && this.rule.FaceCheckRule.NeedCheckAtFinished)
+        player.isAutoSetCompleteStateAtFinished =
+            !(this.rule.FaceCheckRule.NeedCheck && this.rule.FaceCheckRule.NeedCheckAtFinished)
         if (this.courseStudy.courseStudyInfo.IsFinished) {
             player.initStudySeconds = 0L
             player.timeProgressBarRule = VideoPlayer.TimeProgressBarRule.NORMAL
+//            player.setUp(
+//                this.courseStudy.courseInfo.VideoUrl,
+//                this.courseStudy.courseInfo.CourseName,
+//                screenModel,
+//                JZMediaSystem::class.java
+//            )
             player.setUp(
                 this.courseStudy.courseInfo.VideoUrl,
                 this.courseStudy.courseInfo.CourseName,
                 screenModel,
-                JZMediaSystem::class.java
+                JZMediaAliyun::class.java
             )
         } else {
             player.initStudySeconds = this.courseStudy.courseStudyInfo.StudiedSeconds
@@ -636,10 +643,10 @@ class CourseStudyFragment : Fragment() {
             }
             QuizStateEnum.STUDY_RESET -> {
                 studyViewModel.saveStudiedSeconds(subjectId!!, courseId!!, 0).observe(this) {
-                        studyProcess = 0.0
-                        Snackbar.make(rootView!!, "请您重新学习本节课，祝您下次考试顺利", Snackbar.LENGTH_LONG).show()
-                        resetViewForRestudy()
-                    }
+                    studyProcess = 0.0
+                    Snackbar.make(rootView!!, "请您重新学习本节课，祝您下次考试顺利", Snackbar.LENGTH_LONG).show()
+                    resetViewForRestudy()
+                }
             }
             else -> {
 
@@ -688,8 +695,8 @@ class CourseStudyFragment : Fragment() {
             studiedSecondsToday,
             studyDetailId!!
         ).observe(viewLifecycleOwner) {
-                callback(it)
-            }
+            callback(it)
+        }
     }
 
     private fun getStudiedSecondsToday(studiedSecondsTotal: Long): Long {
@@ -848,10 +855,10 @@ class CourseStudyFragment : Fragment() {
             studyViewModel.updateViolation(
                 studyId!!, subjectId!!, courseId!!, violateNumber
             ).observe(viewLifecycleOwner) {
-                    if (player.isBannedPlay) {
-                        changeStateText("已违规${violateNumber}次，请及时完成人脸识别")
-                    }
+                if (player.isBannedPlay) {
+                    changeStateText("已违规${violateNumber}次，请及时完成人脸识别")
                 }
+            }
         }
     }
 
@@ -863,21 +870,21 @@ class CourseStudyFragment : Fragment() {
                     studyViewModel.resetStudy(
                         studyId!!, subjectId!!, courseId!!
                     ).observe(viewLifecycleOwner) {
-                            currentPlayedSeconds = 0
-                            courseStudyFragmentViewModel.studiedSeconds.value = currentPlayedSeconds
-                            var notification =
-                                NotificationCompat.Builder(requireContext(), "resetStudy")
-                                    .setSmallIcon(R.drawable.ic_notification)
-                                    .setContentTitle("行知学徒网：学习重置通知").setStyle(
-                                        NotificationCompat.BigTextStyle()
-                                            .bigText("很遗憾，由于您未能在规定时间内完成人脸验证，且违规次数已达上限，您在《${this.courseStudy.courseInfo.CourseName}》的学习已经被重置，请重新学习！")
-                                    ).setPriority(NotificationCompat.PRIORITY_MAX)
-                            with(NotificationManagerCompat.from(requireContext())) {
-                                notify(1, notification.build())
-                            }
-                            changeStateText("您未按规定完成人脸识别，请重新学习")
-                            resetViewForRestudy()
+                        currentPlayedSeconds = 0
+                        courseStudyFragmentViewModel.studiedSeconds.value = currentPlayedSeconds
+                        var notification =
+                            NotificationCompat.Builder(requireContext(), "resetStudy")
+                                .setSmallIcon(R.drawable.ic_notification)
+                                .setContentTitle("行知学徒网：学习重置通知").setStyle(
+                                    NotificationCompat.BigTextStyle()
+                                        .bigText("很遗憾，由于您未能在规定时间内完成人脸验证，且违规次数已达上限，您在《${this.courseStudy.courseInfo.CourseName}》的学习已经被重置，请重新学习！")
+                                ).setPriority(NotificationCompat.PRIORITY_MAX)
+                        with(NotificationManagerCompat.from(requireContext())) {
+                            notify(1, notification.build())
                         }
+                        changeStateText("您未按规定完成人脸识别，请重新学习")
+                        resetViewForRestudy()
+                    }
                 }
         }
     }

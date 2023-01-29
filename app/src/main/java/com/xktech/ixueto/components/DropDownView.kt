@@ -42,21 +42,22 @@ class DropDownView(
         titleView = findViewById<TextView>(R.id.title)
         listPopupWindow.setOnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
             listPopupWindow.dismiss()
+            isShowed = false
             titleView.text = items[position]
             onSelectedClick?.let { it(position) }
         }
         listPopupWindow.setOnDismissListener {
-            isShowed = false
+            listPopupWindow.dismiss()
         }
         this.setOnClickListener {
             if (isShowed) {
-                listPopupWindow.dismiss()
+                isShowed = false
             } else {
                 showDropDown()
             }
         }
     }
-    fun showDropDown(){
+    private fun showDropDown(){
         isShowed = true
         listPopupWindow.show()
     }
