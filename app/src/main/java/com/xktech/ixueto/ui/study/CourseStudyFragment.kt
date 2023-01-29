@@ -167,6 +167,32 @@ class CourseStudyFragment : Fragment() {
         return rootView
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dispatcher = requireActivity().onBackPressedDispatcher
+        var onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (player.screen == Jzvd.SCREEN_FULLSCREEN) {
+                    Jzvd.backPress()
+                    return
+                } else {
+                    this.isEnabled = false
+                    if (currentPlayedSeconds > 0 || courseStudy.courseStudyInfo.StudiedSeconds == 0L) {
+                        if (currentPlayedSeconds > 0) {
+                            saveStudyByLocal(currentPlayedSeconds)
+                            saveStudyTodayByLocal(currentPlayedSeconds)
+                            saveStudyByRemote(currentPlayedSeconds) {}
+                        }
+                        preSavedStateHandle[STUDY_STATE] =
+                            CourseStudyBack(coursePosition!!, courseId!!, studyState, studyProcess)
+                    }
+                    dispatcher.onBackPressed()
+                }
+            }
+        }
+        dispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+    }
+
     private fun initView() {
         binding = FragmentCourseStudyBinding.inflate(layoutInflater)
         rootView = binding!!.root
@@ -198,28 +224,6 @@ class CourseStudyFragment : Fragment() {
                 }
             }
         }
-        dispatcher = requireActivity().onBackPressedDispatcher
-        var onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (player.screen == Jzvd.SCREEN_FULLSCREEN) {
-                    Jzvd.backPress()
-                    return
-                } else {
-                    this.isEnabled = false
-                    if (currentPlayedSeconds > 0 || courseStudy.courseStudyInfo.StudiedSeconds == 0L) {
-                        if (currentPlayedSeconds > 0) {
-                            saveStudyByLocal(currentPlayedSeconds)
-                            saveStudyTodayByLocal(currentPlayedSeconds)
-                            saveStudyByRemote(currentPlayedSeconds) {}
-                        }
-                        preSavedStateHandle[STUDY_STATE] =
-                            CourseStudyBack(coursePosition!!, courseId!!, studyState, studyProcess)
-                    }
-                    dispatcher.onBackPressed()
-                }
-            }
-        }
-        dispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
     }
 
     private fun initCourse(screenModel: Int) {
@@ -447,7 +451,7 @@ class CourseStudyFragment : Fragment() {
                             }
                         }
                     }
-                    setProgress(seconds * 100 / this.courseStudy.courseInfo.VideoSeconds)
+                    setProgress(seconds * 100f / this.courseStudy.courseInfo.VideoSeconds)
                 }
             }
         }
@@ -1023,18 +1027,9 @@ class CourseStudyFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = CourseStudyFragment()
-
         const val STUDY_STATE: String = "STUDY_STATE"
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Jzvd.releaseAllVideos()
-        binding = null
-        if (faceCheckStrategy != null) {
-            faceCheckStrategy?.cancelTimer()
-        }
-    }
 
     override fun onResume() {
         if (!player.isBannedPlay && !player.isRestudy) {
@@ -1067,6 +1062,7 @@ class CourseStudyFragment : Fragment() {
         }
         Jzvd.releaseAllVideos()
         (activity?.application as MyApplication).faceCheckOffsetTime = null
+        binding = null
         super.onDestroy()
     }
 

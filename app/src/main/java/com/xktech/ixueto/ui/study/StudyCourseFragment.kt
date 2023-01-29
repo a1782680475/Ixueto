@@ -134,7 +134,7 @@ class StudyCourseFragment : Fragment() {
                             courseStudyState!!
                         ) { course, isAllowEntry, viewHolder ->
                             if (isAllowEntry) {
-                                val extras = FragmentNavigatorExtras(viewHolder.root to "study")
+                                val extras = FragmentNavigatorExtras(   viewHolder.root to "study")
                                 var bundle = bundleOf(
                                     "subjectId" to subjectId,
                                     "subjectImageUrl" to subjectImageUrl,
