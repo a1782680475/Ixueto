@@ -16,14 +16,19 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import cn.jzvd.JZDataSource
 import cn.jzvd.JZUtils
 import cn.jzvd.JzvdStd
 import com.xktech.ixueto.R
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sqrt
@@ -46,6 +51,7 @@ class VideoPlayer :
             maxSeekPosition = value
             field = value
         }
+    
     var isRestudy = false
     var message: String? = null
         set(value) {

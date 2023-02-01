@@ -166,8 +166,14 @@ class WebView constructor(context: Context, attributeSet: AttributeSet) :
     private fun setDensity() {
         val systemMetrics = getSystemMetrics()
         var scale = 1.0f // 根据需求定义系数
-        if (systemMetrics.density - 2.625 > 0.05) {
-            scale = (2.625 / systemMetrics.density).toFloat()
+        if (systemMetrics.densityDpi < 500) {
+            if (systemMetrics.density - 2.625 > 0.05) {
+                scale = (2.625 / systemMetrics.density).toFloat()
+            }
+        }else if(systemMetrics.densityDpi > 500){
+            if (systemMetrics.density - 3.5 > 0.05) {
+                scale = (3.5 / systemMetrics.density).toFloat()
+            }
         }
         with(resources!!.displayMetrics) {
             density = systemMetrics.density * scale

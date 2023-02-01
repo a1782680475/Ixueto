@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:foreground="?android:attr/selectableItemBackgroundBorderless">
+    android:foreground="@drawable/foreground_item">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/course_info"

@@ -149,7 +149,7 @@
     <style name="course_item">
         <item name="android:padding">@dimen/course_item_padding</item>
         <item name="android:background">@color/md_theme_dark_background</item>
-        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:foreground">@drawable/foreground_item</item>>
     </style>
     <!--About-->
     <style name="about_logo">

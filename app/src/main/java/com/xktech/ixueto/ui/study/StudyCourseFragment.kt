@@ -16,6 +16,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xktech.ixueto.R
 import com.xktech.ixueto.adapter.StudyCourseAdapter
+import com.xktech.ixueto.common.RecycleViewDivider
 import com.xktech.ixueto.components.DropDownView
 import com.xktech.ixueto.components.LCEERecyclerView
 import com.xktech.ixueto.databinding.FragmentStudyCourseBinding
@@ -200,6 +201,7 @@ class StudyCourseFragment : Fragment() {
                 }
             }
         }
+        //recyclerView.recyclerView.addItemDecoration(RecycleViewDivider(requireContext(),LinearLayoutManager.VERTICAL))
     }
 
     override fun onDestroyView() {
