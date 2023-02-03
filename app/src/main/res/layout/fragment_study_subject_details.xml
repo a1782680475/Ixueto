@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="10dp">
 
-                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                        <com.xktech.ixueto.components.SaddleIconView
                             android:id="@+id/profession_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="10dp">
 
-                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                        <com.xktech.ixueto.components.SaddleIconView
                             android:id="@+id/subject_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="10dp">
 
-                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                        <com.xktech.ixueto.components.SaddleIconView
                             android:id="@+id/unit_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -216,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="10dp">
 
-                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                        <com.xktech.ixueto.components.SaddleIconView
                             android:id="@+id/chapter_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="10dp">
 
-                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                        <com.xktech.ixueto.components.SaddleIconView
                             android:id="@+id/course_hours_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp">
 
-                        <com.xktech.ixueto.components.RoundedRectangleIconView
+                        <com.xktech.ixueto.components.SaddleIconView
                             android:id="@+id/study_progress_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

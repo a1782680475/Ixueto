@@ -48,14 +48,31 @@
                         android:checked="true" />
                 </LinearLayout>
 
-                <LinearLayout style="@style/setting_operation_item">
-
-                    <TextView
-                        style="@style/setting_operation_item_title"
+                <LinearLayout style="@style/userCenter_operation_item">
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="全屏手势" />
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <TextView
+                            style="@style/setting_operation_item_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="全屏手势" />
 
+                        <TextView
+                            style="@style/setting_operation_item_subtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="启用后，在已完成课程中播放器全屏下可以使用手势调整音量、亮度和视频进度" />
+                    </LinearLayout>
+                    <com.xktech.ixueto.components.timeRange.LineView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:width="34dp"
+                        app:lineWidth="1dp"
+                        app:height="40dp"
+                        app:lineColor="?attr/colorOutlineVariant"/>
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/gesture_switch"
                         android:layout_width="wrap_content"

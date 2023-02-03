@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.xktech.ixueto.components.timeRange.CircleTextView
+    <com.xktech.ixueto.components.timeRange.BiscuitTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintLeft_toRightOf="@id/title"
         app:layout_constraintTop_toTopOf="parent">
 

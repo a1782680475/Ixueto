@@ -101,7 +101,6 @@ class CourseStudyFragment : Fragment() {
     private var faceChecking: Boolean = false
     private var facePageBright: Boolean = false
     private lateinit var videoPlaySetting: VideoPlay
-
     //学习状态（含整节课程的各种条件判定）
     private var studyState: StudyStateEnum = StudyStateEnum.NOT_STARTED
     private var studyProcess: Double = 0.0
@@ -183,6 +182,10 @@ class CourseStudyFragment : Fragment() {
                             saveStudyTodayByLocal(currentPlayedSeconds)
                             saveStudyByRemote(currentPlayedSeconds) {}
                         }
+                        preSavedStateHandle[STUDY_STATE] =
+                            CourseStudyBack(coursePosition!!, courseId!!, studyState, studyProcess)
+                    }
+                    if(studyState == StudyStateEnum.NOT_STARTED){
                         preSavedStateHandle[STUDY_STATE] =
                             CourseStudyBack(coursePosition!!, courseId!!, studyState, studyProcess)
                     }
@@ -647,7 +650,6 @@ class CourseStudyFragment : Fragment() {
             }
             QuizStateEnum.STUDY_RESET -> {
                 studyViewModel.saveStudiedSeconds(subjectId!!, courseId!!, 0).observe(this) {
-                    studyProcess = 0.0
                     Snackbar.make(rootView!!, "请您重新学习本节课，祝您下次考试顺利", Snackbar.LENGTH_LONG).show()
                     resetViewForRestudy()
                 }
@@ -874,8 +876,6 @@ class CourseStudyFragment : Fragment() {
                     studyViewModel.resetStudy(
                         studyId!!, subjectId!!, courseId!!
                     ).observe(viewLifecycleOwner) {
-                        currentPlayedSeconds = 0
-                        courseStudyFragmentViewModel.studiedSeconds.value = currentPlayedSeconds
                         var notification =
                             NotificationCompat.Builder(requireContext(), "resetStudy")
                                 .setSmallIcon(R.drawable.ic_notification)
@@ -985,6 +985,14 @@ class CourseStudyFragment : Fragment() {
     }
 
     private fun resetViewForRestudy() {
+        currentPlayedSeconds = 0
+        courseStudyFragmentViewModel.studiedSeconds.value = 0
+        courseStudyFragmentViewModel.studyProgress.value = 0
+        courseStudyFragmentViewModel.studyStep.value = StudyStepEnum.NOT_STARTED
+        courseStudyFragmentViewModel.studyState.value = StudyStateEnum.NOT_STARTED
+        courseStudyFragmentViewModel.quizState.value = QuizStateEnum.STUDY_RESET
+        this.studyState = StudyStateEnum.NOT_STARTED
+        this.studyProcess = 0.0
         classTimeLimitStrategy?.let {
             it.cancelTimer()
         }
@@ -1032,7 +1040,7 @@ class CourseStudyFragment : Fragment() {
 
 
     override fun onResume() {
-        if (!player.isBannedPlay && !player.isRestudy) {
+        if (!player.isBannedPlay && !player.isRestudy)  {
             Jzvd.goOnPlayOnResume()
         }
         super.onResume()
@@ -1045,6 +1053,11 @@ class CourseStudyFragment : Fragment() {
             }
         }
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Jzvd.releaseAllVideos()
     }
 
     override fun onDestroy() {

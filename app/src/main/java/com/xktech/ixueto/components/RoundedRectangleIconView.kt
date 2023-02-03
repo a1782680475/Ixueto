@@ -2,14 +2,16 @@ package com.xktech.ixueto.components
 
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.VectorDrawable
+import android.graphics.Canvas
+import android.graphics.LinearGradient
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.xktech.ixueto.R
+import com.xktech.ixueto.utils.BitmapUtils
 import com.xktech.ixueto.utils.DimenUtils
 
 class RoundedRectangleIconView(
@@ -80,7 +82,7 @@ class RoundedRectangleIconView(
         canvas.save()
         canvas.restore()
         val sideLength = this.width - 2 * _padding
-        val bitMap = getBitmap(context, _icon, sideLength.toInt())
+        val bitMap = BitmapUtils.drawableToBitmap(context, _icon, sideLength.toInt(), _iconColor)
         bitMap?.let {
             var pLeft: Int
             var pTop: Int
@@ -114,53 +116,4 @@ class RoundedRectangleIconView(
         setMeasuredDimension(_diam.toInt(), _diam.toInt())
     }
 
-    private fun getBitmap(vectorDrawable: VectorDrawable, sideLength: Int?): Bitmap? {
-        var bitmapWidth = 0
-        var bitmapHeight = 0
-        var drawableWidth = 0
-        var drawableHeight = 0
-        var drawableLeft = 0
-        var drawableTop = 0
-        if (sideLength == null) {
-            bitmapWidth = vectorDrawable.intrinsicWidth
-            bitmapHeight = vectorDrawable.intrinsicHeight
-            drawableWidth = bitmapWidth
-            drawableHeight = bitmapHeight
-        } else {
-            if (vectorDrawable.intrinsicWidth > vectorDrawable.intrinsicHeight) {
-                drawableWidth = sideLength
-                drawableHeight =
-                    drawableWidth * (vectorDrawable.intrinsicHeight.toFloat() / vectorDrawable.intrinsicWidth.toFloat()).toInt()
-                drawableTop = ((drawableWidth.toFloat() - drawableHeight.toFloat()) / 2).toInt()
-            } else {
-                drawableHeight = sideLength
-                drawableWidth =
-                    drawableHeight * (vectorDrawable.intrinsicWidth.toFloat() / vectorDrawable.intrinsicHeight.toFloat()).toInt()
-                drawableLeft = ((drawableHeight.toFloat() - drawableWidth.toFloat()) / 2).toInt()
-            }
-            bitmapWidth = sideLength
-            bitmapHeight = sideLength
-        }
-        val bitmap: Bitmap = Bitmap.createBitmap(
-            bitmapWidth,
-            bitmapHeight, Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(drawableLeft, drawableTop, drawableWidth, drawableHeight)
-        vectorDrawable.setTint(_iconColor)
-        vectorDrawable.draw(canvas)
-        return bitmap
-    }
-
-    private fun getBitmap(context: Context, drawableId: Int, sideLength: Int?): Bitmap? {
-        val drawable: Drawable? = ContextCompat.getDrawable(context, drawableId)
-        return if (drawable is BitmapDrawable) {
-            BitmapFactory.decodeResource(context.resources, drawableId)
-        } else if (drawable is VectorDrawable) {
-            getBitmap(drawable, sideLength)
-
-        } else {
-            throw IllegalArgumentException("unsupported drawable type")
-        }
-    }
 }

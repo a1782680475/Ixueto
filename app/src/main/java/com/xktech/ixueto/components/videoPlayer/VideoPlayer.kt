@@ -13,7 +13,9 @@ import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
@@ -124,6 +126,17 @@ class VideoPlayer :
         moreButton.setOnClickListener {
             showPlayerDialog()
         }
+        startButton.setOnTouchListener(OnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    centerContainerImage.isPressed = true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    centerContainerImage.isPressed = false
+                }
+            }
+            false
+        })
     }
 
     override fun setScreenFullscreen() {

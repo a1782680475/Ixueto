@@ -92,18 +92,18 @@
                         android:id="@+id/real_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="史新雨（测试）"
                         android:textAppearance="?attr/textAppearanceHeadline1"
                         android:textSize="@dimen/userCenter_username"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="史新雨（测试）" />
 
                     <TextView
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        tools:text="账号：13011782700"
-                        android:textAppearance="?attr/textAppearanceLabelLarge" />
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        tools:text="账号：13011782700" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -198,11 +198,7 @@
                     style="@style/userCenter_operation_item"
                     app:icon_src="@drawable/ic_authentication_fill"
                     app:text="实名认证" />
-                <!--                <com.xktech.ixueto.components.UserCenterOperationItem-->
-                <!--                    android:id="@+id/unit_change"-->
-                <!--                    style="@style/userCenter_operation_item"-->
-                <!--                    app:icon_src="@drawable/ic_exchange"-->
-                <!--                    app:text="单位变更" />-->
+
                 <com.xktech.ixueto.components.UserCenterOperationItem
                     android:id="@+id/setting"
                     style="@style/userCenter_operation_item"

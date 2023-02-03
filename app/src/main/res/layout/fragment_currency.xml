@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -71,14 +72,31 @@
                     android:layout_height="wrap_content"></ImageView>
             </LinearLayout>
 
-            <LinearLayout style="@style/setting_operation_item">
-
-                <TextView
-                    style="@style/setting_operation_item_title"
+            <LinearLayout style="@style/userCenter_operation_item">
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人脸识别拉高屏幕亮度" />
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        style="@style/setting_operation_item_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人脸识别拉高屏幕亮度" />
 
+                    <TextView
+                        style="@style/setting_operation_item_subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="开启后人脸识别时将自动拉高亮度，以保证人脸识别光线需求" />
+                </LinearLayout>
+                <com.xktech.ixueto.components.timeRange.LineView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:width="34dp"
+                    app:lineWidth="1dp"
+                    app:height="40dp"
+                    app:lineColor="?attr/colorOutlineVariant"/>
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/face_page_bright_switch"
                     android:layout_width="wrap_content"
